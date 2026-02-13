@@ -1,322 +1,321 @@
-# kickstart.nvim
+# 🧛 caos.nvim
 
-## Introduction
+> Personal Neovim IDE — Arch Linux · DWL · foot terminal
+> Built on [Kickstart.nvim](https://github.com/nvim-lua/kickstart.nvim) with a custom Dracula layer inspired by [jonkero9](https://github.com/jonkero9/dotfiles)
 
-A starting point for Neovim that is:
+![Neovim](https://img.shields.io/badge/Neovim-0.11-57A143?style=flat-square&logo=neovim&logoColor=white)
+![Lua](https://img.shields.io/badge/Lua-2C2D72?style=flat-square&logo=lua&logoColor=white)
+![Arch](https://img.shields.io/badge/Arch_Linux-1793D1?style=flat-square&logo=arch-linux&logoColor=white)
+![Dracula](https://img.shields.io/badge/Theme-Dracula-BD93F9?style=flat-square)
 
-* Small
-* Single-file
-* Completely Documented
+---
 
-**NOT** a Neovim distribution, but instead a starting point for your configuration.
-
-## Installation
-
-### Install Neovim
-
-Kickstart.nvim targets *only* the latest
-['stable'](https://github.com/neovim/neovim/releases/tag/stable) and latest
-['nightly'](https://github.com/neovim/neovim/releases/tag/nightly) of Neovim.
-If you are experiencing issues, please make sure you have at least the latest
-stable version. Most likely, you want to install neovim via a [package
-manager](https://github.com/neovim/neovim/blob/master/INSTALL.md#install-from-package).
-To check your neovim version, run `nvim --version` and make sure it is not
-below the latest
-['stable'](https://github.com/neovim/neovim/releases/tag/stable) version. If
-your chosen install method only gives you an outdated version of neovim, find
-alternative [installation methods below](#alternative-neovim-installation-methods).
-
-### Install External Dependencies
-
-External Requirements:
-- Basic utils: `git`, `make`, `unzip`, C Compiler (`gcc`)
-- [ripgrep](https://github.com/BurntSushi/ripgrep#installation),
-  [fd-find](https://github.com/sharkdp/fd#installation)
-- Clipboard tool (xclip/xsel/win32yank or other depending on the platform)
-- A [Nerd Font](https://www.nerdfonts.com/): optional, provides various icons
-  - if you have it set `vim.g.have_nerd_font` in `init.lua` to true
-- Emoji fonts (Ubuntu only, and only if you want emoji!) `sudo apt install fonts-noto-color-emoji`
-- Language Setup:
-  - If you want to write Typescript, you need `npm`
-  - If you want to write Golang, you will need `go`
-  - etc.
-
-> [!NOTE]
-> See [Install Recipes](#Install-Recipes) for additional Windows and Linux specific notes
-> and quick install snippets
-
-### Install Kickstart
-
-> [!NOTE]
-> [Backup](#FAQ) your previous configuration (if any exists)
-
-Neovim's configurations are located under the following paths, depending on your OS:
-
-| OS | PATH |
-| :- | :--- |
-| Linux, MacOS | `$XDG_CONFIG_HOME/nvim`, `~/.config/nvim` |
-| Windows (cmd)| `%localappdata%\nvim\` |
-| Windows (powershell)| `$env:LOCALAPPDATA\nvim\` |
-
-#### Recommended Step
-
-[Fork](https://docs.github.com/en/get-started/quickstart/fork-a-repo) this repo
-so that you have your own copy that you can modify, then install by cloning the
-fork to your machine using one of the commands below, depending on your OS.
-
-> [!NOTE]
-> Your fork's URL will be something like this:
-> `https://github.com/<your_github_username>/kickstart.nvim.git`
-
-You likely want to remove `lazy-lock.json` from your fork's `.gitignore` file
-too - it's ignored in the kickstart repo to make maintenance easier, but it's
-[recommended to track it in version control](https://lazy.folke.io/usage/lockfile).
-
-#### Clone kickstart.nvim
-
-> [!NOTE]
-> If following the recommended step above (i.e., forking the repo), replace
-> `nvim-lua` with `<your_github_username>` in the commands below
-
-<details><summary> Linux and Mac </summary>
-
-```sh
-git clone https://github.com/nvim-lua/kickstart.nvim.git "${XDG_CONFIG_HOME:-$HOME/.config}"/nvim
-```
-
-</details>
-
-<details><summary> Windows </summary>
-
-If you're using `cmd.exe`:
+## 📁 Structure
 
 ```
-git clone https://github.com/nvim-lua/kickstart.nvim.git "%localappdata%\nvim"
+~/.config/nvim/
+├── init.lua
+└── lua/
+    ├── kickstart/plugins/      ← Core IDE
+    │   ├── lsp.lua             ← Language servers (nvim 0.11 API)
+    │   ├── cmp.lua             ← Autocompletion
+    │   ├── treesitter.lua      ← Syntax + text objects
+    │   ├── debug.lua           ← DAP debugging
+    │   ├── neo-tree.lua        ← File explorer (RIGHT side)
+    │   ├── autopairs.lua
+    │   ├── gitsigns.lua
+    │   ├── indent_line.lua
+    │   └── lint.lua
+    └── custom/plugins/         ← Personal layer
+        ├── dracula.lua         ← Theme + full transparency
+        ├── dracula-syntax.lua  ← LSP-aware colors
+        ├── lualine.lua         ← Custom statusline
+        ├── telescope.lua
+        ├── harpoon.lua
+        ├── which-key.lua
+        ├── rust-ide.lua        ← rustaceanvim + crates.nvim
+        ├── devops.lua          ← YAML/Docker/K8s/Terraform
+        └── extras.lua          ← LazyGit · hardtime · zen-mode
 ```
 
-If you're using `powershell.exe`
+---
 
-```
-git clone https://github.com/nvim-lua/kickstart.nvim.git "${env:LOCALAPPDATA}\nvim"
-```
+## ⌨️ Keybindings
 
-</details>
+> Leader key = `Space`
 
-### Post Installation
+### General
 
-Start Neovim
+<table>
+  <thead>
+    <tr>
+      <th>Mode</th>
+      <th>Key</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td><kbd>n</kbd></td><td><kbd>&lt;Esc&gt;</kbd></td><td>Clear search highlight</td></tr>
+    <tr><td><kbd>n</kbd></td><td><kbd>&lt;leader&gt;ss</kbd></td><td>Save file</td></tr>
+    <tr><td><kbd>n</kbd></td><td><kbd>&lt;leader&gt;gg</kbd></td><td>Open LazyGit</td></tr>
+    <tr><td><kbd>n</kbd></td><td><kbd>&lt;leader&gt;z</kbd></td><td>Zen Mode</td></tr>
+    <tr><td><kbd>n</kbd></td><td><kbd>&lt;C-d&gt;</kbd></td><td>Scroll down and keep cursor centered</td></tr>
+    <tr><td><kbd>n</kbd></td><td><kbd>&lt;C-u&gt;</kbd></td><td>Scroll up and keep cursor centered</td></tr>
+    <tr><td><kbd>n</kbd></td><td><kbd>n</kbd></td><td>Next search result and keep it centered</td></tr>
+    <tr><td><kbd>n</kbd></td><td><kbd>N</kbd></td><td>Previous search result and keep it centered</td></tr>
+    <tr><td><kbd>x</kbd></td><td><kbd>&lt;leader&gt;p</kbd></td><td>Paste without losing register</td></tr>
+    <tr><td><kbd>t</kbd></td><td><kbd>&lt;Esc&gt;&lt;Esc&gt;</kbd></td><td>Exit terminal mode</td></tr>
+  </tbody>
+</table>
 
-```sh
+### Window Navigation
+
+<table>
+  <thead>
+    <tr><th>Mode</th><th>Key</th><th>Action</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><kbd>n</kbd></td><td><kbd>&lt;C-h&gt;</kbd></td><td>Move focus to left split</td></tr>
+    <tr><td><kbd>n</kbd></td><td><kbd>&lt;C-j&gt;</kbd></td><td>Move focus to lower split</td></tr>
+    <tr><td><kbd>n</kbd></td><td><kbd>&lt;C-k&gt;</kbd></td><td>Move focus to upper split</td></tr>
+    <tr><td><kbd>n</kbd></td><td><kbd>&lt;C-l&gt;</kbd></td><td>Move focus to right split</td></tr>
+  </tbody>
+</table>
+
+### LSP — Language Intelligence
+
+<table>
+  <thead>
+    <tr><th>Mode</th><th>Key</th><th>Action</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><kbd>n</kbd></td><td><kbd>gd</kbd></td><td>Go to Definition</td></tr>
+    <tr><td><kbd>n</kbd></td><td><kbd>gr</kbd></td><td>Find References</td></tr>
+    <tr><td><kbd>n</kbd></td><td><kbd>gI</kbd></td><td>Go to Implementation</td></tr>
+    <tr><td><kbd>n</kbd></td><td><kbd>gD</kbd></td><td>Go to Declaration</td></tr>
+    <tr><td><kbd>n</kbd></td><td><kbd>K</kbd></td><td>Hover Documentation</td></tr>
+    <tr><td><kbd>n</kbd></td><td><kbd>&lt;leader&gt;ca</kbd></td><td>Code Actions</td></tr>
+    <tr><td><kbd>v</kbd></td><td><kbd>&lt;leader&gt;ca</kbd></td><td>Code Actions (visual selection)</td></tr>
+    <tr><td><kbd>n</kbd></td><td><kbd>&lt;leader&gt;rn</kbd></td><td>Rename Symbol</td></tr>
+    <tr><td><kbd>n</kbd></td><td><kbd>&lt;leader&gt;wf</kbd></td><td>Format File</td></tr>
+    <tr><td><kbd>n</kbd></td><td><kbd>&lt;leader&gt;k</kbd></td><td>Signature Help</td></tr>
+    <tr><td><kbd>n</kbd></td><td><kbd>&lt;leader&gt;D</kbd></td><td>Type Definition</td></tr>
+    <tr><td><kbd>n</kbd></td><td><kbd>&lt;leader&gt;ds</kbd></td><td>Document Symbols</td></tr>
+    <tr><td><kbd>n</kbd></td><td><kbd>&lt;leader&gt;ws</kbd></td><td>Workspace Symbols</td></tr>
+    <tr><td><kbd>n</kbd></td><td><kbd>&lt;leader&gt;E</kbd></td><td>Diagnostic Float</td></tr>
+    <tr><td><kbd>n</kbd></td><td><kbd>[d</kbd></td><td>Previous Diagnostic</td></tr>
+    <tr><td><kbd>n</kbd></td><td><kbd>]d</kbd></td><td>Next Diagnostic</td></tr>
+  </tbody>
+</table>
+
+### Autocompletion
+
+<table>
+  <thead>
+    <tr><th>Mode</th><th>Key</th><th>Action</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><kbd>i</kbd></td><td><kbd>&lt;C-j&gt;</kbd> / <kbd>&lt;C-n&gt;</kbd></td><td>Next suggestion</td></tr>
+    <tr><td><kbd>i</kbd></td><td><kbd>&lt;C-k&gt;</kbd> / <kbd>&lt;C-p&gt;</kbd></td><td>Previous suggestion</td></tr>
+    <tr><td><kbd>i</kbd></td><td><kbd>&lt;CR&gt;</kbd></td><td>Confirm selection</td></tr>
+    <tr><td><kbd>i</kbd></td><td><kbd>&lt;C-Space&gt;</kbd></td><td>Force open completion</td></tr>
+    <tr><td><kbd>i</kbd></td><td><kbd>&lt;C-e&gt;</kbd></td><td>Abort completion</td></tr>
+    <tr><td><kbd>i/s</kbd></td><td><kbd>&lt;Tab&gt;</kbd></td><td>Next item / jump snippet placeholder</td></tr>
+    <tr><td><kbd>i/s</kbd></td><td><kbd>&lt;S-Tab&gt;</kbd></td><td>Previous item / jump back in snippet</td></tr>
+    <tr><td><kbd>i</kbd></td><td><kbd>&lt;C-b&gt;</kbd> / <kbd>&lt;C-f&gt;</kbd></td><td>Scroll documentation</td></tr>
+  </tbody>
+</table>
+
+### Telescope — Fuzzy Finder
+
+<table>
+  <thead>
+    <tr><th>Mode</th><th>Key</th><th>Action</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><kbd>n</kbd></td><td><kbd>&lt;leader&gt;&lt;leader&gt;</kbd></td><td>Find Files</td></tr>
+    <tr><td><kbd>n</kbd></td><td><kbd>&lt;leader&gt;sg</kbd></td><td>Live Grep</td></tr>
+    <tr><td><kbd>n</kbd></td><td><kbd>&lt;leader&gt;sr</kbd></td><td>Recent Files</td></tr>
+    <tr><td><kbd>n</kbd></td><td><kbd>&lt;leader&gt;sb</kbd></td><td>Search Buffers</td></tr>
+    <tr><td><kbd>n</kbd></td><td><kbd>&lt;leader&gt;sw</kbd></td><td>Search Current Word</td></tr>
+    <tr><td><kbd>n</kbd></td><td><kbd>&lt;leader&gt;sd</kbd></td><td>Search Diagnostics</td></tr>
+    <tr><td><kbd>n</kbd></td><td><kbd>&lt;leader&gt;sh</kbd></td><td>Search Help Tags</td></tr>
+    <tr><td><kbd>n</kbd></td><td><kbd>&lt;leader&gt;sk</kbd></td><td>Search Keymaps</td></tr>
+    <tr><td><kbd>n</kbd></td><td><kbd>&lt;leader&gt;sc</kbd></td><td>Search Commands</td></tr>
+    <tr><td><kbd>n</kbd></td><td><kbd>&lt;leader&gt;sG</kbd></td><td>Git Files</td></tr>
+    <tr><td><kbd>n</kbd></td><td><kbd>&lt;leader&gt;/</kbd></td><td>Search in Current Buffer</td></tr>
+    <tr><td><kbd>n</kbd></td><td><kbd>&lt;leader&gt;s:</kbd></td><td>Command History</td></tr>
+    <tr><td><kbd>n</kbd></td><td><kbd>&lt;leader&gt;sR</kbd></td><td>Resume Last Search</td></tr>
+  </tbody>
+</table>
+
+### Harpoon — Quick File Navigation
+
+<table>
+  <thead>
+    <tr><th>Mode</th><th>Key</th><th>Action</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><kbd>n</kbd></td><td><kbd>&lt;leader&gt;a</kbd></td><td>Add file to Harpoon</td></tr>
+    <tr><td><kbd>n</kbd></td><td><kbd>&lt;C-e&gt;</kbd></td><td>Toggle Harpoon menu</td></tr>
+    <tr><td><kbd>n</kbd></td><td><kbd>&lt;leader&gt;fl</kbd></td><td>Harpoon list in Telescope</td></tr>
+    <tr><td><kbd>n</kbd></td><td><kbd>&lt;M-1&gt;</kbd></td><td>Jump to Harpoon file 1</td></tr>
+    <tr><td><kbd>n</kbd></td><td><kbd>&lt;M-2&gt;</kbd></td><td>Jump to Harpoon file 2</td></tr>
+    <tr><td><kbd>n</kbd></td><td><kbd>&lt;M-3&gt;</kbd></td><td>Jump to Harpoon file 3</td></tr>
+    <tr><td><kbd>n</kbd></td><td><kbd>&lt;M-4&gt;</kbd></td><td>Jump to Harpoon file 4</td></tr>
+    <tr><td><kbd>n</kbd></td><td><kbd>&lt;C-p&gt;</kbd></td><td>Previous Harpoon file</td></tr>
+    <tr><td><kbd>n</kbd></td><td><kbd>&lt;C-n&gt;</kbd></td><td>Next Harpoon file</td></tr>
+  </tbody>
+</table>
+
+### File Explorer — Neo-tree
+
+<table>
+  <thead>
+    <tr><th>Mode</th><th>Key</th><th>Action</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><kbd>n</kbd></td><td><kbd>&lt;leader&gt;e</kbd></td><td>Toggle Explorer</td></tr>
+    <tr><td><kbd>n</kbd></td><td><kbd>&lt;leader&gt;E</kbd></td><td>Toggle Explorer (cwd)</td></tr>
+    <tr><td><kbd>n</kbd></td><td><kbd>h</kbd></td><td>Close / collapse node</td></tr>
+    <tr><td><kbd>n</kbd></td><td><kbd>l</kbd></td><td>Open / expand node</td></tr>
+    <tr><td><kbd>n</kbd></td><td><kbd>a</kbd></td><td>Add file</td></tr>
+    <tr><td><kbd>n</kbd></td><td><kbd>A</kbd></td><td>Add directory</td></tr>
+    <tr><td><kbd>n</kbd></td><td><kbd>d</kbd></td><td>Delete</td></tr>
+    <tr><td><kbd>n</kbd></td><td><kbd>r</kbd></td><td>Rename</td></tr>
+    <tr><td><kbd>n</kbd></td><td><kbd>y</kbd></td><td>Copy to clipboard</td></tr>
+    <tr><td><kbd>n</kbd></td><td><kbd>x</kbd></td><td>Cut to clipboard</td></tr>
+    <tr><td><kbd>n</kbd></td><td><kbd>p</kbd></td><td>Paste from clipboard</td></tr>
+    <tr><td><kbd>n</kbd></td><td><kbd>q</kbd></td><td>Close explorer</td></tr>
+  </tbody>
+</table>
+
+### Debug — DAP
+
+<table>
+  <thead>
+    <tr><th>Mode</th><th>Key</th><th>Action</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><kbd>n</kbd></td><td><kbd>F5</kbd></td><td>Start / Continue</td></tr>
+    <tr><td><kbd>n</kbd></td><td><kbd>F1</kbd></td><td>Step Into</td></tr>
+    <tr><td><kbd>n</kbd></td><td><kbd>F2</kbd></td><td>Step Over</td></tr>
+    <tr><td><kbd>n</kbd></td><td><kbd>F3</kbd></td><td>Step Out</td></tr>
+    <tr><td><kbd>n</kbd></td><td><kbd>F7</kbd></td><td>Toggle DAP UI</td></tr>
+    <tr><td><kbd>n</kbd></td><td><kbd>&lt;leader&gt;b</kbd></td><td>Toggle Breakpoint</td></tr>
+    <tr><td><kbd>n</kbd></td><td><kbd>&lt;leader&gt;B</kbd></td><td>Conditional Breakpoint</td></tr>
+  </tbody>
+</table>
+
+### Treesitter — Text Objects
+
+<table>
+  <thead>
+    <tr><th>Mode</th><th>Key</th><th>Action</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><kbd>n</kbd></td><td><kbd>gnn</kbd></td><td>Start incremental selection</td></tr>
+    <tr><td><kbd>n</kbd></td><td><kbd>grn</kbd></td><td>Expand selection by node</td></tr>
+    <tr><td><kbd>n</kbd></td><td><kbd>grc</kbd></td><td>Expand to scope</td></tr>
+    <tr><td><kbd>n</kbd></td><td><kbd>grm</kbd></td><td>Shrink selection</td></tr>
+    <tr><td><kbd>n/v</kbd></td><td><kbd>vaf</kbd> / <kbd>vif</kbd></td><td>Select around / inside function</td></tr>
+    <tr><td><kbd>n/v</kbd></td><td><kbd>vac</kbd> / <kbd>vic</kbd></td><td>Select around / inside class</td></tr>
+    <tr><td><kbd>n/v</kbd></td><td><kbd>vaa</kbd> / <kbd>via</kbd></td><td>Select around / inside parameter</td></tr>
+    <tr><td><kbd>n</kbd></td><td><kbd>]f</kbd> / <kbd>[f</kbd></td><td>Next / previous function</td></tr>
+    <tr><td><kbd>n</kbd></td><td><kbd>]c</kbd> / <kbd>[c</kbd></td><td>Next / previous class</td></tr>
+  </tbody>
+</table>
+
+### Rust — rustaceanvim + crates.nvim
+
+<table>
+  <thead>
+    <tr><th>Mode</th><th>Key</th><th>Action</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><kbd>n</kbd></td><td><kbd>&lt;leader&gt;rr</kbd></td><td>Runnables</td></tr>
+    <tr><td><kbd>n</kbd></td><td><kbd>&lt;leader&gt;rd</kbd></td><td>Debuggables</td></tr>
+    <tr><td><kbd>n</kbd></td><td><kbd>&lt;leader&gt;re</kbd></td><td>Expand Macro</td></tr>
+    <tr><td><kbd>n</kbd></td><td><kbd>&lt;leader&gt;rc</kbd></td><td>Open Cargo.toml</td></tr>
+    <tr><td><kbd>n</kbd></td><td><kbd>&lt;leader&gt;rp</kbd></td><td>Parent Module</td></tr>
+    <tr><td><kbd>n</kbd></td><td><kbd>&lt;leader&gt;rj</kbd></td><td>Join Lines</td></tr>
+    <tr><td><kbd>n</kbd></td><td><kbd>&lt;leader&gt;ra</kbd></td><td>Rust Code Action</td></tr>
+    <tr><td><kbd>n</kbd></td><td><kbd>&lt;leader&gt;ct</kbd></td><td>Toggle crate info</td></tr>
+    <tr><td><kbd>n</kbd></td><td><kbd>&lt;leader&gt;cu</kbd></td><td>Update crate</td></tr>
+    <tr><td><kbd>n</kbd></td><td><kbd>&lt;leader&gt;cU</kbd></td><td>Upgrade crate</td></tr>
+    <tr><td><kbd>n</kbd></td><td><kbd>&lt;leader&gt;ca</kbd></td><td>Update all crates</td></tr>
+  </tbody>
+</table>
+
+---
+
+## 🌐 Language Servers
+
+| Server | Language |
+|--------|----------|
+| `lua_ls` | Lua (nvim API aware) |
+| `rust_analyzer` | Rust |
+| `ts_ls` | JavaScript / TypeScript |
+| `pyright` | Python |
+| `gopls` | Go |
+| `clangd` | C / C++ |
+| `zls` | Zig |
+| `yamlls` | YAML |
+| `bashls` | Bash |
+| `jsonls` | JSON |
+| `terraformls` | Terraform |
+| `dockerls` | Dockerfile |
+| `html` | HTML |
+| `eslint` | JS/TS linting |
+
+---
+
+## 🎨 Theme — Dracula
+
+Full transparency so your wallpaper shows through. LSP-aware syntax colors:
+
+| Token | Color |
+|-------|-------|
+| Parameters | `#ffb86c` Orange |
+| Properties | `#8be9fd` Cyan |
+| Functions | `#50fa7b` Green |
+| Keywords | `#ff79c6` Pink |
+| Types / Structs | `#8be9fd` Cyan |
+| Strings | `#f1fa8c` Yellow |
+| Numbers | `#bd93f9` Purple |
+| Comments | `#6272a4` Muted Blue *(italic)* |
+
+---
+
+## 📦 Fresh Install
+
+```bash
+# 1. Clone config
+git clone <your-repo> ~/.config/nvim
+
+# 2. Open nvim — lazy bootstraps itself
 nvim
+
+# 3. Sync all plugins
+:Lazy sync
+
+# 4. Install language servers
+:Mason
+
+# 5. Node.js provider
+mkdir -p ~/.npm-global
+npm config set prefix '~/.npm-global'
+echo 'export PATH=~/.npm-global/bin:$PATH' >> ~/.zshrc
+source ~/.zshrc
+npm install -g neovim
+
+# 6. Python provider
+pip install pynvim --break-system-packages
+
+# 7. Verify everything
+:checkhealth
 ```
 
-That's it! Lazy will install all the plugins you have. Use `:Lazy` to view
-the current plugin status. Hit `q` to close the window.
+---
 
-#### Read The Friendly Documentation
-
-Read through the `init.lua` file in your configuration folder for more
-information about extending and exploring Neovim. That also includes
-examples of adding popularly requested plugins.
-
-> [!NOTE]
-> For more information about a particular plugin check its repository's documentation.
-
-
-### Getting Started
-
-[The Only Video You Need to Get Started with Neovim](https://youtu.be/m8C0Cq9Uv9o)
-
-### FAQ
-
-* What should I do if I already have a pre-existing Neovim configuration?
-  * You should back it up and then delete all associated files.
-  * This includes your existing init.lua and the Neovim files in `~/.local`
-    which can be deleted with `rm -rf ~/.local/share/nvim/`
-* Can I keep my existing configuration in parallel to kickstart?
-  * Yes! You can use [NVIM_APPNAME](https://neovim.io/doc/user/starting.html#%24NVIM_APPNAME)`=nvim-NAME`
-    to maintain multiple configurations. For example, you can install the kickstart
-    configuration in `~/.config/nvim-kickstart` and create an alias:
-    ```
-    alias nvim-kickstart='NVIM_APPNAME="nvim-kickstart" nvim'
-    ```
-    When you run Neovim using `nvim-kickstart` alias it will use the alternative
-    config directory and the matching local directory
-    `~/.local/share/nvim-kickstart`. You can apply this approach to any Neovim
-    distribution that you would like to try out.
-* What if I want to "uninstall" this configuration:
-  * See [lazy.nvim uninstall](https://lazy.folke.io/usage#-uninstalling) information
-* Why is the kickstart `init.lua` a single file? Wouldn't it make sense to split it into multiple files?
-  * The main purpose of kickstart is to serve as a teaching tool and a reference
-    configuration that someone can easily use to `git clone` as a basis for their own.
-    As you progress in learning Neovim and Lua, you might consider splitting `init.lua`
-    into smaller parts. A fork of kickstart that does this while maintaining the
-    same functionality is available here:
-    * [kickstart-modular.nvim](https://github.com/dam9000/kickstart-modular.nvim)
-  * Discussions on this topic can be found here:
-    * [Restructure the configuration](https://github.com/nvim-lua/kickstart.nvim/issues/218)
-    * [Reorganize init.lua into a multi-file setup](https://github.com/nvim-lua/kickstart.nvim/pull/473)
-
-### Install Recipes
-
-Below you can find OS specific install instructions for Neovim and dependencies.
-
-After installing all the dependencies continue with the [Install Kickstart](#install-kickstart) step.
-
-#### Windows Installation
-
-<details><summary>Windows with Microsoft C++ Build Tools and CMake</summary>
-Installation may require installing build tools and updating the run command for `telescope-fzf-native`
-
-See `telescope-fzf-native` documentation for [more details](https://github.com/nvim-telescope/telescope-fzf-native.nvim#installation)
-
-This requires:
-
-- Install CMake and the Microsoft C++ Build Tools on Windows
-
-```lua
-{'nvim-telescope/telescope-fzf-native.nvim', build = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build' }
-```
-</details>
-<details><summary>Windows with gcc/make using chocolatey</summary>
-Alternatively, one can install gcc and make which don't require changing the config,
-the easiest way is to use choco:
-
-1. install [chocolatey](https://chocolatey.org/install)
-either follow the instructions on the page or use winget,
-run in cmd as **admin**:
-```
-winget install --accept-source-agreements chocolatey.chocolatey
-```
-
-2. install all requirements using choco, exit the previous cmd and
-open a new one so that choco path is set, and run in cmd as **admin**:
-```
-choco install -y neovim git ripgrep wget fd unzip gzip mingw make
-```
-</details>
-<details><summary>WSL (Windows Subsystem for Linux)</summary>
-
-```
-wsl --install
-wsl
-sudo add-apt-repository ppa:neovim-ppa/unstable -y
-sudo apt update
-sudo apt install make gcc ripgrep unzip git xclip neovim
-```
-</details>
-
-#### Linux Install
-<details><summary>Ubuntu Install Steps</summary>
-
-```
-sudo add-apt-repository ppa:neovim-ppa/unstable -y
-sudo apt update
-sudo apt install make gcc ripgrep unzip git xclip neovim
-```
-</details>
-<details><summary>Debian Install Steps</summary>
-
-```
-sudo apt update
-sudo apt install make gcc ripgrep unzip git xclip curl
-
-# Now we install nvim
-curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim-linux-x86_64.tar.gz
-sudo rm -rf /opt/nvim-linux-x86_64
-sudo mkdir -p /opt/nvim-linux-x86_64
-sudo chmod a+rX /opt/nvim-linux-x86_64
-sudo tar -C /opt -xzf nvim-linux-x86_64.tar.gz
-
-# make it available in /usr/local/bin, distro installs to /usr/bin
-sudo ln -sf /opt/nvim-linux-x86_64/bin/nvim /usr/local/bin/
-```
-</details>
-<details><summary>Fedora Install Steps</summary>
-
-```
-sudo dnf install -y gcc make git ripgrep fd-find unzip neovim
-```
-</details>
-
-<details><summary>Arch Install Steps</summary>
-
-```
-sudo pacman -S --noconfirm --needed gcc make git ripgrep fd unzip neovim
-```
-</details>
-
-### Alternative neovim installation methods
-
-For some systems it is not unexpected that the [package manager installation
-method](https://github.com/neovim/neovim/blob/master/INSTALL.md#install-from-package)
-recommended by neovim is significantly behind. If that is the case for you,
-pick one of the following methods that are known to deliver fresh neovim versions very quickly.
-They have been picked for their popularity and because they make installing and updating
-neovim to the latest versions easy. You can also find more detail about the
-available methods being discussed
-[here](https://github.com/nvim-lua/kickstart.nvim/issues/1583).
-
-
-<details><summary>Bob</summary>
-
-[Bob](https://github.com/MordechaiHadad/bob) is a Neovim version manager for
-all plattforms. Simply install
-[rustup](https://rust-lang.github.io/rustup/installation/other.html),
-and run the following commands:
-
-```bash
-rustup default stable
-rustup update stable
-cargo install bob-nvim
-bob use stable
-```
-
-</details>
-
-<details><summary>Homebrew</summary>
-
-[Homebrew](https://brew.sh) is a package manager popular on Mac and Linux.
-Simply install using [`brew install`](https://formulae.brew.sh/formula/neovim).
-
-</details>
-
-<details><summary>Flatpak</summary>
-
-Flatpak is a package manager for applications that allows developers to package their applications
-just once to make it available on all Linux systems. Simply [install flatpak](https://flatpak.org/setup/)
-and setup [flathub](https://flathub.org/setup) to [install neovim](https://flathub.org/apps/io.neovim.nvim).
-
-</details>
-
-<details><summary>asdf and mise-en-place</summary>
-
-[asdf](https://asdf-vm.com/) and [mise](https://mise.jdx.dev/) are tool version managers,
-mostly aimed towards project-specific tool versioning. However both support managing tools
-globally in the user-space as well:
-
-<details><summary>mise</summary>
-
-[Install mise](https://mise.jdx.dev/getting-started.html), then run:
-
-```bash
-mise plugins install neovim
-mise use neovim@stable
-```
-
-</details>
-
-<details><summary>asdf</summary>
-
-[Install asdf](https://asdf-vm.com/guide/getting-started.html), then run:
-
-```bash
-asdf plugin add neovim
-asdf install neovim stable
-asdf set neovim stable --home
-asdf reshim neovim
-```
-
-</details>
-
-</details>
+*Built with ❤️ on Arch Linux + DWL + foot terminal*
