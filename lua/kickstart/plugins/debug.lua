@@ -1,133 +1,159 @@
 -- debug.lua
---
--- Shows how to use the DAP plugin to debug your code.
---
--- Primarily focused on configuring the debugger for Go, but can
--- be extended to other languages as well. That's why it's called
--- kickstart.nvim and not kitchen-sink.nvim ;)
+-- DAP (Debug Adapter Protocol) configuration
+-- Supports: Rust (codelldb), Go (delve), Python (debugpy), C/C++ (codelldb)
 
 return {
-  -- NOTE: Yes, you can install new plugins here!
   'mfussenegger/nvim-dap',
-  -- NOTE: And you can specify dependencies as well
   dependencies = {
-    -- Creates a beautiful debugger UI
     'rcarriga/nvim-dap-ui',
-
-    -- Required dependency for nvim-dap-ui
     'nvim-neotest/nvim-nio',
-
-    -- Installs the debug adapters for you
     'mason-org/mason.nvim',
     'jay-babu/mason-nvim-dap.nvim',
-
-    -- Add your own debuggers here
     'leoluz/nvim-dap-go',
   },
   keys = {
-    -- Basic debugging keymaps, feel free to change to your liking!
-    {
-      '<F5>',
-      function() require('dap').continue() end,
-      desc = 'Debug: Start/Continue',
-    },
-    {
-      '<F1>',
-      function() require('dap').step_into() end,
-      desc = 'Debug: Step Into',
-    },
-    {
-      '<F2>',
-      function() require('dap').step_over() end,
-      desc = 'Debug: Step Over',
-    },
-    {
-      '<F3>',
-      function() require('dap').step_out() end,
-      desc = 'Debug: Step Out',
-    },
-    {
-      '<leader>b',
-      function() require('dap').toggle_breakpoint() end,
-      desc = 'Debug: Toggle Breakpoint',
-    },
+    { '<F5>',      function() require('dap').continue() end,          desc = 'Debug: Start/Continue' },
+    { '<F1>',      function() require('dap').step_into() end,         desc = 'Debug: Step Into' },
+    { '<F2>',      function() require('dap').step_over() end,         desc = 'Debug: Step Over' },
+    { '<F3>',      function() require('dap').step_out() end,          desc = 'Debug: Step Out' },
+    { '<F7>',      function() require('dapui').toggle() end,          desc = 'Debug: Toggle UI' },
+    { '<leader>b', function() require('dap').toggle_breakpoint() end, desc = 'Debug: Toggle Breakpoint' },
     {
       '<leader>B',
       function() require('dap').set_breakpoint(vim.fn.input 'Breakpoint condition: ') end,
-      desc = 'Debug: Set Breakpoint',
-    },
-    -- Toggle to see last session result. Without this, you can't see session output in case of unhandled exception.
-    {
-      '<F7>',
-      function() require('dapui').toggle() end,
-      desc = 'Debug: See last session result.',
+      desc = 'Debug: Conditional Breakpoint',
     },
   },
   config = function()
     local dap = require 'dap'
     local dapui = require 'dapui'
 
+    -- Mason DAP setup
     require('mason-nvim-dap').setup {
-      -- Makes a best effort to setup the various debuggers with
-      -- reasonable debug configurations
       automatic_installation = true,
-
-      -- You can provide additional configuration to the handlers,
-      -- see mason-nvim-dap README for more information
       handlers = {},
-
-      -- You'll need to check that you have the required things installed
-      -- online, please don't ask me how to install them :)
-      ensure_installed = {
-        -- Update this to ensure that you have the debuggers for the langs you want
-        'delve',
-      },
+      ensure_installed = { 'delve', 'codelldb', 'debugpy' },
     }
 
-    -- Dap UI setup
-    -- For more information, see |:help nvim-dap-ui|
+    -- DAP UI setup
     dapui.setup {
-      -- Set icons to characters that are more likely to work in every terminal.
-      --    Feel free to remove or use ones that you like more! :)
-      --    Don't feel like these are good choices.
       icons = { expanded = '▾', collapsed = '▸', current_frame = '*' },
       controls = {
         icons = {
-          pause = '⏸',
-          play = '▶',
-          step_into = '⏎',
-          step_over = '⏭',
-          step_out = '⏮',
-          step_back = 'b',
-          run_last = '▶▶',
-          terminate = '⏹',
-          disconnect = '⏏',
+          pause = '⏸', play = '▶', step_into = '⏎', step_over = '⏭',
+          step_out = '⏮', step_back = 'b', run_last = '▶▶',
+          terminate = '⏹', disconnect = '⏏',
         },
       },
     }
 
-    -- Change breakpoint icons
-    -- vim.api.nvim_set_hl(0, 'DapBreak', { fg = '#e51400' })
-    -- vim.api.nvim_set_hl(0, 'DapStop', { fg = '#ffcc00' })
-    -- local breakpoint_icons = vim.g.have_nerd_font
-    --     and { Breakpoint = '', BreakpointCondition = '', BreakpointRejected = '', LogPoint = '', Stopped = '' }
-    --   or { Breakpoint = '●', BreakpointCondition = '⊜', BreakpointRejected = '⊘', LogPoint = '◆', Stopped = '⭔' }
-    -- for type, icon in pairs(breakpoint_icons) do
-    --   local tp = 'Dap' .. type
-    --   local hl = (type == 'Stopped') and 'DapStop' or 'DapBreak'
-    --   vim.fn.sign_define(tp, { text = icon, texthl = hl, numhl = hl })
-    -- end
-
+    -- Auto open/close UI
     dap.listeners.after.event_initialized['dapui_config'] = dapui.open
     dap.listeners.before.event_terminated['dapui_config'] = dapui.close
     dap.listeners.before.event_exited['dapui_config'] = dapui.close
 
-    -- Install golang specific config
+    -- =========================================================
+    -- RUST - codelldb adapter
+    -- =========================================================
+    local codelldb_path = vim.fn.stdpath('data') .. '/mason/bin/codelldb'
+
+    dap.adapters.codelldb = {
+      type = 'server',
+      port = '${port}',
+      executable = {
+        command = codelldb_path,
+        args = { '--port', '${port}' },
+      },
+    }
+
+    -- Auto-detect Rust binary from Cargo.toml
+    local function get_cargo_binary()
+      -- Try to find binary name from Cargo.toml
+      local cargo_toml = vim.fn.findfile('Cargo.toml', vim.fn.getcwd() .. ';')
+      if cargo_toml ~= '' then
+        local lines = vim.fn.readfile(cargo_toml)
+        for _, line in ipairs(lines) do
+          local name = line:match('^name%s*=%s*"(.+)"')
+          if name then
+            local binary = vim.fn.getcwd() .. '/target/debug/' .. name
+            if vim.fn.filereadable(binary) == 1 then
+              return binary
+            end
+          end
+        end
+      end
+      -- Fallback: ask user
+      return vim.fn.input('Path to executable: ', vim.fn.getcwd() .. '/target/debug/', 'file')
+    end
+
+    dap.configurations.rust = {
+      {
+        name = 'Launch Rust binary',
+        type = 'codelldb',
+        request = 'launch',
+        program = get_cargo_binary,
+        cwd = '${workspaceFolder}',
+        stopOnEntry = false,
+        -- Run cargo build first automatically
+        preLaunchTask = function()
+          vim.fn.system('cargo build 2>&1')
+          vim.notify('cargo build done', vim.log.levels.INFO)
+        end,
+      },
+    }
+
+    -- C/C++ also uses codelldb
+    dap.configurations.c = {
+      {
+        name = 'Launch C binary',
+        type = 'codelldb',
+        request = 'launch',
+        program = function()
+          return vim.fn.input('Path to executable: ', vim.fn.getcwd() .. '/', 'file')
+        end,
+        cwd = '${workspaceFolder}',
+        stopOnEntry = false,
+      },
+    }
+    dap.configurations.cpp = dap.configurations.c
+
+    -- =========================================================
+    -- GO - delve adapter
+    -- =========================================================
     require('dap-go').setup {
       delve = {
-        -- On Windows delve must be run attached or it crashes.
-        -- See https://github.com/leoluz/nvim-dap-go/blob/main/README.md#configuring
-        detached = vim.fn.has 'win32' == 0,
+        detached = vim.fn.has('win32') == 0,
+        -- Auto-find the go binary
+        path = vim.fn.stdpath('data') .. '/mason/bin/dlv',
+      },
+      -- These are the configurations dap-go adds automatically:
+      -- 'Debug' - debug current package
+      -- 'Debug test' - debug test under cursor
+      -- 'Debug test (go.mod)' - debug all tests
+    }
+
+    -- =========================================================
+    -- PYTHON - debugpy adapter
+    -- =========================================================
+    dap.adapters.python = {
+      type = 'executable',
+      command = vim.fn.stdpath('data') .. '/mason/bin/debugpy-adapter',
+    }
+
+    dap.configurations.python = {
+      {
+        name = 'Launch Python file',
+        type = 'python',
+        request = 'launch',
+        program = '${file}',
+        pythonPath = function()
+          -- Use venv if available, otherwise system python
+          local venv = vim.fn.getcwd() .. '/.venv/bin/python'
+          if vim.fn.filereadable(venv) == 1 then
+            return venv
+          end
+          return '/usr/bin/python3'
+        end,
       },
     }
   end,
