@@ -91,14 +91,11 @@ return {
         name = 'Launch Rust binary',
         type = 'codelldb',
         request = 'launch',
-        program = get_cargo_binary,
+        program = function()
+          return vim.fn.input('Path to executable: ', vim.fn.getcwd() .. '/target/debug/', 'file')
+        end,
         cwd = '${workspaceFolder}',
         stopOnEntry = false,
-        -- Run cargo build first automatically
-        preLaunchTask = function()
-          vim.fn.system('cargo build 2>&1')
-          vim.notify('cargo build done', vim.log.levels.INFO)
-        end,
       },
     }
 

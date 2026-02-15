@@ -34,14 +34,17 @@ return {
   },
 
   -- Beautiful markdown rendering
-  {
-    'MeanderingProgrammer/render-markdown.nvim',
-    dependencies = {
-      'nvim-treesitter/nvim-treesitter',
-      'nvim-tree/nvim-web-devicons',
+    {
+      'MeanderingProgrammer/render-markdown.nvim',
+      dependencies = {
+        'nvim-treesitter/nvim-treesitter',
+        'nvim-tree/nvim-web-devicons',
+      },
+      opts = {
+        latex = { enabled = false },
+        yaml = { enabled = false },
+      },
     },
-    opts = {},
-  },
 
   -- Zen mode: Distraction-free coding
   {
