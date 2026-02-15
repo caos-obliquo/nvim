@@ -355,3 +355,11 @@ Built on Arch Linux + DWL + foot terminal
 - [TJ DeVries](https://github.com/tjdevries) — Neovim core maintainer and creator of Kickstart.nvim, the foundation this config is built on. Without him none of this would be possible.
 - [ThePrimeagen](https://github.com/ThePrimeagen) — For teaching effective Vim usage through his video tutorials, remaps and workflow philosophy that shaped this config
 - [jonkero9](https://github.com/jonkero9) — For pushing the extra mile on Neovim debugging and LSP configuration, directly inspiring the Dracula layer and syntax colors
+
+---
+
+## Special Thanks
+
+- [TJ DeVries](https://github.com/tjdevries) — Neovim core maintainer, creator of Kickstart.nvim, telescope.nvim and plenary.nvim. Without him none of this would be possible.
+- [ThePrimeagen](https://github.com/ThePrimeagen) — Creator of harpoon and refactoring.nvim. For teaching effective Vim usage through his video tutorials, remaps and workflow philosophy that shaped this config.
+- [jonkero9](https://github.com/jonkero9) — For pushing the extra mile on Neovim debugging and LSP configuration, directly inspiring the Dracula layer and syntax colors.
