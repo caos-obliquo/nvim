@@ -1,5 +1,5 @@
 -- Extra plugins inspired by jonkero9
--- LazyGit, hardtime, render-markdown, zen-mode
+-- LazyGit, hardtime, render-markdown, zen-mode, surround, auto-session
 
 return {
   -- LazyGit integration (beautiful Git TUI inside nvim!)
@@ -28,23 +28,27 @@ return {
       disable_mouse = false,
       max_count = 10,
       disabled_filetypes = {
-        'neo-tree', 'lazy', 'mason', 'help', 'TelescopePrompt',
+        'neo-tree',
+        'lazy',
+        'mason',
+        'help',
+        'TelescopePrompt',
       },
     },
   },
 
   -- Beautiful markdown rendering
-    {
-      'MeanderingProgrammer/render-markdown.nvim',
-      dependencies = {
-        'nvim-treesitter/nvim-treesitter',
-        'nvim-tree/nvim-web-devicons',
-      },
-      opts = {
-        latex = { enabled = false },
-        yaml = { enabled = false },
-      },
+  {
+    'MeanderingProgrammer/render-markdown.nvim',
+    dependencies = {
+      'nvim-treesitter/nvim-treesitter',
+      'nvim-tree/nvim-web-devicons',
     },
+    opts = {
+      latex = { enabled = false },
+      yaml = { enabled = false },
+    },
+  },
 
   -- Zen mode: Distraction-free coding
   {
@@ -61,5 +65,40 @@ return {
         },
       },
     },
+  },
+
+  -- Surround: ysiw" to wrap, cs"' to change, ds" to delete
+  -- Examples:
+  --   ysiw"        → wrap word in quotes
+  --   cs"'         → change " to '
+  --   ds"          → delete surrounding "
+  --   yss)         → wrap entire line in ()
+  {
+    'kylechui/nvim-surround',
+    event = 'VeryLazy',
+    opts = {},
+  },
+
+  -- Auto-session: saves and restores your layout automatically
+  -- Opens nvim in the same state you left it (buffers, splits, etc.)
+  {
+    'rmagatti/auto-session',
+    lazy = false,
+    opts = {
+      auto_save = true,
+      auto_restore = true,
+      suppressed_dirs = { '~/', '~/Downloads', '/' },
+    },
+  },
+
+  -- Illuminate: highlights all occurrences of word under cursor
+  {
+    'RRethy/vim-illuminate',
+    event = 'BufReadPost',
+    opts = {
+      delay = 100,
+      large_file_cutoff = 2000,
+    },
+    config = function(_, opts) require('illuminate').configure(opts) end,
   },
 }

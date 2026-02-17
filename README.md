@@ -32,14 +32,14 @@ Built on [Kickstart.nvim](https://github.com/nvim-lua/kickstart.nvim) with a Dra
         ├── harpoon.lua             quick file navigation
         ├── which-key.lua           keybinding hints
         ├── rust-ide.lua            rustaceanvim + crates.nvim
-        ├── conform.lua             formatting (stylua, prettier, gofmt)
+        ├── conform.lua             formatting (stylua, prettier, gofmt, clang-format...)
         ├── trouble.lua             diagnostics list
         ├── undotree.lua            visual undo history
         ├── refactoring.lua         extract variable/function/block
         ├── cloak.lua               hide secrets in .env files
-        ├── context.lua             show current function at top
-        ├── devops.lua              YAML/Docker/K8s/Terraform
-        └── extras.lua              LazyGit, hardtime, zen-mode
+        ├── context.lua             show current function at top (disabled for yaml/json/toml)
+        ├── devops.lua              YAML/Docker/K8s/Terraform schemas
+        └── extras.lua              LazyGit, hardtime, zen-mode, surround, auto-session, illuminate
 ```
 
 ---
@@ -143,6 +143,7 @@ Leader = `Space`
   </thead>
   <tbody>
     <tr><td><kbd>n</kbd></td><td><kbd>&lt;leader&gt;&lt;leader&gt;</kbd></td><td>Find files</td></tr>
+    <tr><td><kbd>n</kbd></td><td><kbd>&lt;leader&gt;sf</kbd></td><td>Find files (explicit)</td></tr>
     <tr><td><kbd>n</kbd></td><td><kbd>&lt;leader&gt;sg</kbd></td><td>Live grep</td></tr>
     <tr><td><kbd>n</kbd></td><td><kbd>&lt;leader&gt;sr</kbd></td><td>Recent files</td></tr>
     <tr><td><kbd>n</kbd></td><td><kbd>&lt;leader&gt;sb</kbd></td><td>Search buffers</td></tr>
@@ -150,11 +151,12 @@ Leader = `Space`
     <tr><td><kbd>n</kbd></td><td><kbd>&lt;leader&gt;sd</kbd></td><td>Search diagnostics</td></tr>
     <tr><td><kbd>n</kbd></td><td><kbd>&lt;leader&gt;sh</kbd></td><td>Search help tags</td></tr>
     <tr><td><kbd>n</kbd></td><td><kbd>&lt;leader&gt;sk</kbd></td><td>Search keymaps</td></tr>
-    <tr><td><kbd>n</kbd></td><td><kbd>&lt;leader&gt;sG</kbd></td><td>Git files</td></tr>
-    <tr><td><kbd>n</kbd></td><td><kbd>&lt;leader&gt;/</kbd></td><td>Search in current buffer</td></tr>
-    <tr><td><kbd>n</kbd></td><td><kbd>&lt;leader&gt;sR</kbd></td><td>Resume last search</td></tr>
     <tr><td><kbd>n</kbd></td><td><kbd>&lt;leader&gt;sc</kbd></td><td>Search commands</td></tr>
+    <tr><td><kbd>n</kbd></td><td><kbd>&lt;leader&gt;sG</kbd></td><td>Git files</td></tr>
+    <tr><td><kbd>n</kbd></td><td><kbd>&lt;leader&gt;s.</kbd></td><td>Recent files (cwd only)</td></tr>
+    <tr><td><kbd>n</kbd></td><td><kbd>&lt;leader&gt;sR</kbd></td><td>Resume last search</td></tr>
     <tr><td><kbd>n</kbd></td><td><kbd>&lt;leader&gt;s:</kbd></td><td>Command history</td></tr>
+    <tr><td><kbd>n</kbd></td><td><kbd>&lt;leader&gt;/</kbd></td><td>Search in current buffer</td></tr>
   </tbody>
 </table>
 
@@ -165,11 +167,15 @@ Leader = `Space`
     <tr><th>Mode</th><th>Key</th><th>Action</th></tr>
   </thead>
   <tbody>
-    <tr><td><kbd>n</kbd></td><td><kbd>&lt;leader&gt;a</kbd></td><td>Add file</td></tr>
-    <tr><td><kbd>n</kbd></td><td><kbd>&lt;C-e&gt;</kbd></td><td>Toggle menu</td></tr>
+    <tr><td><kbd>n</kbd></td><td><kbd>&lt;leader&gt;a</kbd></td><td>Add file to harpoon</td></tr>
+    <tr><td><kbd>n</kbd></td><td><kbd>&lt;C-e&gt;</kbd></td><td>Toggle harpoon menu</td></tr>
     <tr><td><kbd>n</kbd></td><td><kbd>&lt;leader&gt;fl</kbd></td><td>Harpoon list in Telescope</td></tr>
-    <tr><td><kbd>n</kbd></td><td><kbd>&lt;M-1&gt;</kbd> — <kbd>&lt;M-4&gt;</kbd></td><td>Jump to file 1–4</td></tr>
-    <tr><td><kbd>n</kbd></td><td><kbd>&lt;C-p&gt;</kbd> / <kbd>&lt;C-n&gt;</kbd></td><td>Previous / next file</td></tr>
+    <tr><td><kbd>n</kbd></td><td><kbd>&lt;M-1&gt;</kbd></td><td>Jump to harpoon file 1</td></tr>
+    <tr><td><kbd>n</kbd></td><td><kbd>&lt;M-2&gt;</kbd></td><td>Jump to harpoon file 2</td></tr>
+    <tr><td><kbd>n</kbd></td><td><kbd>&lt;M-3&gt;</kbd></td><td>Jump to harpoon file 3</td></tr>
+    <tr><td><kbd>n</kbd></td><td><kbd>&lt;M-4&gt;</kbd></td><td>Jump to harpoon file 4</td></tr>
+    <tr><td><kbd>n</kbd></td><td><kbd>&lt;C-p&gt;</kbd></td><td>Previous harpoon file</td></tr>
+    <tr><td><kbd>n</kbd></td><td><kbd>&lt;C-n&gt;</kbd></td><td>Next harpoon file</td></tr>
   </tbody>
 </table>
 
@@ -187,6 +193,17 @@ Leader = `Space`
     <tr><td><kbd>n</kbd></td><td><kbd>F7</kbd></td><td>Toggle DAP UI</td></tr>
     <tr><td><kbd>n</kbd></td><td><kbd>&lt;leader&gt;b</kbd></td><td>Toggle breakpoint</td></tr>
     <tr><td><kbd>n</kbd></td><td><kbd>&lt;leader&gt;B</kbd></td><td>Conditional breakpoint</td></tr>
+    <tr><td><kbd>n</kbd></td><td><kbd>&lt;leader&gt;dc</kbd></td><td>Continue (leader version)</td></tr>
+    <tr><td><kbd>n</kbd></td><td><kbd>&lt;leader&gt;dC</kbd></td><td>Run to cursor</td></tr>
+    <tr><td><kbd>n</kbd></td><td><kbd>&lt;leader&gt;db</kbd></td><td>Toggle breakpoint (leader version)</td></tr>
+    <tr><td><kbd>n</kbd></td><td><kbd>&lt;leader&gt;dB</kbd></td><td>Conditional breakpoint (leader version)</td></tr>
+    <tr><td><kbd>n</kbd></td><td><kbd>&lt;leader&gt;di</kbd></td><td>Step into (leader version)</td></tr>
+    <tr><td><kbd>n</kbd></td><td><kbd>&lt;leader&gt;do</kbd></td><td>Step over (leader version)</td></tr>
+    <tr><td><kbd>n</kbd></td><td><kbd>&lt;leader&gt;dO</kbd></td><td>Step out (leader version)</td></tr>
+    <tr><td><kbd>n</kbd></td><td><kbd>&lt;leader&gt;dr</kbd></td><td>Open REPL</td></tr>
+    <tr><td><kbd>n</kbd></td><td><kbd>&lt;leader&gt;du</kbd></td><td>Toggle DAP UI (leader version)</td></tr>
+    <tr><td><kbd>n</kbd></td><td><kbd>&lt;leader&gt;de</kbd></td><td>Eval expression</td></tr>
+    <tr><td><kbd>n</kbd></td><td><kbd>&lt;leader&gt;dt</kbd></td><td>Terminate session</td></tr>
   </tbody>
 </table>
 
@@ -220,7 +237,9 @@ Leader = `Space`
   </thead>
   <tbody>
     <tr><td><kbd>n</kbd></td><td><kbd>gnn</kbd></td><td>Start incremental selection</td></tr>
-    <tr><td><kbd>n</kbd></td><td><kbd>grn</kbd></td><td>Expand by node</td></tr>
+    <tr><td><kbd>n</kbd></td><td><kbd>grn</kbd></td><td>Expand selection by node</td></tr>
+    <tr><td><kbd>n</kbd></td><td><kbd>grc</kbd></td><td>Expand selection by scope</td></tr>
+    <tr><td><kbd>n</kbd></td><td><kbd>grm</kbd></td><td>Shrink selection</td></tr>
     <tr><td><kbd>n/v</kbd></td><td><kbd>af</kbd> / <kbd>if</kbd></td><td>Select around / inside function</td></tr>
     <tr><td><kbd>n/v</kbd></td><td><kbd>ac</kbd> / <kbd>ic</kbd></td><td>Select around / inside class</td></tr>
     <tr><td><kbd>n/v</kbd></td><td><kbd>aa</kbd> / <kbd>ia</kbd></td><td>Select around / inside parameter</td></tr>
@@ -228,6 +247,22 @@ Leader = `Space`
     <tr><td><kbd>n</kbd></td><td><kbd>]m</kbd> / <kbd>[m</kbd></td><td>Next / prev class</td></tr>
     <tr><td><kbd>n</kbd></td><td><kbd>&lt;leader&gt;sp</kbd></td><td>Swap parameter forward</td></tr>
     <tr><td><kbd>n</kbd></td><td><kbd>&lt;leader&gt;sP</kbd></td><td>Swap parameter backward</td></tr>
+  </tbody>
+</table>
+
+### Surround (nvim-surround)
+
+<table>
+  <thead>
+    <tr><th>Mode</th><th>Key</th><th>Action</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><kbd>n</kbd></td><td><kbd>ysiw"</kbd></td><td>Wrap word in double quotes</td></tr>
+    <tr><td><kbd>n</kbd></td><td><kbd>ysiw)</kbd></td><td>Wrap word in parentheses</td></tr>
+    <tr><td><kbd>n</kbd></td><td><kbd>yss)</kbd></td><td>Wrap entire line in parentheses</td></tr>
+    <tr><td><kbd>n</kbd></td><td><kbd>cs"'</kbd></td><td>Change surrounding " to '</td></tr>
+    <tr><td><kbd>n</kbd></td><td><kbd>ds"</kbd></td><td>Delete surrounding "</td></tr>
+    <tr><td><kbd>v</kbd></td><td><kbd>S"</kbd></td><td>Wrap selection in double quotes</td></tr>
   </tbody>
 </table>
 
@@ -258,7 +293,7 @@ Leader = `Space`
   </tbody>
 </table>
 
-### Rust
+### Rust (rustaceanvim + crates.nvim)
 
 <table>
   <thead>
@@ -272,15 +307,15 @@ Leader = `Space`
     <tr><td><kbd>n</kbd></td><td><kbd>&lt;leader&gt;rp</kbd></td><td>Parent module</td></tr>
     <tr><td><kbd>n</kbd></td><td><kbd>&lt;leader&gt;rj</kbd></td><td>Join lines</td></tr>
     <tr><td><kbd>n</kbd></td><td><kbd>&lt;leader&gt;ra</kbd></td><td>Code action (Rust)</td></tr>
-    <tr><td><kbd>n</kbd></td><td><kbd>&lt;leader&gt;ct</kbd></td><td>Toggle crate info</td></tr>
-    <tr><td><kbd>n</kbd></td><td><kbd>&lt;leader&gt;cr</kbd></td><td>Reload crates</td></tr>
-    <tr><td><kbd>n</kbd></td><td><kbd>&lt;leader&gt;cu</kbd></td><td>Update crate</td></tr>
-    <tr><td><kbd>n</kbd></td><td><kbd>&lt;leader&gt;cU</kbd></td><td>Upgrade crate</td></tr>
-    <tr><td><kbd>n</kbd></td><td><kbd>&lt;leader&gt;ca</kbd></td><td>Update all crates</td></tr>
+    <tr><td><kbd>n</kbd></td><td><kbd>&lt;leader&gt;ct</kbd></td><td>Crates: Toggle info</td></tr>
+    <tr><td><kbd>n</kbd></td><td><kbd>&lt;leader&gt;cr</kbd></td><td>Crates: Reload</td></tr>
+    <tr><td><kbd>n</kbd></td><td><kbd>&lt;leader&gt;cu</kbd></td><td>Crates: Update crate</td></tr>
+    <tr><td><kbd>n</kbd></td><td><kbd>&lt;leader&gt;cU</kbd></td><td>Crates: Upgrade crate</td></tr>
+    <tr><td><kbd>n</kbd></td><td><kbd>&lt;leader&gt;ca</kbd></td><td>Crates: Update all crates</td></tr>
   </tbody>
 </table>
 
-### Java (jdtls — only in .java files)
+### Java (jdtls — only active in .java files)
 
 <table>
   <thead>
@@ -302,21 +337,63 @@ Leader = `Space`
 
 ## Language Servers
 
-| Server | Language |
-|--------|----------|
-| `lua_ls` | Lua |
-| `rust_analyzer` | Rust |
-| `ts_ls` | JavaScript / TypeScript |
-| `pyright` | Python |
-| `gopls` | Go |
-| `clangd` | C / C++ |
-| `zls` | Zig |
-| `yamlls` | YAML |
-| `bashls` | Bash |
-| `jsonls` | JSON |
-| `terraformls` | Terraform |
-| `dockerls` | Dockerfile |
-| `jdtls` | Java |
+| Server          | Language                                                                 |
+| --------------- | ------------------------------------------------------------------------ |
+| `lua_ls`        | Lua                                                                      |
+| `rust_analyzer` | Rust                                                                     |
+| `ts_ls`         | JavaScript / TypeScript                                                  |
+| `pyright`       | Python                                                                   |
+| `gopls`         | Go                                                                       |
+| `clangd`        | C / C++                                                                  |
+| `zls`           | Zig                                                                      |
+| `yamlls`        | YAML (with SchemaStore — GitLab CI, K8s, Docker Compose, GitHub Actions) |
+| `bashls`        | Bash                                                                     |
+| `jsonls`        | JSON (with SchemaStore)                                                  |
+| `terraformls`   | Terraform                                                                |
+| `dockerls`      | Dockerfile                                                               |
+| `html`          | HTML                                                                     |
+| `eslint`        | JavaScript / TypeScript linting                                          |
+| `jdtls`         | Java                                                                     |
+
+---
+
+## Linters (nvim-lint)
+
+| Linter                 | Language                 |
+| ---------------------- | ------------------------ |
+| `yamllint`             | YAML                     |
+| `jsonlint`             | JSON                     |
+| `markdownlint`         | Markdown                 |
+| `hadolint`             | Dockerfile               |
+| `tflint`               | Terraform                |
+| `shellcheck`           | Bash / Sh / Zsh          |
+| `eslint_d`             | JavaScript / TypeScript  |
+| `htmlhint`             | HTML                     |
+| `stylelint`            | CSS                      |
+| `ruff`                 | Python                   |
+| `clippy`               | Rust (runs on save only) |
+| `zlint`                | Zig                      |
+| `cpplint` + `cppcheck` | C / C++ (GNU style)      |
+| `pmd`                  | Java                     |
+| `golangci-lint`        | Go                       |
+| `luacheck`             | Lua                      |
+
+---
+
+## Formatters (conform.nvim)
+
+| Formatter             | Language                                      |
+| --------------------- | --------------------------------------------- |
+| `stylua`              | Lua                                           |
+| `ruff_format`         | Python                                        |
+| `shfmt`               | Bash / Sh / Zsh                               |
+| `prettier`            | JS / TS / HTML / CSS / JSON / YAML / Markdown |
+| `clang_format` (GNU)  | C / C++                                       |
+| `rustfmt`             | Rust                                          |
+| `zigfmt`              | Zig                                           |
+| `google_java_format`  | Java                                          |
+| `gofmt` + `goimports` | Go                                            |
+| `terraform_fmt`       | Terraform                                     |
 
 ---
 
@@ -337,9 +414,15 @@ npm install -g neovim
 # Python provider
 pip install pynvim --break-system-packages
 
+# System packages (not in Mason)
+sudo pacman -S luarocks luacheck cppcheck pmd
+
 # Java
 sudo pacman -S jdk21-openjdk
 sudo archlinux-java set java-21-openjdk
+
+# Mason packages
+:MasonInstall yamllint jsonlint hadolint tflint shellcheck eslint_d htmlhint stylelint ruff cpplint golangci-lint markdownlint luacheck shfmt prettier stylua google-java-format goimports
 
 :checkhealth
 ```

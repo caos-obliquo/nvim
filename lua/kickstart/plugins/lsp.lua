@@ -13,7 +13,7 @@ return {
         opts = {
           notification = {
             window = {
-              winblend = 0,       -- 0 = transparent, 100 = opaque (default was 100!)
+              winblend = 0, -- 0 = transparent, 100 = opaque (default was 100!)
               border = 'none',
               normal_hl = 'Comment',
             },
@@ -33,7 +33,7 @@ return {
     config = function()
       -- Setup Mason first
       require('mason').setup()
-      require('mason-lspconfig').setup({
+      require('mason-lspconfig').setup {
         ensure_installed = {
           'lua_ls',
           'rust_analyzer',
@@ -51,7 +51,7 @@ return {
           'eslint',
         },
         automatic_installation = true,
-      })
+      }
 
       -- Configure LSP capabilities with cmp
       local capabilities = require('cmp_nvim_lsp').default_capabilities()
@@ -61,31 +61,67 @@ return {
         capabilities = capabilities,
       })
 
+      -- yamlls - full schema support via schemastore.nvim
+      vim.lsp.config('yamlls', {
+        settings = {
+          yaml = {
+            validate = true,
+            completion = true,
+            hover = true,
+            format = { enable = true },
+            -- Pull ALL schemas from SchemaStore (covers 1000+ file types)
+            schemaStore = {
+              enable = false, -- disable built-in, we use schemastore.nvim below
+              url = '',
+            },
+            schemas = require('schemastore').yaml.schemas {
+              -- Extra schemas not in SchemaStore
+              extra = {
+                {
+                  name = 'GitLab CI',
+                  description = 'GitLab CI/CD pipeline configuration',
+                  fileMatch = { '.gitlab-ci.yml', '.gitlab-ci.yaml' },
+                  url = 'https://gitlab.com/gitlab-org/gitlab/-/raw/master/app/assets/javascripts/editor/schema/ci.json',
+                },
+              },
+            },
+          },
+        },
+      })
+
+      -- jsonls - also benefits from schemastore
+      vim.lsp.config('jsonls', {
+        settings = {
+          json = {
+            schemas = require('schemastore').json.schemas(),
+            validate = { enable = true },
+          },
+        },
+      })
+
       -- Enable servers (new nvim 0.11 API - this is why it works!)
-      vim.lsp.enable('lua_ls')
-      vim.lsp.enable('rust_analyzer')
-      vim.lsp.enable('ts_ls')
-      vim.lsp.enable('pyright')
-      vim.lsp.enable('gopls')
-      vim.lsp.enable('clangd')
-      vim.lsp.enable('zls')
-      vim.lsp.enable('yamlls')
-      vim.lsp.enable('bashls')
-      vim.lsp.enable('jsonls')
-      vim.lsp.enable('terraformls')
-      vim.lsp.enable('dockerls')
-      vim.lsp.enable('html')
-      vim.lsp.enable('eslint')
+      vim.lsp.enable 'lua_ls'
+      vim.lsp.enable 'rust_analyzer'
+      vim.lsp.enable 'ts_ls'
+      vim.lsp.enable 'pyright'
+      vim.lsp.enable 'gopls'
+      vim.lsp.enable 'clangd'
+      vim.lsp.enable 'zls'
+      vim.lsp.enable 'yamlls'
+      vim.lsp.enable 'bashls'
+      vim.lsp.enable 'jsonls'
+      vim.lsp.enable 'terraformls'
+      vim.lsp.enable 'dockerls'
+      vim.lsp.enable 'html'
+      vim.lsp.enable 'eslint'
 
       -- Keybindings on LSP attach
       vim.api.nvim_create_autocmd('LspAttach', {
         group = vim.api.nvim_create_augroup('UserLspConfig', {}),
         callback = function(ev)
-          local map = function(keys, func, desc)
-            vim.keymap.set('n', keys, func, { buffer = ev.buf, desc = 'LSP: ' .. desc })
-          end
+          local map = function(keys, func, desc) vim.keymap.set('n', keys, func, { buffer = ev.buf, desc = 'LSP: ' .. desc }) end
 
-          local tele = require('telescope.builtin')
+          local tele = require 'telescope.builtin'
 
           -- Navigation
           map('gd', tele.lsp_definitions, 'Goto Definition')
