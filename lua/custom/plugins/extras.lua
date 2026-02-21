@@ -1,5 +1,5 @@
 -- Extra plugins inspired by jonkero9
--- LazyGit, hardtime, render-markdown, zen-mode, surround, auto-session
+-- LazyGit, hardtime, render-markdown, zen-mode, surround
 
 return {
   -- LazyGit integration (beautiful Git TUI inside nvim!)
@@ -77,18 +77,6 @@ return {
     'kylechui/nvim-surround',
     event = 'VeryLazy',
     opts = {},
-  },
-
-  -- Auto-session: saves and restores your layout automatically
-  -- Opens nvim in the same state you left it (buffers, splits, etc.)
-  {
-    'rmagatti/auto-session',
-    lazy = false,
-    opts = {
-      auto_save = true,
-      auto_restore = true,
-      suppressed_dirs = { '~/', '~/Downloads', '/' },
-    },
   },
 
   -- Illuminate: highlights all occurrences of word under cursor
