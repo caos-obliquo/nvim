@@ -100,7 +100,17 @@ return {
       })
 
       -- Enable servers (new nvim 0.11 API - this is why it works!)
-      vim.lsp.enable 'lua_ls'
+      vim.lsp.config("lua_ls", {
+        settings = {
+          Lua = {
+            globals = { "vim" },
+            diagnostics = { globals = { "vim" } },
+            workspace = { checkThirdParty = false },
+            telemetry = { enable = false },
+          },
+        },
+      })
+      vim.lsp.enable "lua_ls"
       vim.lsp.enable 'rust_analyzer'
       vim.lsp.enable 'ts_ls'
       vim.lsp.enable 'pyright'
