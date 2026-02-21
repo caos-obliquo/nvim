@@ -33,6 +33,8 @@ return {
     popup_border_style = 'rounded',
     enable_git_status = true,
     enable_diagnostics = true,
+    open_files_do_not_replace_types = { 'terminal', 'trouble', 'qf' },
+    source_selector = { winbar = false },
     
     -- CRITICAL: Opens on the RIGHT (your code doesn't shift!)
     window = {
@@ -67,6 +69,7 @@ return {
         enabled = true,
       },
       use_libuv_file_watcher = true,
+        hijack_netrw_behavior = 'disabled',
       filtered_items = {
         hide_dotfiles = false,
         hide_gitignored = false,

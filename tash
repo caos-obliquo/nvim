@@ -1,0 +1,737 @@
+[1mdiff --git a/init.lua b/init.lua[m
+[1mindex 445d7c2..cdb9026 100644[m
+[1m--- a/init.lua[m
+[1m+++ b/init.lua[m
+[36m@@ -1,7 +1,21 @@[m
+[32m+[m[32m-- Force all vertical splits to open on the right[m
+[32m+[m[32mvim.opt.splitright = true[m
+[32m+[m
+[32m+[m[32m-- Force all horizontal splits to open below[m
+[32m+[m[32mvim.opt.splitbelow = true[m
+[32m+[m
+ vim.g.mapleader = ' '[m
+ vim.g.maplocalleader = ' '[m
+ [m
+[31m-vim.g.have_nerd_font = false[m
+[32m+[m[32m-- Based on: Official Neovim docs, all authorities agree this is the RIGHT way[m
+[32m+[m[32mvim.filetype.add({[m
+[32m+[m[32m  pattern = {[m
+[32m+[m[32m    ['.*%.env.*'] = 'config',  -- Matches .env, .env.local, .env.production[m
+[32m+[m[32m    ['%.env'] = 'config',       -- Matches plain .env[m
+[32m+[m[32m  },[m
+[32m+[m[32m})[m
+[32m+[m
+[32m+[m[32mvim.g.have_nerd_font = true[m
+ [m
+ vim.g.loaded_perl_provider = 0[m
+ vim.g.loaded_ruby_provider = 0[m
+[1mdiff --git a/lua/custom/plugins/conform.lua b/lua/custom/plugins/conform.lua[m
+[1mindex 2fa107d..dc2e1d2 100644[m
+[1m--- a/lua/custom/plugins/conform.lua[m
+[1m+++ b/lua/custom/plugins/conform.lua[m
+[36m@@ -1,54 +1,102 @@[m
+[32m+[m[32m-- Conform: CONSENSUS CONFIGURATION[m
+[32m+[m[32m-- Based on: ThePrimeagen, TJ DeVries (kickstart.nvim), folke (LazyVim), community[m
+[32m+[m[32m--[m
+[32m+[m[32m-- Key principles:[m
+[32m+[m[32m-- ✅ MANUAL format by default (NOT auto-save)[m
+[32m+[m[32m-- ✅ <leader>f to format[m
+[32m+[m[32m-- ✅ Optional global toggle for those who want auto-save[m
+[32m+[m[32m-- ✅ Minimal formatters (add as needed)[m
+[32m+[m
+ return {[m
+   'stevearc/conform.nvim',[m
+[31m-  config = function()[m
+[31m-    require('conform').setup {[m
+[31m-      format_on_save = {[m
+[31m-        timeout_ms = 5000,[m
+[31m-        lsp_format = 'fallback',[m
+[31m-      },[m
+[31m-      formatters_by_ft = {[m
+[31m-        -- Scripting[m
+[31m-        lua = { 'stylua' },[m
+[31m-        python = { 'ruff_format' },[m
+[31m-        bash = { 'shfmt' },[m
+[31m-        sh = { 'shfmt' },[m
+[31m-        zsh = { 'shfmt' },[m
+[31m-[m
+[31m-        -- Web[m
+[31m-        javascript = { 'prettier' },[m
+[31m-        typescript = { 'prettier' },[m
+[31m-        javascriptreact = { 'prettier' },[m
+[31m-        typescriptreact = { 'prettier' },[m
+[31m-        html = { 'prettier' },[m
+[31m-        css = { 'prettier' },[m
+[31m-        json = { 'prettier' },[m
+[31m-        yaml = { 'prettier' },[m
+[31m-        markdown = { 'prettier' },[m
+[31m-[m
+[31m-        -- Systems (GNU style)[m
+[31m-        c = { 'clang_format' },[m
+[31m-        cpp = { 'clang_format' },[m
+[31m-        rust = { 'rustfmt' },[m
+[31m-        zig = { 'zigfmt' },[m
+[31m-[m
+[31m-        -- JVM[m
+[31m-        java = { 'google_java_format' }, -- proper Java formatter[m
+[31m-[m
+[31m-        -- Go[m
+[31m-        go = { 'gofmt', 'goimports' },[m
+[31m-[m
+[31m-        -- Infrastructure[m
+[31m-        terraform = { 'terraform_fmt' },[m
+[31m-      },[m
+[32m+[m[32m  event = { 'BufWritePre' },[m
+[32m+[m[32m  cmd = { 'ConformInfo' },[m
+[32m+[m[32m  keys = {[m
+[32m+[m[32m    {[m
+[32m+[m[32m      '<leader>f',[m
+[32m+[m[32m      function() require('conform').format { async = true, lsp_format = 'fallback' } end,[m
+[32m+[m[32m      mode = '',[m
+[32m+[m[32m      desc = '[F]ormat buffer',[m
+[32m+[m[32m    },[m
+[32m+[m[32m  },[m
+[32m+[m[32m  opts = {[m
+[32m+[m[32m    notify_on_error = false,[m
+[32m+[m
+[32m+[m[32m    -- CONSENSUS: NO auto-save by default[m
+[32m+[m[32m    -- Uncomment below ONLY if you want auto-save[m
+[32m+[m[32m    -- format_on_save = {[m
+[32m+[m[32m    --   timeout_ms = 500,[m
+[32m+[m[32m    --   lsp_format = 'fallback',[m
+[32m+[m[32m    -- },[m
+[32m+[m
+[32m+[m[32m    formatters_by_ft = {[m
+[32m+[m[32m      -- Scripting[m
+[32m+[m[32m      lua = { 'stylua' },[m
+[32m+[m[32m      python = { 'ruff_format' },[m
+[32m+[m[32m      bash = { 'shfmt' },[m
+[32m+[m[32m      sh = { 'shfmt' },[m
+[32m+[m[32m      zsh = { 'shfmt' },[m
+[32m+[m
+[32m+[m[32m      -- Web[m
+[32m+[m[32m      javascript = { 'prettier' },[m
+[32m+[m[32m      typescript = { 'prettier' },[m
+[32m+[m[32m      javascriptreact = { 'prettier' },[m
+[32m+[m[32m      typescriptreact = { 'prettier' },[m
+[32m+[m[32m      html = { 'prettier' },[m
+[32m+[m[32m      css = { 'prettier' },[m
+[32m+[m[32m      json = { 'prettier' },[m
+[32m+[m[32m      yaml = { 'prettier' },[m
+[32m+[m[32m      markdown = { 'prettier' },[m
+[32m+[m
+[32m+[m[32m      -- Systems[m
+[32m+[m[32m      c = { 'clang_format' },[m
+[32m+[m[32m      cpp = { 'clang_format' },[m
+[32m+[m[32m      rust = { 'rustfmt' },[m
+[32m+[m[32m      zig = { 'zigfmt' },[m
+ [m
+[31m-      -- clang-format: GNU style for C/C++[m
+[31m-      formatters = {[m
+[31m-        clang_format = {[m
+[31m-          prepend_args = { '--style=GNU' },[m
+[31m-        },[m
+[32m+[m[32m      -- JVM[m
+[32m+[m[32m      java = { 'google_java_format' },[m
+[32m+[m
+[32m+[m[32m      -- Go[m
+[32m+[m[32m      go = { 'gofmt', 'goimports' },[m
+[32m+[m
+[32m+[m[32m      -- Infrastructure[m
+[32m+[m[32m      terraform = { 'terraform_fmt' },[m
+[32m+[m[32m    },[m
+[32m+[m
+[32m+[m[32m    formatters = {[m
+[32m+[m[32m      clang_format = {[m
+[32m+[m[32m        prepend_args = { '--style=GNU' },[m
+       },[m
+[31m-    }[m
+[32m+[m[32m    },[m
+[32m+[m[32m  },[m
+[32m+[m
+[32m+[m[32m  init = function()[m
+[32m+[m[32m    -- Global toggle for format-on-save (if you want it)[m
+[32m+[m[32m    -- Set to false by default (CONSENSUS)[m
+[32m+[m[32m    vim.g.disable_autoformat = true[m
+[32m+[m
+[32m+[m[32m    -- Commands to toggle (from official conform.nvim docs)[m
+[32m+[m[32m    vim.api.nvim_create_user_command('FormatEnable', function()[m
+[32m+[m[32m      vim.g.disable_autoformat = false[m
+[32m+[m[32m      vim.notify('Autoformat enabled', vim.log.levels.INFO)[m
+[32m+[m[32m    end, {[m
+[32m+[m[32m      desc = 'Enable autoformat-on-save',[m
+[32m+[m[32m    })[m
+[32m+[m
+[32m+[m[32m    vim.api.nvim_create_user_command('FormatDisable', function()[m
+[32m+[m[32m      vim.g.disable_autoformat = true[m
+[32m+[m[32m      vim.notify('Autoformat disabled', vim.log.levels.INFO)[m
+[32m+[m[32m    end, {[m
+[32m+[m[32m      desc = 'Disable autoformat-on-save',[m
+[32m+[m[32m    })[m
+ [m
+[31m-    vim.keymap.set('n', '<leader>f', function() require('conform').format { bufnr = 0 } end, { desc = 'Format buffer' })[m
+[32m+[m[32m    vim.api.nvim_create_user_command('FormatToggle', function()[m
+[32m+[m[32m      vim.g.disable_autoformat = not vim.g.disable_autoformat[m
+[32m+[m[32m      local status = vim.g.disable_autoformat and 'disabled' or 'enabled'[m
+[32m+[m[32m      vim.notify('Autoformat ' .. status, vim.log.levels.INFO)[m
+[32m+[m[32m    end, {[m
+[32m+[m[32m      desc = 'Toggle autoformat-on-save',[m
+[32m+[m[32m    })[m
+   end,[m
+ }[m
+[1mdiff --git a/lua/custom/plugins/extras.lua b/lua/custom/plugins/extras.lua[m
+[1mindex 3286cfa..d4d032f 100644[m
+[1m--- a/lua/custom/plugins/extras.lua[m
+[1m+++ b/lua/custom/plugins/extras.lua[m
+[36m@@ -1,6 +1,5 @@[m
+ -- Extra plugins inspired by jonkero9[m
+[31m--- LazyGit, hardtime, render-markdown, zen-mode, surround, auto-session[m
+[31m-[m
+[32m+[m[32m-- LazyGit, hardtime, render-markdown, zen-mode, surround[m
+ return {[m
+   -- LazyGit integration (beautiful Git TUI inside nvim!)[m
+   {[m
+[36m@@ -17,7 +16,6 @@[m [mreturn {[m
+       { '<leader>gg', '<cmd>LazyGit<cr>', desc = 'LazyGit' },[m
+     },[m
+   },[m
+[31m-[m
+   -- Hardtime: Teaches you better vim habits[m
+   -- (stops you from spamming hjkl!)[m
+   {[m
+[36m@@ -36,7 +34,6 @@[m [mreturn {[m
+       },[m
+     },[m
+   },[m
+[31m-[m
+   -- Beautiful markdown rendering[m
+   {[m
+     'MeanderingProgrammer/render-markdown.nvim',[m
+[36m@@ -49,7 +46,6 @@[m [mreturn {[m
+       yaml = { enabled = false },[m
+     },[m
+   },[m
+[31m-[m
+   -- Zen mode: Distraction-free coding[m
+   {[m
+     'folke/zen-mode.nvim',[m
+[36m@@ -66,7 +62,6 @@[m [mreturn {[m
+       },[m
+     },[m
+   },[m
+[31m-[m
+   -- Surround: ysiw" to wrap, cs"' to change, ds" to delete[m
+   -- Examples:[m
+   --   ysiw"        → wrap word in quotes[m
+[36m@@ -78,19 +73,6 @@[m [mreturn {[m
+     event = 'VeryLazy',[m
+     opts = {},[m
+   },[m
+[31m-[m
+[31m-  -- Auto-session: saves and restores your layout automatically[m
+[31m-  -- Opens nvim in the same state you left it (buffers, splits, etc.)[m
+[31m-  {[m
+[31m-    'rmagatti/auto-session',[m
+[31m-    lazy = false,[m
+[31m-    opts = {[m
+[31m-      auto_save = true,[m
+[31m-      auto_restore = true,[m
+[31m-      suppressed_dirs = { '~/', '~/Downloads', '/' },[m
+[31m-    },[m
+[31m-  },[m
+[31m-[m
+   -- Illuminate: highlights all occurrences of word under cursor[m
+   {[m
+     'RRethy/vim-illuminate',[m
+[1mdiff --git a/lua/custom/plugins/telescope.lua b/lua/custom/plugins/telescope.lua[m
+[1mindex bc9525a..8a2b03f 100644[m
+[1m--- a/lua/custom/plugins/telescope.lua[m
+[1m+++ b/lua/custom/plugins/telescope.lua[m
+[36m@@ -1,153 +1,66 @@[m
+[31m--- telescope fuzzy finder[m
+[31m--- inspired by Teej and the need for throwing conventional IDEs away[m
+[32m+[m[32m-- Telescope: CONSENSUS CONFIGURATION[m
+[32m+[m[32m-- Based on: ThePrimeagen, TJ DeVries (kickstart.nvim), folke (LazyVim), community[m
+ --[m
+[31m--- KEYBINDINGS:[m
+[31m--- <leader>sf = find files[m
+[31m--- <leader>sg = live grep (search text in files)[m
+[31m--- <leader>sh = search help tags (TJ style!)[m
+[31m--- <leader>sk = search keymaps[m
+[31m--- <leader>sr = recent files (oldfiles)[m
+[31m--- <leader>sb = search buffers[m
+[31m--- <leader>sw = search current word[m
+[31m--- <leader>sd = search diagnostics[m
+[31m--- <leader>sc = search commands[m
+[31m--- <leader>s. = search recent files (in current directory)[m
+[31m--- <leader>/ = search in current buffer[m
+[32m+[m[32m-- Key principles:[m
+[32m+[m[32m-- ✅ Stable 0.1.x branch[m
+[32m+[m[32m-- ✅ NO performance tweaking (use defaults)[m
+[32m+[m[32m-- ✅ fzf-native for speed[m
+[32m+[m[32m-- ✅ Minimal config[m
+ [m
+ return {[m
+   'nvim-telescope/telescope.nvim',[m
+[31m-  cmd = 'Telescope',[m
+[31m-  version = false,[m
+[32m+[m[32m  branch = '0.1.x',  -- CONSENSUS: Stable branch[m
+   dependencies = {[m
+     'nvim-lua/plenary.nvim',[m
+     {[m
+       'nvim-telescope/telescope-fzf-native.nvim',[m
+       build = 'make',[m
+[31m-      enabled = vim.fn.executable 'make' == 1,[m
+[32m+[m[32m      cond = function()[m
+[32m+[m[32m        return vim.fn.executable('make') == 1[m
+[32m+[m[32m      end,[m
+     },[m
+   },[m
+[31m-  keys = {[m
+[31m-    -- Files[m
+[31m-    { '<leader>sf', '<cmd>Telescope find_files<cr>', desc = '[S]earch [F]iles' },[m
+[31m-    { '<leader><leader>', '<cmd>Telescope find_files<cr>', desc = 'Find Files' },[m
+[31m-    [m
+[31m-    -- Grep/Search[m
+[31m-    { '<leader>sg', '<cmd>Telescope live_grep<cr>', desc = '[S]earch by [G]rep' },[m
+[31m-    { '<leader>sw', '<cmd>Telescope grep_string<cr>', desc = '[S]earch current [W]ord' },[m
+[31m-    [m
+[31m-    -- Recent/Buffers[m
+[31m-    { '<leader>sr', '<cmd>Telescope oldfiles<cr>', desc = '[S]earch [R]ecent files' },[m
+[31m-    { '<leader>sb', '<cmd>Telescope buffers<cr>', desc = '[S]earch [B]uffers' },[m
+[31m-    { '<leader>s.', '<cmd>Telescope oldfiles cwd_only=true<cr>', desc = '[S]earch Recent (cwd)' },[m
+[31m-    [m
+[31m-    -- Help/Documentation (TJ DeVries style!)[m
+[31m-    { '<leader>sh', '<cmd>Telescope help_tags<cr>', desc = '[S]earch [H]elp' },[m
+[31m-    { '<leader>sk', '<cmd>Telescope keymaps<cr>', desc = '[S]earch [K]eymaps' },[m
+[31m-    { '<leader>sc', '<cmd>Telescope commands<cr>', desc = '[S]earch [C]ommands' },[m
+[31m-    [m
+[31m-    -- Diagnostics/Git[m
+[31m-    { '<leader>sd', '<cmd>Telescope diagnostics<cr>', desc = '[S]earch [D]iagnostics' },[m
+[31m-    { '<leader>sG', '<cmd>Telescope git_files<cr>', desc = '[S]earch [G]it files' },[m
+[31m-    [m
+[31m-    -- Search in current buffer[m
+[31m-    { '<leader>/', '<cmd>Telescope current_buffer_fuzzy_find<cr>', desc = 'Search in buffer' },[m
+[31m-    [m
+[31m-    -- Advanced[m
+[31m-    { '<leader>sR', '<cmd>Telescope resume<cr>', desc = '[S]earch [R]esume' },[m
+[31m-    { '<leader>s:', '<cmd>Telescope command_history<cr>', desc = 'Command History' },[m
+[31m-  },[m
+[31m-  [m
+[32m+[m
+   config = function()[m
+[31m-    local telescope = require('telescope')[m
+[31m-    local actions = require('telescope.actions')[m
+[31m-    [m
+[31m-    telescope.setup({[m
+[32m+[m[32m    require('telescope').setup({[m
+[32m+[m[32m      -- CONSENSUS: Use defaults (no performance tweaking)[m
+       defaults = {[m
+[31m-        prompt_prefix = '  ',[m
+[31m-        selection_caret = '  ',[m
+[31m-        [m
+[31m-        -- IMPORTANT: Results layout - preview on RIGHT[m
+[31m-        layout_strategy = 'horizontal',[m
+[31m-        layout_config = {[m
+[31m-          horizontal = {[m
+[31m-            prompt_position = 'top',[m
+[31m-            preview_width = 0.55,[m
+[31m-            results_width = 0.8,[m
+[31m-          },[m
+[31m-          vertical = {[m
+[31m-            mirror = false,[m
+[31m-          },[m
+[31m-          width = 0.87,[m
+[31m-          height = 0.80,[m
+[31m-          preview_cutoff = 120,[m
+[31m-        },[m
+[31m-        [m
+[31m-        sorting_strategy = 'ascending',[m
+[31m-        [m
+[32m+[m[32m        -- Optional: Map ESC to close in insert mode[m
+         mappings = {[m
+           i = {[m
+[31m-            ['<C-n>'] = actions.cycle_history_next,[m
+[31m-            ['<C-p>'] = actions.cycle_history_prev,[m
+[31m-            ['<C-j>'] = actions.move_selection_next,[m
+[31m-            ['<C-k>'] = actions.move_selection_previous,[m
+[31m-            ['<C-c>'] = actions.close,[m
+[31m-            ['<Down>'] = actions.move_selection_next,[m
+[31m-            ['<Up>'] = actions.move_selection_previous,[m
+[31m-            ['<CR>'] = actions.select_default,[m
+[31m-            ['<C-x>'] = actions.select_horizontal,[m
+[31m-            ['<C-v>'] = actions.select_vertical,[m
+[31m-            ['<C-t>'] = actions.select_tab,[m
+[31m-            ['<C-u>'] = actions.preview_scrolling_up,[m
+[31m-            ['<C-d>'] = actions.preview_scrolling_down,[m
+[31m-          },[m
+[31m-          n = {[m
+[31m-            ['<esc>'] = actions.close,[m
+[31m-            ['<CR>'] = actions.select_default,[m
+[31m-            ['<C-x>'] = actions.select_horizontal,[m
+[31m-            ['<C-v>'] = actions.select_vertical,[m
+[31m-            ['<C-t>'] = actions.select_tab,[m
+[31m-            ['j'] = actions.move_selection_next,[m
+[31m-            ['k'] = actions.move_selection_previous,[m
+[31m-            ['H'] = actions.move_to_top,[m
+[31m-            ['M'] = actions.move_to_middle,[m
+[31m-            ['L'] = actions.move_to_bottom,[m
+[31m-            ['<Down>'] = actions.move_selection_next,[m
+[31m-            ['<Up>'] = actions.move_selection_previous,[m
+[31m-            ['gg'] = actions.move_to_top,[m
+[31m-            ['G'] = actions.move_to_bottom,[m
+[31m-            ['<C-u>'] = actions.preview_scrolling_up,[m
+[31m-            ['<C-d>'] = actions.preview_scrolling_down,[m
+[32m+[m[32m            ['<C-u>'] = false,[m
+[32m+[m[32m            ['<C-d>'] = false,[m
+           },[m
+         },[m
+       },[m
+[31m-      [m
+[31m-      pickers = {[m
+[31m-        find_files = {[m
+[31m-          theme = 'dropdown',[m
+[31m-          previewer = false,[m
+[31m-        },[m
+[31m-        buffers = {[m
+[31m-          theme = 'dropdown',[m
+[31m-          previewer = false,[m
+[31m-          initial_mode = 'normal',[m
+[31m-        },[m
+[31m-        oldfiles = {[m
+[31m-          theme = 'dropdown',[m
+[31m-          previewer = false,[m
+[31m-        },[m
+[31m-      },[m
+[31m-      [m
+[31m-      extensions = {[m
+[31m-        fzf = {[m
+[31m-          fuzzy = true,[m
+[31m-          override_generic_sorter = true,[m
+[31m-          override_file_sorter = true,[m
+[31m-          case_mode = 'smart_case',[m
+[31m-        },[m
+[31m-      },[m
+     })[m
+[31m-    [m
+[31m-    -- Load fzf extension if available[m
+[31m-    pcall(telescope.load_extension, 'fzf')[m
+[32m+[m
+[32m+[m[32m    -- Enable fzf extension[m
+[32m+[m[32m    pcall(require('telescope').load_extension, 'fzf')[m
+[32m+[m
+[32m+[m[32m    -- Keybindings (CONSENSUS from kickstart.nvim)[m
+[32m+[m[32m    local builtin = require('telescope.builtin')[m
+[32m+[m[32m    vim.keymap.set('n', '<leader><leader>', builtin.find_files, { desc = 'Find Files' })[m
+[32m+[m[32m    vim.keymap.set('n', '<leader>sf', builtin.find_files, { desc = '[S]earch [F]iles' })[m
+[32m+[m[32m    vim.keymap.set('n', '<leader>sg', builtin.live_grep, { desc = '[S]earch by [G]rep' })[m
+[32m+[m[32m    vim.keymap.set('n', '<leader>sh', builtin.help_tags, { desc = '[S]earch [H]elp' })[m
+[32m+[m[32m    vim.keymap.set('n', '<leader>sk', builtin.keymaps, { desc = '[S]earch [K]eymaps' })[m
+[32m+[m[32m    vim.keymap.set('n', '<leader>sr', builtin.oldfiles, { desc = '[S]earch [R]ecent files' })[m
+[32m+[m[32m    vim.keymap.set('n', '<leader>sb', builtin.buffers, { desc = '[S]earch [B]uffers' })[m
+[32m+[m[32m    vim.keymap.set('n', '<leader>sw', builtin.grep_string, { desc = '[S]earch current [W]ord' })[m
+[32m+[m[32m    vim.keymap.set('n', '<leader>sd', builtin.diagnostics, { desc = '[S]earch [D]iagnostics' })[m
+[32m+[m[32m    vim.keymap.set('n', '<leader>sc', builtin.commands, { desc = '[S]earch [C]ommands' })[m
+[32m+[m[32m    vim.keymap.set('n', '<leader>sG', builtin.git_files, { desc = '[S]earch [G]it files' })[m
+[32m+[m[32m    vim.keymap.set('n', '<leader>s.', function()[m
+[32m+[m[32m      builtin.oldfiles({ cwd_only = true })[m
+[32m+[m[32m    end, { desc = '[S]earch Recent Files (cwd)' })[m
+[32m+[m[32m    vim.keymap.set('n', '<leader>sR', builtin.resume, { desc = '[S]earch [R]esume' })[m
+[32m+[m[32m    vim.keymap.set('n', '<leader>s:', builtin.command_history, { desc = '[S]earch Command History' })[m
+[32m+[m[32m    vim.keymap.set('n', '<leader>/', function()[m
+[32m+[m[32m      builtin.current_buffer_fuzzy_find(require('telescope.themes').get_dropdown({[m
+[32m+[m[32m        winblend = 10,[m
+[32m+[m[32m        previewer = false,[m
+[32m+[m[32m      }))[m
+[32m+[m[32m    end, { desc = '[/] Fuzzily search in current buffer' })[m
+   end,[m
+ }[m
+[1mdiff --git a/lua/kickstart/plugins/cmp.lua b/lua/kickstart/plugins/cmp.lua[m
+[1mindex 3ded00d..13246c5 100644[m
+[1m--- a/lua/kickstart/plugins/cmp.lua[m
+[1m+++ b/lua/kickstart/plugins/cmp.lua[m
+[36m@@ -1,36 +1,32 @@[m
+[31m--- nvim-cmp: Autocompletion Engine[m
+[31m--- Enhanced version inspired by jonkero9 but styled for Dracula![m
+[31m--- Adds cmdline completion (autocomplete for : commands and / search!)[m
+[32m+[m[32m-- nvim-cmp: CONSENSUS CONFIGURATION[m
+[32m+[m[32m-- Based on: ThePrimeagen, TJ DeVries (kickstart.nvim), folke (LazyVim), community[m
+[32m+[m[32m--[m
+[32m+[m[32m-- Key principles:[m
+[32m+[m[32m-- ✅ DEFAULT performance (no debounce/throttle tweaking)[m
+[32m+[m[32m-- ✅ NO buffer source (performance killer in large files)[m
+[32m+[m[32m-- ✅ <C-y> to accept (community standard)[m
+[32m+[m[32m-- ✅ Minimal sources (LSP, snippets, path only)[m
+ [m
+ return {[m
+   'hrsh7th/nvim-cmp',[m
+[31m-  event = { 'InsertEnter', 'CmdlineEnter' },[m
+[32m+[m[32m  event = 'InsertEnter',[m
+   dependencies = {[m
+[31m-    -- Snippet engine[m
+     {[m
+       'L3MON4D3/LuaSnip',[m
+       build = (function()[m
+[31m-        if vim.fn.has 'win32' == 1 or vim.fn.executable 'make' == 0 then[m
+[31m-          return[m
+[31m-        end[m
+[32m+[m[32m        if vim.fn.has 'win32' == 1 or vim.fn.executable 'make' == 0 then return end[m
+         return 'make install_jsregexp'[m
+       end)(),[m
+       dependencies = {[m
+         {[m
+           'rafamadriz/friendly-snippets',[m
+[31m-          config = function()[m
+[31m-            require('luasnip.loaders.from_vscode').lazy_load()[m
+[31m-          end,[m
+[32m+[m[32m          config = function() require('luasnip.loaders.from_vscode').lazy_load() end,[m
+         },[m
+       },[m
+     },[m
+[31m-[m
+[31m-    -- Completion sources[m
+     'saadparwaiz1/cmp_luasnip',[m
+     'hrsh7th/cmp-nvim-lsp',[m
+     'hrsh7th/cmp-path',[m
+[31m-    'hrsh7th/cmp-buffer',[m
+[31m-    'hrsh7th/cmp-cmdline',  -- jonkero9: cmdline completion![m
+   },[m
+ [m
+   config = function()[m
+[36m@@ -38,135 +34,76 @@[m [mreturn {[m
+     local luasnip = require 'luasnip'[m
+     luasnip.config.setup {}[m
+ [m
+[31m-    -- Completion icons (kind icons)[m
+[31m-    local kind_icons = {[m
+[31m-      Text = '󰉿',[m
+[31m-      Method = '󰆧',[m
+[31m-      Function = '󰊕',[m
+[31m-      Constructor = '',[m
+[31m-      Field = '󰜢',[m
+[31m-      Variable = '󰀫',[m
+[31m-      Class = '󰠱',[m
+[31m-      Interface = '',[m
+[31m-      Module = '',[m
+[31m-      Property = '󰜢',[m
+[31m-      Unit = '󰑭',[m
+[31m-      Value = '󰎠',[m
+[31m-      Enum = '',[m
+[31m-      Keyword = '󰌋',[m
+[31m-      Snippet = '',[m
+[31m-      Color = '󰏘',[m
+[31m-      File = '󰈙',[m
+[31m-      Reference = '󰈇',[m
+[31m-      Folder = '󰉋',[m
+[31m-      EnumMember = '',[m
+[31m-      Constant = '󰏿',[m
+[31m-      Struct = '󰙅',[m
+[31m-      Event = '',[m
+[31m-      Operator = '󰆕',[m
+[31m-      TypeParameter = '',[m
+[31m-    }[m
+[31m-[m
+[31m-    -- Main completion setup[m
+     cmp.setup {[m
+       snippet = {[m
+[31m-        expand = function(args)[m
+[31m-          luasnip.lsp_expand(args.body)[m
+[31m-        end,[m
+[31m-      },[m
+[31m-[m
+[31m-      -- Bordered window (like jonkero9)[m
+[31m-      window = {[m
+[31m-        completion = cmp.config.window.bordered({[m
+[31m-          winhighlight = 'Normal:CmpNormal,FloatBorder:CmpBorder,CursorLine:CmpSel,Search:None',[m
+[31m-        }),[m
+[31m-        documentation = cmp.config.window.bordered({[m
+[31m-          winhighlight = 'Normal:CmpDocNormal,FloatBorder:CmpDocBorder',[m
+[31m-        }),[m
+[32m+[m[32m        expand = function(args) luasnip.lsp_expand(args.body) end,[m
+       },[m
+ [m
+       completion = {[m
+         completeopt = 'menu,menuone,noinsert',[m
+       },[m
+ [m
+[31m-          -- Keybindings[m
+[31m-    mapping = cmp.mapping.preset.insert {[m
+[31m-      -- Navigate completion with Ctrl+j/k (vim style!)[m
+[31m-      ['<C-j>'] = cmp.mapping.select_next_item(),[m
+[31m-      ['<C-k>'] = cmp.mapping.select_prev_item(),[m
+[31m-      ['<C-n>'] = cmp.mapping.select_next_item(),[m
+[31m-      ['<C-p>'] = cmp.mapping.select_prev_item(),[m
+[31m-      ['<C-b>'] = cmp.mapping.scroll_docs(-4),[m
+[31m-      ['<C-f>'] = cmp.mapping.scroll_docs(4),[m
+[31m-      ['<C-Space>'] = cmp.mapping.complete {},[m
+[31m-      ['<C-e>'] = cmp.mapping.abort(),[m
+[31m-      ['<CR>'] = cmp.mapping.confirm { select = true },[m
+[32m+[m[32m      -- CONSENSUS: Use DEFAULT performance (no tweaking)[m
+[32m+[m[32m      -- performance = {[m
+[32m+[m[32m      --   debounce = 60,  -- default[m
+[32m+[m[32m      --   throttle = 30,  -- default[m
+[32m+[m[32m      -- },[m
+ [m
+[31m-      -- Disable arrow keys completely[m
+[31m-      ['<Down>'] = cmp.mapping(function() end, { 'i', 's' }),[m
+[31m-      ['<Up>'] = cmp.mapping(function() end, { 'i', 's' }),[m
+[32m+[m[32m      mapping = cmp.mapping.preset.insert {[m
+[32m+[m[32m        -- Navigate[m
+[32m+[m[32m        ['<C-n>'] = cmp.mapping.select_next_item(),[m
+[32m+[m[32m        ['<C-p>'] = cmp.mapping.select_prev_item(),[m
+[32m+[m[32m        ['<C-j>'] = cmp.mapping.select_next_item(),[m
+[32m+[m[32m        ['<C-k>'] = cmp.mapping.select_prev_item(),[m
+ [m
+[31m-      ['<Tab>'] = cmp.mapping(function(fallback)[m
+[31m-        if cmp.visible() then[m
+[31m-          cmp.select_next_item()[m
+[31m-        elseif luasnip.expand_or_locally_jumpable() then[m
+[31m-          luasnip.expand_or_jump()[m
+[31m-        else[m
+[31m-          fallback()[m
+[31m-        end[m
+[31m-      end, { 'i', 's' }),[m
+[31m-      ['<S-Tab>'] = cmp.mapping(function(fallback)[m
+[31m-        if cmp.visible() then[m
+[31m-          cmp.select_prev_item()[m
+[31m-        elseif luasnip.locally_jumpable(-1) then[m
+[31m-          luasnip.jump(-1)[m
+[31m-        else[m
+[31m-          fallback()[m
+[31m-        end[m
+[31m-      end, { 'i', 's' }),[m
+[31m-    },[m
+[31m-      -- Sources (priority order)[m
+[31m-      sources = cmp.config.sources({[m
+[31m-        { name = 'nvim_lsp' },[m
+[31m-        { name = 'luasnip' },[m
+[31m-        { name = 'path' },[m
+[31m-      }, {[m
+[31m-        { name = 'buffer' },[m
+[31m-      }),[m
+[32m+[m[32m        -- Scroll docs[m
+[32m+[m[32m        ['<C-b>'] = cmp.mapping.scroll_docs(-4),[m
+[32m+[m[32m        ['<C-f>'] = cmp.mapping.scroll_docs(4),[m
+[32m+[m
+[32m+[m[32m        -- Accept completion (CONSENSUS: <C-y>)[m
+[32m+[m[32m        ['<C-y>'] = cmp.mapping.confirm { select = true },[m
+[32m+[m[32m        ['<CR>'] = cmp.mapping.confirm { select = true }, -- Keep Enter too[m
+ [m
+[31m-      -- Formatting with icons[m
+[31m-      formatting = {[m
+[31m-        fields = { 'kind', 'abbr', 'menu' },[m
+[31m-        format = function(entry, item)[m
+[31m-          item.kind = string.format('%s %s', kind_icons[item.kind] or '', item.kind)[m
+[31m-          item.menu = ({[m
+[31m-            nvim_lsp = '[LSP]',[m
+[31m-            luasnip  = '[Snip]',[m
+[31m-            buffer   = '[Buf]',[m
+[31m-            path     = '[Path]',[m
+[31m-            cmdline  = '[CMD]',[m
+[31m-          })[entry.source.name][m
+[31m-          return item[m
+[31m-        end,[m
+[32m+[m[32m        -- Trigger completion[m
+[32m+[m[32m        ['<C-Space>'] = cmp.mapping.complete {},[m
+[32m+[m
+[32m+[m[32m        -- Abort[m
+[32m+[m[32m        ['<C-e>'] = cmp.mapping.abort(),[m
+[32m+[m
+[32m+[m[32m        -- Snippet navigation[m
+[32m+[m[32m        ['<Tab>'] = cmp.mapping(function(fallback)[m
+[32m+[m[32m          if cmp.visible() then[m
+[32m+[m[32m            cmp.select_next_item()[m
+[32m+[m[32m          elseif luasnip.expand_or_locally_jumpable() then[m
+[32m+[m[32m            luasnip.expand_or_jump()[m
+[32m+[m[32m          else[m
+[32m+[m[32m            fallback()[m
+[32m+[m[32m          end[m
+[32m+[m[32m        end, { 'i', 's' }),[m
+[32m+[m
+[32m+[m[32m        ['<S-Tab>'] = cmp.mapping(function(fallback)[m
+[32m+[m[32m          if cmp.visible() then[m
+[32m+[m[32m            cmp.select_prev_item()[m
+[32m+[m[32m          elseif luasnip.locally_jumpable(-1) then[m
+[32m+[m[32m            luasnip.jump(-1)[m
+[32m+[m[32m          else[m
+[32m+[m[32m            fallback()[m
+[32m+[m[32m          end[m
+[32m+[m[32m        end, { 'i', 's' }),[m
+       },[m
+[31m-    }[m
+ [m
+[31m-    -- jonkero9: Search completion (/ and ?)[m
+[31m-    cmp.setup.cmdline({ '/', '?' }, {[m
+[31m-      mapping = cmp.mapping.preset.cmdline(),[m
+[32m+[m[32m      -- CONSENSUS: NO buffer source (performance killer)[m
+       sources = {[m
+[31m-        { name = 'buffer' },[m
+[32m+[m[32m        { name = 'nvim_lsp' },[m
+[32m+[m[32m        { name = 'luasnip' },[m
+[32m+[m[32m        { name = 'path' },[m
+[32m+[m[32m        -- NO buffer source[m
+       },[m
+[31m-    })[m
+ [m
+[31m-    -- jonkero9: Command completion (:)[m
+[31m-    cmp.setup.cmdline(':', {[m
+[31m-      mapping = cmp.mapping.preset.cmdline(),[m
+[31m-      sources = cmp.config.sources({[m
+[31m-        { name = 'path' },[m
+[31m-      }, {[m
+[31m-        { name = 'cmdline' },[m
+[31m-      }),[m
+[31m-    })[m
+[32m+[m[32m      -- Optional: Ghost text (like VSCode)[m
+[32m+[m[32m      experimental = {[m
+[32m+[m[32m        ghost_text = true,[m
+[32m+[m[32m      },[m
+[32m+[m[32m    }[m
+   end,[m
+ }[m
+[1mdiff --git a/lua/kickstart/plugins/lsp.lua b/lua/kickstart/plugins/lsp.lua[m
+[1mindex 3c1cfa6..d09ab98 100644[m
+[1m--- a/lua/kickstart/plugins/lsp.lua[m
+[1m+++ b/lua/kickstart/plugins/lsp.lua[m
+[36m@@ -170,3 +170,4 @@[m [mreturn {[m
+     end,[m
+   },[m
+ }[m
+[41m+[m
+[1mdiff --git a/lua/kickstart/plugins/neo-tree.lua b/lua/kickstart/plugins/neo-tree.lua[m
+[1mindex 1e8f6b0..ee058cb 100644[m
+[1m--- a/lua/kickstart/plugins/neo-tree.lua[m
+[1m+++ b/lua/kickstart/plugins/neo-tree.lua[m
+[36m@@ -2,7 +2,6 @@[m
+ -- Opens on the RIGHT side[m
+ -- <leader>e = toggle explorer[m
+ -- <leader>E = toggle explorer at current working directory[m
+[31m-[m
+ return {[m
+   'nvim-neo-tree/neo-tree.nvim',[m
+   version = '*',[m
+[36m@@ -33,8 +32,6 @@[m [mreturn {[m
+     popup_border_style = 'rounded',[m
+     enable_git_status = true,[m
+     enable_diagnostics = true,[m
+[31m-    [m
+[31m-    -- CRITICAL: Opens on the RIGHT (your code doesn't shift!)[m
+     window = {[m
+       position = 'right',[m
+       width = 35,[m
+[36m@@ -61,7 +58,6 @@[m [mreturn {[m
+         ['q'] = 'close_window',[m
+       },[m
+     },[m
+[31m-    [m
+     filesystem = {[m
+       follow_current_file = {[m
+         enabled = true,[m
+[36m@@ -77,7 +73,6 @@[m [mreturn {[m
+         },[m
+       },[m
+     },[m
+[31m-    [m
+     default_component_configs = {[m
+       git_status = {[m
+         symbols = {[m
