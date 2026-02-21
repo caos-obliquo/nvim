@@ -20,6 +20,7 @@ Built on [Kickstart.nvim](https://github.com/nvim-lua/kickstart.nvim) with a Dra
     │   ├── cmp.lua                 autocompletion
     │   ├── treesitter.lua          syntax + text objects
     │   ├── debug.lua               DAP (Rust, Go, C/C++)
+    │   ├── neo-tree.lua            file explorer (right side)
     │   ├── autopairs.lua
     │   ├── gitsigns.lua
     │   ├── indent_line.lua
@@ -31,15 +32,18 @@ Built on [Kickstart.nvim](https://github.com/nvim-lua/kickstart.nvim) with a Dra
         ├── telescope.lua           fuzzy finder
         ├── harpoon.lua             quick file navigation
         ├── which-key.lua           keybinding hints
+        ├── noice.lua               floating cmdline + notifications
         ├── rust-ide.lua            rustaceanvim + crates.nvim
         ├── conform.lua             formatting (stylua, prettier, gofmt, clang-format...)
         ├── trouble.lua             diagnostics list
+        ├── neotest.lua             test runner
         ├── undotree.lua            visual undo history
         ├── refactoring.lua         extract variable/function/block
         ├── cloak.lua               hide secrets in .env files
         ├── context.lua             show current function at top (disabled for yaml/json/toml)
         ├── devops.lua              YAML/Docker/K8s/Terraform schemas
-        └── extras.lua              LazyGit, hardtime, zen-mode, surround, auto-session, illuminate
+        ├── spectre.lua             project-wide search and replace
+        └── extras.lua              LazyGit, hardtime, zen-mode, surround, illuminate
 ```
 
 ---
@@ -95,6 +99,30 @@ Leader = `Space`
   </tbody>
 </table>
 
+### File Explorer (neo-tree)
+
+<table>
+  <thead>
+    <tr><th>Mode</th><th>Key</th><th>Action</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><kbd>n</kbd></td><td><kbd>&lt;leader&gt;e</kbd></td><td>Toggle file explorer (right)</td></tr>
+    <tr><td><kbd>n</kbd></td><td><kbd>&lt;leader&gt;E</kbd></td><td>Toggle file explorer at cwd</td></tr>
+    <tr><td><kbd>n</kbd></td><td><kbd>h</kbd></td><td>Close node</td></tr>
+    <tr><td><kbd>n</kbd></td><td><kbd>l</kbd> / <kbd>o</kbd> / <kbd>&lt;cr&gt;</kbd></td><td>Open</td></tr>
+    <tr><td><kbd>n</kbd></td><td><kbd>s</kbd></td><td>Open in horizontal split</td></tr>
+    <tr><td><kbd>n</kbd></td><td><kbd>v</kbd></td><td>Open in vertical split</td></tr>
+    <tr><td><kbd>n</kbd></td><td><kbd>t</kbd></td><td>Open in new tab</td></tr>
+    <tr><td><kbd>n</kbd></td><td><kbd>a</kbd> / <kbd>A</kbd></td><td>Add file / directory</td></tr>
+    <tr><td><kbd>n</kbd></td><td><kbd>d</kbd></td><td>Delete</td></tr>
+    <tr><td><kbd>n</kbd></td><td><kbd>r</kbd></td><td>Rename</td></tr>
+    <tr><td><kbd>n</kbd></td><td><kbd>y</kbd> / <kbd>x</kbd> / <kbd>p</kbd></td><td>Copy / cut / paste</td></tr>
+    <tr><td><kbd>n</kbd></td><td><kbd>z</kbd> / <kbd>Z</kbd></td><td>Close all / expand all nodes</td></tr>
+    <tr><td><kbd>n</kbd></td><td><kbd>R</kbd></td><td>Refresh</td></tr>
+    <tr><td><kbd>n</kbd></td><td><kbd>q</kbd></td><td>Close window</td></tr>
+  </tbody>
+</table>
+
 ### LSP
 
 <table>
@@ -112,7 +140,6 @@ Leader = `Space`
     <tr><td><kbd>n</kbd></td><td><kbd>&lt;leader&gt;D</kbd></td><td>Type definition</td></tr>
     <tr><td><kbd>n</kbd></td><td><kbd>&lt;leader&gt;ds</kbd></td><td>Document symbols</td></tr>
     <tr><td><kbd>n</kbd></td><td><kbd>&lt;leader&gt;ws</kbd></td><td>Workspace symbols</td></tr>
-    <tr><td><kbd>n</kbd></td><td><kbd>&lt;leader&gt;E</kbd></td><td>Diagnostic float</td></tr>
     <tr><td><kbd>n</kbd></td><td><kbd>&lt;leader&gt;k</kbd></td><td>Signature help</td></tr>
     <tr><td><kbd>n</kbd></td><td><kbd>]d</kbd> / <kbd>[d</kbd></td><td>Next / prev diagnostic</td></tr>
   </tbody>
@@ -127,7 +154,7 @@ Leader = `Space`
   <tbody>
     <tr><td><kbd>i</kbd></td><td><kbd>&lt;C-j&gt;</kbd> / <kbd>&lt;C-n&gt;</kbd></td><td>Next suggestion</td></tr>
     <tr><td><kbd>i</kbd></td><td><kbd>&lt;C-k&gt;</kbd> / <kbd>&lt;C-p&gt;</kbd></td><td>Previous suggestion</td></tr>
-    <tr><td><kbd>i</kbd></td><td><kbd>&lt;CR&gt;</kbd></td><td>Confirm selection</td></tr>
+    <tr><td><kbd>i</kbd></td><td><kbd>&lt;CR&gt;</kbd> / <kbd>&lt;C-y&gt;</kbd></td><td>Confirm selection</td></tr>
     <tr><td><kbd>i</kbd></td><td><kbd>&lt;C-Space&gt;</kbd></td><td>Force open completion</td></tr>
     <tr><td><kbd>i</kbd></td><td><kbd>&lt;C-e&gt;</kbd></td><td>Abort completion</td></tr>
     <tr><td><kbd>i/s</kbd></td><td><kbd>&lt;Tab&gt;</kbd> / <kbd>&lt;S-Tab&gt;</kbd></td><td>Next / prev item or snippet jump</td></tr>
@@ -153,10 +180,10 @@ Leader = `Space`
     <tr><td><kbd>n</kbd></td><td><kbd>&lt;leader&gt;sk</kbd></td><td>Search keymaps</td></tr>
     <tr><td><kbd>n</kbd></td><td><kbd>&lt;leader&gt;sc</kbd></td><td>Search commands</td></tr>
     <tr><td><kbd>n</kbd></td><td><kbd>&lt;leader&gt;sG</kbd></td><td>Git files</td></tr>
-    <tr><td><kbd>n</kbd></td><td><kbd>&lt;leader&gt;s.</kbd></td><td>Recent files (cwd only)</td></tr>
+    <tr><td><kbd>n</kbd></td><td><kbd>&lt;leader&gt;s.</kbd></td><td>Recent files in cwd</td></tr>
     <tr><td><kbd>n</kbd></td><td><kbd>&lt;leader&gt;sR</kbd></td><td>Resume last search</td></tr>
     <tr><td><kbd>n</kbd></td><td><kbd>&lt;leader&gt;s:</kbd></td><td>Command history</td></tr>
-    <tr><td><kbd>n</kbd></td><td><kbd>&lt;leader&gt;/</kbd></td><td>Search in current buffer</td></tr>
+    <tr><td><kbd>n</kbd></td><td><kbd>&lt;leader&gt;/</kbd></td><td>Fuzzy search in current buffer</td></tr>
   </tbody>
 </table>
 
@@ -169,114 +196,48 @@ Leader = `Space`
   <tbody>
     <tr><td><kbd>n</kbd></td><td><kbd>&lt;leader&gt;a</kbd></td><td>Add file to harpoon</td></tr>
     <tr><td><kbd>n</kbd></td><td><kbd>&lt;C-e&gt;</kbd></td><td>Toggle harpoon menu</td></tr>
-    <tr><td><kbd>n</kbd></td><td><kbd>&lt;leader&gt;fl</kbd></td><td>Harpoon list in Telescope</td></tr>
-    <tr><td><kbd>n</kbd></td><td><kbd>&lt;M-1&gt;</kbd></td><td>Jump to harpoon file 1</td></tr>
-    <tr><td><kbd>n</kbd></td><td><kbd>&lt;M-2&gt;</kbd></td><td>Jump to harpoon file 2</td></tr>
-    <tr><td><kbd>n</kbd></td><td><kbd>&lt;M-3&gt;</kbd></td><td>Jump to harpoon file 3</td></tr>
-    <tr><td><kbd>n</kbd></td><td><kbd>&lt;M-4&gt;</kbd></td><td>Jump to harpoon file 4</td></tr>
-    <tr><td><kbd>n</kbd></td><td><kbd>&lt;C-p&gt;</kbd></td><td>Previous harpoon file</td></tr>
-    <tr><td><kbd>n</kbd></td><td><kbd>&lt;C-n&gt;</kbd></td><td>Next harpoon file</td></tr>
+    <tr><td><kbd>n</kbd></td><td><kbd>&lt;C-h&gt;</kbd></td><td>Jump to file 1</td></tr>
+    <tr><td><kbd>n</kbd></td><td><kbd>&lt;C-t&gt;</kbd></td><td>Jump to file 2</td></tr>
+    <tr><td><kbd>n</kbd></td><td><kbd>&lt;C-n&gt;</kbd></td><td>Jump to file 3</td></tr>
+    <tr><td><kbd>n</kbd></td><td><kbd>&lt;C-s&gt;</kbd></td><td>Jump to file 4</td></tr>
   </tbody>
 </table>
 
-### Debug (DAP)
+### Git (gitsigns)
 
 <table>
   <thead>
     <tr><th>Mode</th><th>Key</th><th>Action</th></tr>
   </thead>
   <tbody>
-    <tr><td><kbd>n</kbd></td><td><kbd>F5</kbd></td><td>Start / continue</td></tr>
-    <tr><td><kbd>n</kbd></td><td><kbd>F1</kbd></td><td>Step into</td></tr>
-    <tr><td><kbd>n</kbd></td><td><kbd>F2</kbd></td><td>Step over</td></tr>
-    <tr><td><kbd>n</kbd></td><td><kbd>F3</kbd></td><td>Step out</td></tr>
-    <tr><td><kbd>n</kbd></td><td><kbd>F7</kbd></td><td>Toggle DAP UI</td></tr>
-    <tr><td><kbd>n</kbd></td><td><kbd>&lt;leader&gt;b</kbd></td><td>Toggle breakpoint</td></tr>
-    <tr><td><kbd>n</kbd></td><td><kbd>&lt;leader&gt;B</kbd></td><td>Conditional breakpoint</td></tr>
-    <tr><td><kbd>n</kbd></td><td><kbd>&lt;leader&gt;dc</kbd></td><td>Continue (leader version)</td></tr>
-    <tr><td><kbd>n</kbd></td><td><kbd>&lt;leader&gt;dC</kbd></td><td>Run to cursor</td></tr>
-    <tr><td><kbd>n</kbd></td><td><kbd>&lt;leader&gt;db</kbd></td><td>Toggle breakpoint (leader version)</td></tr>
-    <tr><td><kbd>n</kbd></td><td><kbd>&lt;leader&gt;dB</kbd></td><td>Conditional breakpoint (leader version)</td></tr>
-    <tr><td><kbd>n</kbd></td><td><kbd>&lt;leader&gt;di</kbd></td><td>Step into (leader version)</td></tr>
-    <tr><td><kbd>n</kbd></td><td><kbd>&lt;leader&gt;do</kbd></td><td>Step over (leader version)</td></tr>
-    <tr><td><kbd>n</kbd></td><td><kbd>&lt;leader&gt;dO</kbd></td><td>Step out (leader version)</td></tr>
-    <tr><td><kbd>n</kbd></td><td><kbd>&lt;leader&gt;dr</kbd></td><td>Open REPL</td></tr>
-    <tr><td><kbd>n</kbd></td><td><kbd>&lt;leader&gt;du</kbd></td><td>Toggle DAP UI (leader version)</td></tr>
-    <tr><td><kbd>n</kbd></td><td><kbd>&lt;leader&gt;de</kbd></td><td>Eval expression</td></tr>
-    <tr><td><kbd>n</kbd></td><td><kbd>&lt;leader&gt;dt</kbd></td><td>Terminate session</td></tr>
-  </tbody>
-</table>
-
-### Git (Gitsigns)
-
-<table>
-  <thead>
-    <tr><th>Mode</th><th>Key</th><th>Action</th></tr>
-  </thead>
-  <tbody>
-    <tr><td><kbd>n</kbd></td><td><kbd>]c</kbd> / <kbd>[c</kbd></td><td>Next / prev git hunk</td></tr>
+    <tr><td><kbd>n</kbd></td><td><kbd>]c</kbd> / <kbd>[c</kbd></td><td>Next / prev git change</td></tr>
     <tr><td><kbd>n/v</kbd></td><td><kbd>&lt;leader&gt;hs</kbd></td><td>Stage hunk</td></tr>
     <tr><td><kbd>n/v</kbd></td><td><kbd>&lt;leader&gt;hr</kbd></td><td>Reset hunk</td></tr>
     <tr><td><kbd>n</kbd></td><td><kbd>&lt;leader&gt;hS</kbd></td><td>Stage buffer</td></tr>
-    <tr><td><kbd>n</kbd></td><td><kbd>&lt;leader&gt;hR</kbd></td><td>Reset buffer</td></tr>
     <tr><td><kbd>n</kbd></td><td><kbd>&lt;leader&gt;hu</kbd></td><td>Undo stage hunk</td></tr>
+    <tr><td><kbd>n</kbd></td><td><kbd>&lt;leader&gt;hR</kbd></td><td>Reset buffer</td></tr>
     <tr><td><kbd>n</kbd></td><td><kbd>&lt;leader&gt;hp</kbd></td><td>Preview hunk</td></tr>
     <tr><td><kbd>n</kbd></td><td><kbd>&lt;leader&gt;hb</kbd></td><td>Blame line</td></tr>
     <tr><td><kbd>n</kbd></td><td><kbd>&lt;leader&gt;hd</kbd></td><td>Diff against index</td></tr>
     <tr><td><kbd>n</kbd></td><td><kbd>&lt;leader&gt;hD</kbd></td><td>Diff against last commit</td></tr>
-    <tr><td><kbd>n</kbd></td><td><kbd>&lt;leader&gt;tb</kbd></td><td>Toggle inline blame</td></tr>
-    <tr><td><kbd>n</kbd></td><td><kbd>&lt;leader&gt;tD</kbd></td><td>Toggle deleted preview</td></tr>
+    <tr><td><kbd>n</kbd></td><td><kbd>&lt;leader&gt;tb</kbd></td><td>Toggle git blame</td></tr>
+    <tr><td><kbd>n</kbd></td><td><kbd>&lt;leader&gt;gg</kbd></td><td>Open LazyGit</td></tr>
   </tbody>
 </table>
 
-### Treesitter
+### DAP (Debug)
 
 <table>
   <thead>
     <tr><th>Mode</th><th>Key</th><th>Action</th></tr>
   </thead>
   <tbody>
-    <tr><td><kbd>n</kbd></td><td><kbd>gnn</kbd></td><td>Start incremental selection</td></tr>
-    <tr><td><kbd>n</kbd></td><td><kbd>grn</kbd></td><td>Expand selection by node</td></tr>
-    <tr><td><kbd>n</kbd></td><td><kbd>grc</kbd></td><td>Expand selection by scope</td></tr>
-    <tr><td><kbd>n</kbd></td><td><kbd>grm</kbd></td><td>Shrink selection</td></tr>
-    <tr><td><kbd>n/v</kbd></td><td><kbd>af</kbd> / <kbd>if</kbd></td><td>Select around / inside function</td></tr>
-    <tr><td><kbd>n/v</kbd></td><td><kbd>ac</kbd> / <kbd>ic</kbd></td><td>Select around / inside class</td></tr>
-    <tr><td><kbd>n/v</kbd></td><td><kbd>aa</kbd> / <kbd>ia</kbd></td><td>Select around / inside parameter</td></tr>
-    <tr><td><kbd>n</kbd></td><td><kbd>]f</kbd> / <kbd>[f</kbd></td><td>Next / prev function</td></tr>
-    <tr><td><kbd>n</kbd></td><td><kbd>]m</kbd> / <kbd>[m</kbd></td><td>Next / prev class</td></tr>
-    <tr><td><kbd>n</kbd></td><td><kbd>&lt;leader&gt;sp</kbd></td><td>Swap parameter forward</td></tr>
-    <tr><td><kbd>n</kbd></td><td><kbd>&lt;leader&gt;sP</kbd></td><td>Swap parameter backward</td></tr>
-  </tbody>
-</table>
-
-### Surround (nvim-surround)
-
-<table>
-  <thead>
-    <tr><th>Mode</th><th>Key</th><th>Action</th></tr>
-  </thead>
-  <tbody>
-    <tr><td><kbd>n</kbd></td><td><kbd>ysiw"</kbd></td><td>Wrap word in double quotes</td></tr>
-    <tr><td><kbd>n</kbd></td><td><kbd>ysiw)</kbd></td><td>Wrap word in parentheses</td></tr>
-    <tr><td><kbd>n</kbd></td><td><kbd>yss)</kbd></td><td>Wrap entire line in parentheses</td></tr>
-    <tr><td><kbd>n</kbd></td><td><kbd>cs"'</kbd></td><td>Change surrounding " to '</td></tr>
-    <tr><td><kbd>n</kbd></td><td><kbd>ds"</kbd></td><td>Delete surrounding "</td></tr>
-    <tr><td><kbd>v</kbd></td><td><kbd>S"</kbd></td><td>Wrap selection in double quotes</td></tr>
-  </tbody>
-</table>
-
-### Refactoring
-
-<table>
-  <thead>
-    <tr><th>Mode</th><th>Key</th><th>Action</th></tr>
-  </thead>
-  <tbody>
-    <tr><td><kbd>x</kbd></td><td><kbd>&lt;leader&gt;re</kbd></td><td>Extract function</td></tr>
-    <tr><td><kbd>x</kbd></td><td><kbd>&lt;leader&gt;rv</kbd></td><td>Extract variable</td></tr>
-    <tr><td><kbd>n/x</kbd></td><td><kbd>&lt;leader&gt;ri</kbd></td><td>Inline variable</td></tr>
-    <tr><td><kbd>n</kbd></td><td><kbd>&lt;leader&gt;rb</kbd></td><td>Extract block</td></tr>
+    <tr><td><kbd>n</kbd></td><td><kbd>&lt;F5&gt;</kbd></td><td>Start / continue</td></tr>
+    <tr><td><kbd>n</kbd></td><td><kbd>&lt;F1&gt;</kbd></td><td>Step into</td></tr>
+    <tr><td><kbd>n</kbd></td><td><kbd>&lt;F2&gt;</kbd></td><td>Step over</td></tr>
+    <tr><td><kbd>n</kbd></td><td><kbd>&lt;F3&gt;</kbd></td><td>Step out</td></tr>
+    <tr><td><kbd>n</kbd></td><td><kbd>&lt;leader&gt;b</kbd></td><td>Toggle breakpoint</td></tr>
+    <tr><td><kbd>n</kbd></td><td><kbd>&lt;leader&gt;B</kbd></td><td>Set conditional breakpoint</td></tr>
   </tbody>
 </table>
 
