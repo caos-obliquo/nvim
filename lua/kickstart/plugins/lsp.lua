@@ -151,6 +151,8 @@ return {
           -- Actions
           map('<leader>ca', vim.lsp.buf.code_action, 'Code Action')
           map('<leader>rn', vim.lsp.buf.rename, 'Rename')
+          map('<leader>ci', vim.lsp.buf.incoming_calls, 'Incoming Calls')
+          map('<leader>cO', vim.lsp.buf.outgoing_calls, 'Outgoing Calls')
 
           -- Documentation
           map('K', vim.lsp.buf.hover, 'Hover Docs')
