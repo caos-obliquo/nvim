@@ -49,6 +49,8 @@ return {
           'dockerls',
           'html',
           'eslint',
+          'cssls',
+          'angularls',
         },
         automatic_installation = true,
       }
@@ -123,6 +125,8 @@ return {
       vim.lsp.enable 'terraformls'
       vim.lsp.enable 'dockerls'
       vim.lsp.enable 'html'
+      vim.lsp.enable 'cssls'
+      vim.lsp.enable 'angularls'
       vim.lsp.enable 'eslint'
 
       -- Keybindings on LSP attach
