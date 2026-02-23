@@ -7,6 +7,21 @@ vim.g.maplocalleader = ' '
 
 vim.g.have_nerd_font = true
 
+-- Force .env files to config filetype (never sh)
+vim.filetype.add({
+  pattern = {
+    ['.*%.env.*'] = 'config',
+    ['%.env'] = 'config',
+  },
+})
+
+vim.api.nvim_create_autocmd({ 'BufRead', 'BufNewFile' }, {
+  pattern = { '.env', '.env.*', '*.env' },
+  callback = function()
+    vim.bo.filetype = 'config'
+  end,
+})
+
 vim.g.loaded_perl_provider = 0
 vim.g.loaded_ruby_provider = 0
 
