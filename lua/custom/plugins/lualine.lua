@@ -219,7 +219,7 @@ return {
                 modified = { fg = colors.orange },
                 removed = { fg = colors.red },
               },
-              symbols = { added = ' ', modified = ' ', removed = ' ' },
+              symbols = { added = ' ', modified = ' ', removed = ' ' },
             },
           },
           lualine_c = {
