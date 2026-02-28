@@ -110,10 +110,35 @@ return {
       local function lsp_clients()
         local clients = vim.lsp.get_clients { bufnr = 0 }
         if #clients == 0 then return '' end
-
+        local skip = {
+          stylua = true,
+          ruff = true,
+          ruff_lsp = true,
+          lua_ls = true,
+          rust_analyzer = true, ["rust-analyzer"] = true,
+          ts_ls = true,
+          pyright = true,
+          gopls = true,
+          clangd = true,
+          zls = true,
+          yamlls = true,
+          bashls = true,
+          ['bash-language-server'] = true,
+          jsonls = true,
+          terraformls = true,
+          dockerls = true,
+          html = true,
+          eslint = true,
+          cssls = true,
+          angularls = true,
+          jdtls = true,
+          ['null-ls'] = true,
+          ['none-ls'] = true,
+        }
         local client_names = {}
         for _, client in ipairs(clients) do
           local name = client.name
+          if skip[name] then goto continue end
           if name == 'rust_analyzer' then
             name = 'rust-analyzer'
           elseif name == 'typescript-tools' or name == 'tsserver' then
@@ -124,28 +149,25 @@ return {
             name = 'lua'
           elseif name == 'gopls' then
             name = 'go'
-          elseif name == 'clangd' then
-            local ft = vim.bo.filetype
-            if ft == 'c' then
-              name = 'c'
-            elseif ft == 'cpp' then
-              name = 'c++'
-            else
-              name = 'clangd'
-            end
           elseif name == 'yamlls' then
             name = 'yaml'
           elseif name == 'bashls' or name == 'bash-language-server' then
             name = 'bash'
           elseif name == 'zls' then
             name = 'zig'
+          elseif name == 'clangd' then
+            local ft = vim.bo.filetype
+            if ft == 'c' then
+              name = 'c'
+            elseif ft == 'cpp' then
+              name = 'c++'
+            end
           end
-          table.insert(client_names, name)
+          if not vim.tbl_contains(client_names, name) then table.insert(client_names, name) end
+          ::continue::
         end
         return '  ' .. table.concat(client_names, ' ')
       end
-
-      -- Custom filetype with PROPER Nerd Font icons from cheat sheet
       local function filetype_with_icon()
         local filetype = vim.bo.filetype
         if filetype == '' then return '' end
@@ -161,6 +183,12 @@ return {
           lua = '', -- nf-seti-lua
           c = '', -- nf-dev-c
           cpp = '', -- nf-dev-cplusplus
+          java = '', -- nf-dev-java
+          kotlin = '', -- nf-custom-kotlin
+          scala = '', -- nf-dev-scala
+          ruby = '', -- nf-dev-ruby
+          php = '', -- nf-dev-php
+          swift = '', -- nf-dev-swift
 
           -- Additional languages
           yaml = '', -- nf-dev-yaml
@@ -168,7 +196,7 @@ return {
           helm = '', -- helm symbol
           sh = '', -- nf-dev-terminal
           bash = '', -- nf-dev-terminal
-          zsh = '%_', -- nf-dev-terminal
+          zsh = '󱆃', --custom-icon
           zig = '', -- nf-seti-zig
 
           -- Common extras
@@ -181,12 +209,22 @@ return {
           css = '', -- nf-dev-css3
           dockerfile = '', -- nf-dev-docker
           gitcommit = '', -- nf-dev-git
+
+          ini = ' ', -- nf-cod-settings-gear
+          config = ' ', -- nf-cod-settings-gear
+          conf = ' ', -- nf-cod-settings-gear
+          h = ' ', -- nf-cod-symbol-misc
+          c_header = ' ', -- nf-cod-symbol-misc
+          sql = ' ', -- nf-dev-database
+          xml = '󰗀 ', -- nf-md-xml
+          terraform = '', -- nf-seti-terraform
+          tf = '', -- nf-seti-terraform
         }
 
         local icon = nerd_icons[filetype]
 
         if icon then return icon .. ' ' .. filetype end
-        return filetype
+        return ''
       end
 
       require('lualine').setup {
