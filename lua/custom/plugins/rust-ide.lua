@@ -1,15 +1,7 @@
--- Modern Rust IDE setup using rustaceanvim
--- Replaces deprecated rust-tools.nvim for nvim 0.11+
---
--- Features:
--- - Full rust-analyzer integration
--- - DAP debugging support
--- - Crates.io integration
--- - Inlay hints
--- - Run/debug runnables
+-- rust ide via rustaceanvim (replaces rust-tools)
 
 return {
-  -- Modern Rust tooling (replaces rust-tools)
+  -- rust tooling via rustaceanvim
   {
     'mrcjkb/rustaceanvim',
     version = '^5',
@@ -18,7 +10,7 @@ return {
       vim.g.rustaceanvim = {
         server = {
           on_attach = function(client, bufnr)
-            -- Rust-specific keymaps
+            -- rust-specific keymaps
             local map = function(keys, func, desc)
               vim.keymap.set('n', keys, func, { buffer = bufnr, desc = 'Rust: ' .. desc })
             end
@@ -58,7 +50,7 @@ return {
     end,
   },
   
-  -- Crates.io integration
+  -- crates.io integration
   {
     'saecki/crates.nvim',
     event = { 'BufRead Cargo.toml' },

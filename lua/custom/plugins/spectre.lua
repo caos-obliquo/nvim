@@ -1,4 +1,4 @@
--- Spectre: Search and replace across files
+-- spectre: search and replace across files
 return {
   'nvim-pack/nvim-spectre',
   cmd = 'Spectre',

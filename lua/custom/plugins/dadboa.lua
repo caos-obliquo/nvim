@@ -1,9 +1,4 @@
--- Dadbod: Database client for MySQL, PostgreSQL, SQLite, MongoDB, Redis
--- Query databases directly from Neovim like DataGrip
---
--- Keybindings:
--- <leader>db = Toggle DB UI
--- <leader>dq = Execute query (visual mode)
+-- dadbod: database client (mysql, postgresql, sqlite, mongodb, redis)
 
 return {
   {
@@ -23,7 +18,7 @@ return {
       'DBUIFindBuffer',
     },
     init = function()
-      -- Database UI settings
+      -- database ui settings
       vim.g.db_ui_use_nerd_fonts = 1
       vim.g.db_ui_show_database_icon = 1
       vim.g.db_ui_force_echo_notifications = 1
@@ -41,16 +36,16 @@ return {
         },
       }
 
-      -- Auto-execute on save (optional, set to 0 to disable)
+      -- auto-execute on save (optional, set to 0 to disable)
       vim.g.db_ui_auto_execute_table_helpers = 1
 
-      -- Use Telescope for DB selection (if available)
+      -- use nvim notify for db messages
       vim.g.db_ui_use_nvim_notify = 1
 
-      -- Saved queries directory
+      -- saved queries directory
       vim.g.db_ui_save_location = vim.fn.stdpath 'data' .. '/db_ui'
 
-      -- Icons
+      -- icons
       vim.g.db_ui_icons = {
         expanded = {
           db = '▾ ',
@@ -91,7 +86,7 @@ return {
     dependencies = 'vim-dadbod',
     ft = { 'sql', 'mysql', 'plsql' },
     init = function()
-      -- Auto-complete for SQL
+      -- auto-complete for sql
       vim.api.nvim_create_autocmd('FileType', {
         pattern = { 'sql', 'mysql', 'plsql' },
         callback = function()

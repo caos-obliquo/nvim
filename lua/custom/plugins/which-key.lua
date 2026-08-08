@@ -1,15 +1,15 @@
--- Which-key: Shows all keybindings beautifully
+-- which-key: shows all keybindings
 return {
   'folke/which-key.nvim',
   event = 'VeryLazy',
   opts = {
     preset = 'modern',
     spec = {
-      -- ── File/Explorer ──────────────────────────────────────────────────
+      -- file/explorer
       { '<leader>e', desc = '󰙅 Explorer' },
       { '<leader>E', desc = '󰙅 Explorer (cwd)' },
 
-      -- ── Search (Telescope) ─────────────────────────────────────────────
+      -- search (telescope)
       { '<leader>s', group = ' [S]earch' },
       { '<leader>sf', desc = ' Files' },
       { '<leader>sg', desc = ' Grep' },
@@ -28,7 +28,7 @@ return {
       { '<leader>sP', desc = '󰳔 Swap parameter prev', mode = { 'n', 'x' } },
       { '<leader>/', desc = '󰱼 Search in buffer' },
 
-      -- ── LSP / Code ─────────────────────────────────────────────────────
+      -- lsp / code
       { '<leader>c', group = ' [C]ode' },
       { '<leader>ca', desc = '󰌵 Code Action', mode = { 'n', 'v' } },
       { '<leader>ci', desc = '󰏷 Incoming Calls' },
@@ -48,21 +48,21 @@ return {
       { '[d', desc = '󰒮 Previous Diagnostic' },
       { ']d', desc = '󰒭 Next Diagnostic' },
 
-      -- ── Java (jdtls) ───────────────────────────────────────────────────
+      -- java (jdtls)
       { '<leader>co', desc = '󰒻 Java: Organize Imports' },
       { '<leader>cx', group = '󰬺 Java Extract' },
       { '<leader>cxv', desc = '󰫧 Extract Variable' },
       { '<leader>cxc', desc = '󰏿 Extract Constant' },
       { '<leader>cxm', desc = '󰊕 Extract Method', mode = 'v' },
 
-      -- ── Refactoring ────────────────────────────────────────────────────
+      -- refactoring
       { '<leader>r', group = '󰊕 [R]ust / Refactor' },
       { '<leader>re', desc = '󰬺 Extract Function', mode = 'x' },
       { '<leader>rv', desc = '󰫧 Extract Variable', mode = 'x' },
       { '<leader>ri', desc = '󰳤 Inline Variable', mode = { 'n', 'x' } },
       { '<leader>rb', desc = '󰬺 Extract Block' },
 
-      -- ── Rust (rustaceanvim) ────────────────────────────────────────────
+      -- rust (rustaceanvim)
       { '<leader>rr', desc = ' Rust: Runnables' },
       { '<leader>rd', desc = ' Rust: Debuggables' },
       { '<leader>re', desc = '󰐕 Rust: Expand Macro' },
@@ -71,19 +71,19 @@ return {
       { '<leader>rj', desc = '󰗈 Rust: Join Lines' },
       { '<leader>ra', desc = '󰌵 Rust: Code Action' },
 
-      -- ── Crates.io ──────────────────────────────────────────────────────
+      -- crates.io
       { '<leader>ct', desc = '󰏗 Crates: Toggle' },
       { '<leader>cr', desc = '󰑓 Crates: Reload' },
       { '<leader>cu', desc = '󰚰 Crates: Update' },
       { '<leader>cU', desc = '󰫢 Crates: Upgrade' },
       { '<leader>ca', desc = '󰚰 Crates: Update All' },
 
-      -- ── Format ─────────────────────────────────────────────────────────
+      -- format
       { '<leader>f', group = '󰉶 [F]ormat / Find' },
       { '<leader>ff', desc = '󰉶 Format buffer' },
       { '<leader>fl', desc = '󱡀 Harpoon List' },
 
-      -- ── Debug (DAP) ────────────────────────────────────────────────────
+      -- debug (dap)
       { '<leader>d', group = ' [D]ebug' },
       { '<leader>db', desc = '󰃤 Toggle Breakpoint' },
       { '<leader>dB', desc = '󰃤 Conditional Breakpoint' },
@@ -98,18 +98,18 @@ return {
       { '<leader>du', desc = '󰃢 UI' },
       { '<leader>de', desc = '󰎔 Eval' },
 
-      -- ── Git ────────────────────────────────────────────────────────────
+      -- git
       { '<leader>g', group = '󰊢 [G]it' },
       { '<leader>gg', desc = '󰊢 LazyGit' },
       { '<leader>h', group = '󰊢 Git [H]unk', mode = { 'n', 'v' } },
 
-      -- ── Trouble ────────────────────────────────────────────────────────
+      -- trouble
       { '<leader>x', group = '󰒡 Trouble' },
       { '<leader>xq', desc = '󰁨 Quickfix list' },
       { '<leader>xd', desc = ' Diagnostics' },
       { '<leader>xl', desc = '󰁨 Location list' },
 
-      -- ── Harpoon ────────────────────────────────────────────────────────
+      -- harpoon
       { '<leader>a', desc = '󱡀 Harpoon Add' },
       { '<C-e>', desc = '󱡀 Harpoon Menu' },
       { '<M-1>', desc = '󱡀 Harpoon File 1' },
@@ -119,14 +119,14 @@ return {
       { '<C-p>', desc = '󱡀 Harpoon Prev' },
       { '<C-n>', desc = '󱡀 Harpoon Next' },
 
-      -- ── Toggle ─────────────────────────────────────────────────────────
+      -- toggle
       { '<leader>t', group = '󰔡 [T]oggle' },
 
-      -- ── Write / Save ───────────────────────────────────────────────────
+      -- write / save
       { '<leader>w', group = '󰉋 [W]rite' },
       { '<leader>ss', desc = '󰆓 Save file' },
 
-      -- ── Utilities ──────────────────────────────────────────────────────
+      -- utilities
       { '<leader>u', desc = '󰕍 Undotree' },
       { '<leader>z', desc = ' Zen Mode' },
       { '<leader>x', desc = ' Make executable' },
@@ -134,13 +134,13 @@ return {
       { '<leader>Y', desc = '󰅍 Yank line to clipboard' },
       { '<leader>p', desc = '󰅌 Paste without losing register', mode = 'x' },
 
-      -- ── Quickfix / Location ────────────────────────────────────────────
+      -- quickfix / location
       { ']q', desc = '󰒭 Next quickfix' },
       { '[q', desc = '󰒮 Prev quickfix' },
       { ']l', desc = '󰒭 Next location' },
       { '[l', desc = '󰒮 Prev location' },
 
-      -- ── Treesitter navigation ──────────────────────────────────────────
+      -- treesitter navigation
       { ']f', desc = '󰊕 Next function' },
       { '[f', desc = '󰊕 Prev function' },
       { ']m', desc = '󰅩 Next class' },
@@ -150,7 +150,7 @@ return {
       { 'grc', desc = '󰗇 Increment scope' },
       { 'grm', desc = '󰗅 Decrement node' },
 
-      -- ── Quick access ───────────────────────────────────────────────────
+      -- quick access
       { '<leader><leader>', desc = '󰈞 Find Files' },
     },
   },

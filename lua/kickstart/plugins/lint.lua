@@ -6,21 +6,21 @@ return {
       local lint = require 'lint'
 
       lint.linters_by_ft = {
-        -- Markup / Config
+        -- markup / config
         markdown = { 'markdownlint' },
         yaml = { 'yamllint' },
         json = { 'jsonlint' },
 
-        -- Infrastructure
+        -- infrastructure
         dockerfile = { 'hadolint' },
         terraform = { 'tflint' },
 
-        -- Shell
+        -- shell
         bash = { 'shellcheck' },
         sh = { 'shellcheck' },
         zsh = { 'shellcheck' },
 
-        -- Web
+        -- web
         javascript = { 'eslint_d' },
         typescript = { 'eslint_d' },
         javascriptreact = { 'eslint_d' },
@@ -28,28 +28,28 @@ return {
         html = { 'htmlhint' },
         css = { 'stylelint' },
 
-        -- Python
+        -- python
         python = { 'ruff' },
 
-        -- Systems
+        -- systems
         rust = { 'clippy' }, -- uses cargo clippy, no Mason needed
         zig = { 'zlint' },
 
-        -- C / C++ (GNU style)
+        -- c / c++ (gnu style)
         c = { 'cpplint', 'cppcheck' },
         cpp = { 'cpplint', 'cppcheck' },
 
-        -- JVM
+        -- jvm
         java = { 'pmd' }, -- bug/error focused, no style enforcement
 
-        -- Go
+        -- go
         go = { 'golangcilint' },
 
-        -- Lua
+        -- lua
         lua = { 'luacheck' },
       }
 
-      -- cpplint: configure for GNU style
+      -- cpplint: configure for gnu style
       lint.linters.cpplint = vim.tbl_deep_extend('force', lint.linters.cpplint or {}, {
         args = {
           '--filter=-legal/copyright,-build/include_subdir',
@@ -57,8 +57,8 @@ return {
         },
       })
 
-      -- Trigger linting on these events
-      -- Note: clippy (rust) is slow so it only runs on save
+      -- trigger linting on these events
+      -- note: clippy (rust) is slow so it only runs on save
       local lint_augroup = vim.api.nvim_create_augroup('lint', { clear = true })
 
       vim.api.nvim_create_autocmd('BufWritePost', {

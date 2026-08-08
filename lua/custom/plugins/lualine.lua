@@ -3,7 +3,7 @@ return {
     'nvim-lualine/lualine.nvim',
     dependencies = { 'nvim-tree/nvim-web-devicons' },
     config = function()
-      -- Dracula colors
+      -- dracula colors
       local colors = {
         bg = '#282a36',
         fg = '#f8f8f2',
@@ -52,7 +52,7 @@ return {
         },
       }
 
-      -- FULL mode names (you have space!)
+      -- full mode names (with space)
       local function mode_fullname()
         local mode_map = {
           ['n'] = 'NORMAL',
@@ -97,7 +97,7 @@ return {
         return mode_map[mode] or mode:upper()
       end
 
-      -- DAP status
+      -- dap status
       local function dap_status()
         local ok, dap = pcall(require, 'dap')
         if not ok then return '' end
@@ -106,7 +106,7 @@ return {
         return ''
       end
 
-      -- LSP clients
+      -- lsp clients
       local function lsp_clients()
         local clients = vim.lsp.get_clients { bufnr = 0 }
         if #clients == 0 then return '' end
@@ -172,9 +172,9 @@ return {
         local filetype = vim.bo.filetype
         if filetype == '' then return '' end
 
-        -- Nerd Font icons from https://www.nerdfonts.com/cheat-sheet
+        -- nerd font icons from https://www.nerdfonts.com/cheat-sheet
         local nerd_icons = {
-          -- Your main languages
+          -- main languages
           rust = '', -- nf-dev-rust
           python = '', -- nf-dev-python
           javascript = '', -- nf-dev-javascript
@@ -190,7 +190,7 @@ return {
           php = '', -- nf-dev-php
           swift = '', -- nf-dev-swift
 
-          -- Additional languages
+          -- additional languages
           yaml = '', -- nf-dev-yaml
           yml = '', -- nf-dev-yaml
           helm = '', -- helm symbol
@@ -199,7 +199,7 @@ return {
           zsh = '󱆃', --custom-icon
           zig = '', -- nf-seti-zig
 
-          -- Common extras
+          -- common extras
           json = '', -- nf-seti-json
           toml = '', -- nf-seti-config
           markdown = '', -- nf-dev-markdown
@@ -235,7 +235,7 @@ return {
           globalstatus = false,
         },
         sections = {
-          -- Left side
+          -- left side
           lualine_a = {
             {
               mode_fullname,
@@ -245,7 +245,7 @@ return {
           lualine_b = {
             {
               'branch',
-              icon = '', -- Proper git branch icon from Nerd Fonts
+              icon = '', -- proper git branch icon from nerd fonts
               color = { fg = colors.purple, gui = 'bold' },
               padding = { left = 1, right = 1 },
             },
@@ -292,7 +292,7 @@ return {
             },
           },
 
-          -- Right side
+          -- right side
           lualine_x = {
             {
               dap_status,
@@ -337,7 +337,7 @@ return {
           lualine_z = {
             {
               'location',
-              padding = { left = 0, right = 1 }, -- Compact! No left padding
+              padding = { left = 0, right = 1 }, -- compact, no left padding
             },
           },
         },

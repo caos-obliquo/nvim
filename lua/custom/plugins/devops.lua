@@ -1,35 +1,35 @@
--- DevOps-focused plugins for YAML, JSON, Docker, K8s
+-- devops plugins: yaml, json, docker, k8s
 return {
-  -- YAML/JSON support
+  -- yaml/json support
   {
-    'b0o/schemastore.nvim', -- JSON schemas for Kubernetes, etc
+    'b0o/schemastore.nvim', -- json schemas for kubernetes, etc
   },
 
-  -- Helm support
+  -- helm support
   {
     'towolf/vim-helm',
     ft = 'helm',
   },
 
-  -- Docker/Podman
+  -- docker/podman
   {
     'ekalinin/Dockerfile.vim',
     ft = 'Dockerfile',
   },
 
-  -- Kubernetes
+  -- kubernetes
   {
     'andrewstuart/vim-kubernetes',
     ft = { 'yaml', 'yml' },
   },
 
-  -- Better YAML folding and view
+  -- better yaml folding and view
   {
     'pedrohdz/vim-yaml-folds',
     ft = { 'yaml', 'yml' },
   },
 
-  -- CloudFormation/Terraform (bonus for multi-cloud)
+  -- cloudformation/terraform
   {
     'hashivim/vim-terraform',
     ft = 'terraform',

@@ -1,4 +1,4 @@
--- Disable netrw completely (neo-tree handles directories)
+-- disable netrw completely (neo-tree handles directories)
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 
@@ -7,7 +7,7 @@ vim.g.maplocalleader = ' '
 
 vim.g.have_nerd_font = true
 
--- Force .env files to config filetype (never sh)
+-- force .env files to config filetype (never sh)
 vim.filetype.add({
   pattern = {
     ['.*%.env.*'] = 'config',
@@ -27,7 +27,7 @@ vim.g.loaded_ruby_provider = 0
 
 vim.g.python3_host_prog = '/usr/bin/python3'
 
--- Options
+-- options
 vim.o.number = true
 vim.o.relativenumber = true
 vim.o.mouse = 'a'
@@ -53,112 +53,112 @@ vim.o.softtabstop = 4
 vim.o.expandtab = true
 vim.o.smartindent = true
 
--- No swap or backup - undo history handles this
+-- no swap or backup - undo history handles this
 vim.o.swapfile = false
 vim.o.backup = false
 
--- Search
+-- search
 vim.o.hlsearch = false
 vim.o.incsearch = true
 
--- No line wrap
+-- no line wrap
 vim.o.wrap = false
 
--- Block cursor in all modes
+-- block cursor in all modes
 vim.opt.guicursor = ''
 
--- Terminal colors
+-- terminal colors
 vim.o.termguicolors = true
 
--- Gap fix: remove gap between nvim and tmux
+-- gap fix: remove gap between nvim and tmux
 vim.opt.showmode = false
 vim.opt.cmdheight = 0
 vim.opt.laststatus = 2
 vim.opt.ruler = false
 
--- Keymaps
+-- keymaps
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
 vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
 
--- Window navigation
+-- window navigation
 vim.keymap.set('n', '<C-h>', '<C-w><C-h>')
 vim.keymap.set('n', '<C-l>', '<C-w><C-l>')
 vim.keymap.set('n', '<C-j>', '<C-w><C-j>')
 vim.keymap.set('n', '<C-k>', '<C-w><C-k>')
 
--- Keep cursor centered when scrolling and searching
+-- keep cursor centered when scrolling and searching
 vim.keymap.set('n', '<C-d>', '<C-d>zz')
 vim.keymap.set('n', '<C-u>', '<C-u>zz')
 vim.keymap.set('n', 'n', 'nzzzv')
 vim.keymap.set('n', 'N', 'Nzzzv')
 
--- Move selected lines up and down
+-- move selected lines up and down
 vim.keymap.set('v', 'J', ":m '>+1<CR>gv=gv")
 vim.keymap.set('v', 'K', ":m '<-2<CR>gv=gv")
 
--- Join lines without moving cursor
+-- join lines without moving cursor
 vim.keymap.set('n', 'J', 'mzJ`z')
 
--- Yank to system clipboard explicitly
+-- yank to system clipboard explicitly
 vim.keymap.set({ 'n', 'v' }, '<leader>y', [["+y]])
 vim.keymap.set('n', '<leader>Y', [["+Y]])
 
--- Delete to void register (keeps clipboard intact)
+-- delete to void register (keeps clipboard intact)
 vim.keymap.set({ 'n', 'v' }, '<leader>d', [["_d]])
 
--- Paste without losing register
+-- paste without losing register
 vim.keymap.set('x', '<leader>p', [["_dP]])
 
--- C-c as Escape in insert mode
+-- c-c as escape in insert mode
 vim.keymap.set('i', '<C-c>', '<Esc>')
 
--- Disable Ex mode
+-- disable ex mode
 vim.keymap.set('n', 'Q', '<nop>')
 
--- Search and replace word under cursor
+-- search and replace word under cursor
 vim.keymap.set('n', '<leader>s', [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
 
--- Make current file executable
+-- make current file executable
 vim.keymap.set('n', '<leader>x', '<cmd>!chmod +x %<CR>', { silent = true })
 
--- Quick save
+-- quick save
 vim.keymap.set('n', '<leader>ss', '<cmd>write<cr>')
 
--- Restart LSP when it gets stuck
+-- restart lsp when it gets stuck
 vim.keymap.set('n', '<leader>zig', '<cmd>LspRestart<cr>')
 
--- Auto-format paragraph keeping cursor position
+-- auto-format paragraph keeping cursor position
 vim.keymap.set('n', '=ap', "ma=ap'a")
 
--- Quickfix list navigation
+-- quickfix list navigation
 vim.keymap.set('n', ']q', '<cmd>cnext<CR>zz')
 vim.keymap.set('n', '[q', '<cmd>cprev<CR>zz')
 
--- Location list navigation
+-- location list navigation
 vim.keymap.set('n', ']l', '<cmd>lnext<CR>zz')
 vim.keymap.set('n', '[l', '<cmd>lprev<CR>zz')
 
--- Diagnostics
+-- diagnostics
 vim.diagnostic.config {
   severity_sort = true,
   float = { border = 'rounded', source = 'if_many' },
   virtual_text = true,
 }
 
--- Highlight on yank
+-- highlight on yank
 vim.api.nvim_create_autocmd('TextYankPost', {
   group = vim.api.nvim_create_augroup('kickstart-highlight-yank', { clear = true }),
   callback = function() vim.hl.on_yank() end,
 })
 
--- Remove trailing whitespace on save
+-- remove trailing whitespace on save
 vim.api.nvim_create_autocmd('BufWritePre', {
   group = vim.api.nvim_create_augroup('trim-whitespace', { clear = true }),
   pattern = '*',
   command = [[%s/\s\+$//e]],
 })
 
--- Lazy bootstrap
+-- lazy bootstrap
 local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
   local lazyrepo = 'https://github.com/folke/lazy.nvim.git'

@@ -1,13 +1,4 @@
--- Neotest: Test runner with inline results
--- Runs tests with visual feedback directly in your editor
---
--- Keybindings:
--- <leader>tt = Run nearest test
--- <leader>tf = Run tests in current file
--- <leader>ta = Run all tests
--- <leader>ts = Toggle test summary
--- <leader>to = Show test output
--- <leader>tS = Stop nearest test
+-- neotest: test runner with inline results
 
 return {
   'nvim-neotest/neotest',
@@ -17,7 +8,7 @@ return {
     'antoinemadec/FixCursorHold.nvim',
     'nvim-treesitter/nvim-treesitter',
 
-    -- Language adapters
+    -- language adapters
     'nvim-neotest/neotest-python',
     'nvim-neotest/neotest-go',
     'rouge8/neotest-rust',
@@ -52,26 +43,26 @@ return {
         require 'neotest-vitest',
       },
 
-      -- Floating window for output
+      -- floating window for output
       output = {
         enabled = true,
         open_on_run = false,
       },
 
-      -- Inline diagnostics
+      -- inline diagnostics
       diagnostic = {
         enabled = true,
         severity = vim.diagnostic.severity.ERROR,
       },
 
-      -- Status signs
+      -- status signs
       status = {
         enabled = true,
         virtual_text = false,
         signs = true,
       },
 
-      -- Icons
+      -- icons
       icons = {
         running_animated = { '⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏' },
         passed = '✓',
@@ -82,7 +73,7 @@ return {
       },
     }
 
-    -- Keymaps
+    -- keymaps
     vim.keymap.set('n', '<leader>tt', function() neotest.run.run() end, { desc = 'Test: Run nearest' })
 
     vim.keymap.set('n', '<leader>tf', function() neotest.run.run(vim.fn.expand '%') end, { desc = 'Test: Run file' })
@@ -101,7 +92,7 @@ return {
 
     vim.keymap.set('n', '<leader>td', function() neotest.run.run { strategy = 'dap' } end, { desc = 'Test: Debug nearest' })
 
-    -- Navigation
+    -- navigation
     vim.keymap.set('n', ']t', function() neotest.jump.next { status = 'failed' } end, { desc = 'Next failed test' })
 
     vim.keymap.set('n', '[t', function() neotest.jump.prev { status = 'failed' } end, { desc = 'Prev failed test' })

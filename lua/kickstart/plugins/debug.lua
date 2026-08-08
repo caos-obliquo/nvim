@@ -1,6 +1,4 @@
--- debug.lua
--- DAP (Debug Adapter Protocol) configuration
--- Supports: Rust (codelldb), Go (delve), Python (debugpy), C/C++ (codelldb)
+-- dap config: codelldb, delve, debugpy
 
 return {
   'mfussenegger/nvim-dap',
@@ -28,14 +26,14 @@ return {
     local dap = require 'dap'
     local dapui = require 'dapui'
 
-    -- Mason DAP setup
+    -- mason dap setup
     require('mason-nvim-dap').setup {
       automatic_installation = true,
       handlers = {},
       ensure_installed = { 'delve', 'codelldb', 'debugpy' },
     }
 
-    -- DAP UI setup
+    -- dap ui setup
     dapui.setup {
       icons = { expanded = '▾', collapsed = '▸', current_frame = '*' },
       controls = {
@@ -47,14 +45,12 @@ return {
       },
     }
 
-    -- Auto open/close UI
+    -- auto open/close ui
     dap.listeners.after.event_initialized['dapui_config'] = dapui.open
     dap.listeners.before.event_terminated['dapui_config'] = dapui.close
     dap.listeners.before.event_exited['dapui_config'] = dapui.close
 
-    -- =========================================================
-    -- RUST - codelldb adapter
-    -- =========================================================
+    -- rust: codelldb adapter
     local codelldb_path = vim.fn.stdpath('data') .. '/mason/bin/codelldb'
 
     dap.adapters.codelldb = {
@@ -66,9 +62,9 @@ return {
       },
     }
 
-    -- Auto-detect Rust binary from Cargo.toml
+    -- auto-detect rust binary from cargo.toml
     local function get_cargo_binary()
-      -- Try to find binary name from Cargo.toml
+      -- try to find binary name from cargo.toml
       local cargo_toml = vim.fn.findfile('Cargo.toml', vim.fn.getcwd() .. ';')
       if cargo_toml ~= '' then
         local lines = vim.fn.readfile(cargo_toml)
@@ -82,7 +78,7 @@ return {
           end
         end
       end
-      -- Fallback: ask user
+      -- fallback: ask user
       return vim.fn.input('Path to executable: ', vim.fn.getcwd() .. '/target/debug/', 'file')
     end
 
@@ -99,7 +95,7 @@ return {
       },
     }
 
-    -- C/C++ also uses codelldb
+    -- c/c++ also uses codelldb
     dap.configurations.c = {
       {
         name = 'Launch C binary',
@@ -114,24 +110,17 @@ return {
     }
     dap.configurations.cpp = dap.configurations.c
 
-    -- =========================================================
-    -- GO - delve adapter
-    -- =========================================================
+    -- go: delve adapter
     require('dap-go').setup {
       delve = {
         detached = vim.fn.has('win32') == 0,
-        -- Auto-find the go binary
+        -- auto-find the go binary
         path = vim.fn.stdpath('data') .. '/mason/bin/dlv',
       },
-      -- These are the configurations dap-go adds automatically:
-      -- 'Debug' - debug current package
-      -- 'Debug test' - debug test under cursor
-      -- 'Debug test (go.mod)' - debug all tests
+      -- dap-go adds these configurations automatically
     }
 
-    -- =========================================================
-    -- PYTHON - debugpy adapter
-    -- =========================================================
+    -- python: debugpy adapter
     dap.adapters.python = {
       type = 'executable',
       command = vim.fn.stdpath('data') .. '/mason/bin/debugpy-adapter',
@@ -144,7 +133,7 @@ return {
         request = 'launch',
         program = '${file}',
         pythonPath = function()
-          -- Use venv if available, otherwise system python
+          -- use venv if available, otherwise system python
           local venv = vim.fn.getcwd() .. '/.venv/bin/python'
           if vim.fn.filereadable(venv) == 1 then
             return venv

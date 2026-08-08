@@ -27,7 +27,7 @@ return {
   config = function(_, opts)
     require('noice').setup(opts)
 
-    -- Dracula colors: yellow border, transparent bg
+    -- dracula colors: yellow border, transparent bg
     vim.api.nvim_set_hl(0, 'NoiceCmdlinePopup', { bg = 'NONE', fg = '#f8f8f2' })
     vim.api.nvim_set_hl(0, 'NoiceCmdlinePopupBorder', { fg = '#f1fa8c' })
     vim.api.nvim_set_hl(0, 'NoiceCmdlineIcon', { fg = '#f1fa8c' })

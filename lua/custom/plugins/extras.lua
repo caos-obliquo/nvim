@@ -1,8 +1,7 @@
--- Extra plugins inspired by jonkero9
--- LazyGit, hardtime, render-markdown, zen-mode, surround
+-- extra plugins: lazygit, hardtime, render-markdown, zen-mode, surround
 
 return {
-  -- LazyGit integration (beautiful Git TUI inside nvim!)
+  -- lazygit integration
   {
     'kdheepak/lazygit.nvim',
     cmd = {
@@ -18,8 +17,7 @@ return {
     },
   },
 
-  -- Hardtime: Teaches you better vim habits
-  -- (stops you from spamming hjkl!)
+  -- hardtime: breaks bad vim habits
   {
     'm4xshen/hardtime.nvim',
     lazy = false,
@@ -37,7 +35,7 @@ return {
     },
   },
 
-  -- Beautiful markdown rendering
+  -- markdown rendering
   {
     'MeanderingProgrammer/render-markdown.nvim',
     dependencies = {
@@ -50,7 +48,7 @@ return {
     },
   },
 
-  -- Zen mode: Distraction-free coding
+  -- zen mode: distraction-free coding
   {
     'folke/zen-mode.nvim',
     keys = {
@@ -67,19 +65,14 @@ return {
     },
   },
 
-  -- Surround: ysiw" to wrap, cs"' to change, ds" to delete
-  -- Examples:
-  --   ysiw"        → wrap word in quotes
-  --   cs"'         → change " to '
-  --   ds"          → delete surrounding "
-  --   yss)         → wrap entire line in ()
+  -- surround: ysiw" wraps, cs"' changes, ds" deletes
   {
     'kylechui/nvim-surround',
     event = 'VeryLazy',
     opts = {},
   },
 
-  -- Illuminate: highlights all occurrences of word under cursor
+  -- illuminate: highlights all occurrences of word under cursor
   {
     'RRethy/vim-illuminate',
     event = 'BufReadPost',

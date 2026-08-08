@@ -1,9 +1,4 @@
--- Keybindings:
--- <leader>a = Add file to harpoon
--- <C-e> = Toggle harpoon menu
--- <leader>fl = Harpoon list in Telescope
--- <M-1> through <M-4> = Jump to harpoon file 1-4
--- <C-p> / <C-n> = Previous/Next harpoon file
+-- harpoon: file marks with quick navigation
 
 return {
   'ThePrimeagen/harpoon',
@@ -16,7 +11,7 @@ return {
     local harpoon = require('harpoon')
     harpoon:setup()
     
-    -- Telescope integration (your custom version - prettier!)
+    -- telescope list integration
     local function toggle_telescope(harpoon_files)
       local file_paths = {}
       for _, item in ipairs(harpoon_files.items) do
@@ -39,7 +34,7 @@ return {
       }):find()
     end
     
-    -- Basic operations (your preferred keybindings)
+    -- basic operations
     vim.keymap.set('n', '<leader>a', function()
       harpoon:list():add()
     end, { desc = 'Harpoon Add' })
@@ -52,7 +47,7 @@ return {
       toggle_telescope(harpoon:list())
     end, { desc = 'Harpoon Telescope' })
     
-    -- Navigation (from kickstart - Alt+number is NICE!)
+    -- navigation via alt-number
     vim.keymap.set('n', '<M-1>', function()
       harpoon:list():select(1)
     end, { desc = 'Harpoon File 1' })
@@ -69,7 +64,7 @@ return {
       harpoon:list():select(4)
     end, { desc = 'Harpoon File 4' })
     
-    -- Previous/Next (your original keybindings)
+    -- previous/next navigation
     vim.keymap.set('n', '<C-p>', function()
       harpoon:list():prev()
     end, { desc = 'Harpoon Prev' })

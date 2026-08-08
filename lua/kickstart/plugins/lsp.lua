@@ -1,5 +1,4 @@
--- LSP Configuration - Using NEW nvim 0.11 API (vim.lsp.enable)
--- This is why gd, K, gr now WORK!
+-- lsp config via nvim 0.11 vim.lsp.enable api
 
 return {
   {
@@ -13,7 +12,7 @@ return {
         opts = {
           notification = {
             window = {
-              winblend = 0, -- 0 = transparent, 100 = opaque (default was 100!)
+              winblend = 0, -- 0 = transparent, 100 = opaque
               border = 'none',
               normal_hl = 'Comment',
             },
@@ -31,7 +30,7 @@ return {
       },
     },
     config = function()
-      -- Setup Mason first
+      -- setup mason first
       require('mason').setup()
       require('mason-lspconfig').setup {
         ensure_installed = {
@@ -55,15 +54,15 @@ return {
         automatic_installation = true,
       }
 
-      -- Configure LSP capabilities with cmp
+      -- configure lsp capabilities with cmp
       local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
-      -- Apply capabilities to ALL servers (new nvim 0.11 way!)
+      -- apply capabilities to all servers
       vim.lsp.config('*', {
         capabilities = capabilities,
       })
 
-      -- yamlls - full schema support via schemastore.nvim
+      -- yamlls: full schema support via schemastore.nvim
       vim.lsp.config('yamlls', {
         settings = {
           yaml = {
@@ -71,13 +70,13 @@ return {
             completion = true,
             hover = true,
             format = { enable = true },
-            -- Pull ALL schemas from SchemaStore (covers 1000+ file types)
+            -- pull all schemas from schemastore
             schemaStore = {
               enable = false, -- disable built-in, we use schemastore.nvim below
               url = '',
             },
             schemas = require('schemastore').yaml.schemas {
-              -- Extra schemas not in SchemaStore
+              -- extra schemas not in schemastore
               extra = {
                 {
                   name = 'GitLab CI',
@@ -91,7 +90,7 @@ return {
         },
       })
 
-      -- jsonls - also benefits from schemastore
+      -- jsonls: also benefits from schemastore
       vim.lsp.config('jsonls', {
         settings = {
           json = {
@@ -101,7 +100,7 @@ return {
         },
       })
 
-      -- Enable servers (new nvim 0.11 API - this is why it works!)
+      -- enable servers
       vim.lsp.config("lua_ls", {
         settings = {
           Lua = {
@@ -129,7 +128,7 @@ return {
       vim.lsp.enable 'angularls'
       vim.lsp.enable 'eslint'
 
-      -- Keybindings on LSP attach
+      -- keybindings on lsp attach
       vim.api.nvim_create_autocmd('LspAttach', {
         group = vim.api.nvim_create_augroup('UserLspConfig', {}),
         callback = function(ev)
@@ -137,39 +136,39 @@ return {
 
           local tele = require 'telescope.builtin'
 
-          -- Navigation
+          -- navigation
           map('gd', tele.lsp_definitions, 'Goto Definition')
           map('gr', tele.lsp_references, 'Goto References')
           map('gI', tele.lsp_implementations, 'Goto Implementation')
           map('gD', vim.lsp.buf.declaration, 'Goto Declaration')
           map('<leader>D', tele.lsp_type_definitions, 'Type Definition')
 
-          -- Symbols
+          -- symbols
           map('<leader>ds', tele.lsp_document_symbols, 'Document Symbols')
           map('<leader>ws', tele.lsp_dynamic_workspace_symbols, 'Workspace Symbols')
 
-          -- Actions
+          -- actions
           map('<leader>ca', vim.lsp.buf.code_action, 'Code Action')
           map('<leader>rn', vim.lsp.buf.rename, 'Rename')
           map('<leader>ci', vim.lsp.buf.incoming_calls, 'Incoming Calls')
           map('<leader>cO', vim.lsp.buf.outgoing_calls, 'Outgoing Calls')
 
-          -- Documentation
+          -- documentation
           map('K', vim.lsp.buf.hover, 'Hover Docs')
           map('<leader>k', vim.lsp.buf.signature_help, 'Signature Help')
 
-          -- Diagnostics
+          -- diagnostics
           map('<leader>E', vim.diagnostic.open_float, 'Diagnostic Float')
           map('[d', vim.diagnostic.goto_prev, 'Prev Diagnostic')
           map(']d', vim.diagnostic.goto_next, 'Next Diagnostic')
 
-          -- Visual mode code actions
+          -- visual mode code actions
           vim.keymap.set('v', '<leader>ca', vim.lsp.buf.code_action, {
             buffer = ev.buf,
             desc = 'LSP: Code Action',
           })
 
-          -- Highlight references on cursor hold
+          -- highlight references on cursor hold
           local client = vim.lsp.get_client_by_id(ev.data.client_id)
           if client and client.server_capabilities.documentHighlightProvider then
             vim.api.nvim_create_autocmd({ 'CursorHold', 'CursorHoldI' }, {
