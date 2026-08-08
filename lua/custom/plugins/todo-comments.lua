@@ -1,10 +1,4 @@
--- TODO Comments: Highlight and search TODO/FIXME/HACK/NOTE
--- Zero config, instant value
---
--- Usage:
--- <leader>st = Search all TODOs
--- ]t = Next todo
--- [t = Prev todo
+-- todo-comments: highlight and search TODO/FIXME/HACK/NOTE
 
 return {
   'folke/todo-comments.nvim',
@@ -14,7 +8,7 @@ return {
     signs = true,
     sign_priority = 8,
 
-    -- Keywords
+    -- keywords
     keywords = {
       FIX = {
         icon = ' ',

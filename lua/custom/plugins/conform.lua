@@ -8,14 +8,14 @@ return {
       },
       formatters_by_ft = {
         config = {},  -- .env files, never format
-        -- Scripting
+        -- scripting
         lua = { 'stylua' },
         python = { 'ruff_format' },
         bash = { 'shfmt' },
         sh = { 'shfmt' },
         zsh = { 'shfmt' },
 
-        -- Web
+        -- web
         javascript = { 'prettier' },
         typescript = { 'prettier' },
         javascriptreact = { 'prettier' },
@@ -26,23 +26,23 @@ return {
         yaml = { 'prettier' },
         markdown = { 'prettier' },
 
-        -- Systems (GNU style)
+        -- systems (gnu style)
         c = { 'clang_format' },
         cpp = { 'clang_format' },
         rust = { 'rustfmt' },
         zig = { 'zigfmt' },
 
-        -- JVM
+        -- jvm
         java = { 'google_java_format' }, -- proper Java formatter
 
-        -- Go
+        -- go
         go = { 'gofmt', 'goimports' },
 
-        -- Infrastructure
+        -- infrastructure
         terraform = { 'terraform_fmt' },
       },
 
-      -- clang-format: GNU style for C/C++
+      -- clang-format: gnu style for c/c++
       formatters = {
         clang_format = {
           prepend_args = { '--style=GNU' },

@@ -1,4 +1,4 @@
--- Treesitter: Advanced syntax highlighting and code understanding
+-- treesitter: syntax highlighting and code understanding
 
 return {
   {
@@ -14,7 +14,7 @@ return {
       if not ok then return end
 
       configs.setup({
-        -- Languages to install (jonkero9 + your languages)
+        -- languages to install
         ensure_installed = {
           'bash',
           'c',
@@ -41,21 +41,21 @@ return {
           'zig',
         },
 
-        -- Auto-install missing parsers
+        -- auto-install missing parsers
         auto_install = true,
 
-        -- Syntax highlighting
+        -- syntax highlighting
         highlight = {
           enable = true,
           additional_vim_regex_highlighting = false,
         },
 
-        -- Smart indentation
+        -- smart indentation
         indent = {
           enable = true,
         },
 
-        -- Incremental selection (jonkero9's keymaps)
+        -- incremental selection
         incremental_selection = {
           enable = true,
           keymaps = {
@@ -66,7 +66,7 @@ return {
           },
         },
 
-        -- Text objects (IDE feature - select functions, classes etc)
+        -- text objects: select functions, classes, etc
         textobjects = {
           select = {
             enable = true,

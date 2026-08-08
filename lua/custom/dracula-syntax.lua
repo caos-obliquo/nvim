@@ -1,10 +1,8 @@
--- Custom syntax highlighting groups adapted for Dracula
--- Inspired by jonkero9's syntax_hl.lua but using Dracula colors!
--- This makes your code look BEAUTIFUL with precise LSP-aware coloring
+-- syntax highlight groups for dracula (adapted from jonkero9's syntax_hl.lua)
 
 local M = {}
 
--- Dracula color palette
+-- dracula color palette
 local colors = {
   bg        = '#282a36',
   fg        = '#f8f8f2',
@@ -19,24 +17,24 @@ local colors = {
   selection = '#44475a',
 }
 
--- Dracula syntax roles (adapted from jonkero9's approach)
+-- dracula syntax roles
 local dracula_syntax = {
   identifier  = colors.fg,
-  para        = colors.orange,    -- Parameters: orange
-  prop        = colors.cyan,      -- Properties: cyan
-  var         = colors.fg,        -- Variables: foreground
-  func        = colors.green,     -- Functions: green
-  statement   = colors.pink,      -- Keywords: pink
-  structure   = colors.cyan,      -- Types/Structs: cyan
-  stringg     = colors.yellow,    -- Strings: yellow
-  comment     = colors.comment,   -- Comments: muted blue
-  type        = colors.cyan,      -- Types: cyan
-  warning     = colors.orange,    -- Warnings: orange
-  err         = colors.red,       -- Errors: red
+  para        = colors.orange,    -- parameters: orange
+  prop        = colors.cyan,      -- properties: cyan
+  var         = colors.fg,        -- variables: foreground
+  func        = colors.green,     -- functions: green
+  statement   = colors.pink,      -- keywords: pink
+  structure   = colors.cyan,      -- types/structs: cyan
+  stringg     = colors.yellow,    -- strings: yellow
+  comment     = colors.comment,   -- comments: muted blue
+  type        = colors.cyan,      -- types: cyan
+  warning     = colors.orange,    -- warnings: orange
+  err         = colors.red,       -- errors: red
 }
 
 function M.apply()
-  -- Base syntax
+  -- base syntax
   vim.api.nvim_set_hl(0, 'Comment',    { fg = colors.comment, italic = true })
   vim.api.nvim_set_hl(0, 'Identifier', { fg = dracula_syntax.identifier })
   vim.api.nvim_set_hl(0, 'Function',   { fg = dracula_syntax.func })
@@ -54,13 +52,13 @@ function M.apply()
   vim.api.nvim_set_hl(0, 'Character',  { fg = dracula_syntax.stringg })
   vim.api.nvim_set_hl(0, 'MatchParen', { bg = colors.selection, bold = true })
 
-  -- Diagnostics
+  -- diagnostics
   vim.api.nvim_set_hl(0, 'DiagnosticWarn',  { fg = dracula_syntax.warning })
   vim.api.nvim_set_hl(0, 'DiagnosticError', { fg = dracula_syntax.err })
   vim.api.nvim_set_hl(0, 'DiagnosticInfo',  { fg = colors.cyan })
   vim.api.nvim_set_hl(0, 'DiagnosticHint',  { fg = colors.comment })
 
-  -- LSP semantic tokens (jonkero9's best feature!)
+  -- lsp semantic tokens
   vim.api.nvim_set_hl(0, '@lsp.type.struct',         { fg = dracula_syntax.type })
   vim.api.nvim_set_hl(0, '@lsp.type.enum',           { fg = dracula_syntax.type })
   vim.api.nvim_set_hl(0, '@lsp.type.class',          { fg = dracula_syntax.type })
@@ -75,7 +73,7 @@ function M.apply()
   vim.api.nvim_set_hl(0, '@lsp.type.macro',          { fg = dracula_syntax.statement })
   vim.api.nvim_set_hl(0, '@lsp.type.decorator',      { fg = colors.pink })
 
-  -- Treesitter groups
+  -- treesitter groups
   vim.api.nvim_set_hl(0, '@variable',                { fg = dracula_syntax.var })
   vim.api.nvim_set_hl(0, '@variable.parameter',      { fg = dracula_syntax.para })
   vim.api.nvim_set_hl(0, '@variable.builtin',        { fg = colors.purple })
@@ -99,14 +97,14 @@ function M.apply()
   vim.api.nvim_set_hl(0, '@tag',                     { fg = colors.pink })
   vim.api.nvim_set_hl(0, '@tag.attribute',           { fg = dracula_syntax.para })
 
-  -- CMP popup Dracula colors
+  -- cmp popup dracula colors
   vim.api.nvim_set_hl(0, 'CmpNormal',       { bg = '#1e1f29' })
   vim.api.nvim_set_hl(0, 'CmpBorder',       { fg = colors.purple, bg = '#1e1f29' })
   vim.api.nvim_set_hl(0, 'CmpSel',          { bg = colors.selection })
   vim.api.nvim_set_hl(0, 'CmpDocNormal',    { bg = '#1e1f29' })
   vim.api.nvim_set_hl(0, 'CmpDocBorder',    { fg = colors.comment, bg = '#1e1f29' })
 
-  -- CMP kind colors
+  -- cmp kind colors
   vim.api.nvim_set_hl(0, 'CmpItemKindFunction',  { fg = dracula_syntax.func })
   vim.api.nvim_set_hl(0, 'CmpItemKindMethod',    { fg = dracula_syntax.func })
   vim.api.nvim_set_hl(0, 'CmpItemKindVariable',  { fg = dracula_syntax.var })

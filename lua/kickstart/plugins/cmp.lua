@@ -1,12 +1,10 @@
--- nvim-cmp: Autocompletion Engine
--- Enhanced version inspired by jonkero9 but styled for Dracula!
--- Adds cmdline completion (autocomplete for : commands and / search!)
+-- nvim-cmp: autocompletion engine
 
 return {
   'hrsh7th/nvim-cmp',
   event = { 'InsertEnter', 'CmdlineEnter' },
   dependencies = {
-    -- Snippet engine
+    -- snippet engine
     {
       'L3MON4D3/LuaSnip',
       build = (function()
@@ -25,12 +23,12 @@ return {
       },
     },
 
-    -- Completion sources
+    -- completion sources
     'saadparwaiz1/cmp_luasnip',
     'hrsh7th/cmp-nvim-lsp',
     'hrsh7th/cmp-path',
     'hrsh7th/cmp-buffer',
-    'hrsh7th/cmp-cmdline',  -- jonkero9: cmdline completion!
+    'hrsh7th/cmp-cmdline',  -- cmdline completion
   },
 
   config = function()
@@ -38,7 +36,7 @@ return {
     local luasnip = require 'luasnip'
     luasnip.config.setup {}
 
-    -- Completion icons (kind icons)
+    -- completion icons (kind icons)
     local kind_icons = {
       Text = '󰉿',
       Method = '󰆧',
@@ -67,7 +65,7 @@ return {
       TypeParameter = '',
     }
 
-    -- Main completion setup
+    -- main completion setup
     cmp.setup {
       snippet = {
         expand = function(args)
@@ -75,7 +73,7 @@ return {
         end,
       },
 
-      -- Bordered window (like jonkero9)
+      -- bordered window
       window = {
         completion = cmp.config.window.bordered({
           winhighlight = 'Normal:CmpNormal,FloatBorder:CmpBorder,CursorLine:CmpSel,Search:None',
@@ -89,9 +87,9 @@ return {
         completeopt = 'menu,menuone,noinsert',
       },
 
-          -- Keybindings
+      -- keybindings
     mapping = cmp.mapping.preset.insert {
-      -- Navigate completion with Ctrl+j/k (vim style!)
+      -- navigate completion with ctrl+j/k
       ['<C-j>'] = cmp.mapping.select_next_item(),
       ['<C-k>'] = cmp.mapping.select_prev_item(),
       ['<C-n>'] = cmp.mapping.select_next_item(),
@@ -102,7 +100,7 @@ return {
       ['<C-e>'] = cmp.mapping.abort(),
       ['<CR>'] = cmp.mapping.confirm { select = true },
 
-      -- Disable arrow keys completely
+      -- disable arrow keys completely
       ['<Down>'] = cmp.mapping(function() end, { 'i', 's' }),
       ['<Up>'] = cmp.mapping(function() end, { 'i', 's' }),
 
@@ -125,7 +123,7 @@ return {
         end
       end, { 'i', 's' }),
     },
-      -- Sources (priority order)
+      -- sources (priority order)
       sources = cmp.config.sources({
         { name = 'nvim_lsp' },
         { name = 'luasnip' },
@@ -134,7 +132,7 @@ return {
         { name = 'buffer' },
       }),
 
-      -- Formatting with icons
+      -- formatting with icons
       formatting = {
         fields = { 'kind', 'abbr', 'menu' },
         format = function(entry, item)
@@ -151,7 +149,7 @@ return {
       },
     }
 
-    -- jonkero9: Search completion (/ and ?)
+    -- search completion for / and ?
     cmp.setup.cmdline({ '/', '?' }, {
       mapping = cmp.mapping.preset.cmdline(),
       sources = {
@@ -159,7 +157,7 @@ return {
       },
     })
 
-    -- jonkero9: Command completion (:)
+    -- command completion for :
     cmp.setup.cmdline(':', {
       mapping = cmp.mapping.preset.cmdline(),
       sources = cmp.config.sources({
