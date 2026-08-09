@@ -149,7 +149,7 @@ return {
           if vim.fn.filereadable(venv) == 1 then
             return venv
           end
-          return '/usr/bin/python3'
+          return vim.fn.exepath('python3')
         end,
       },
     }

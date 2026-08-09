@@ -21,7 +21,6 @@ local function enable_transparency()
   vim.api.nvim_set_hl(0, 'TelescopeResultsTitle', { fg = '#8BE9FD', bg = 'none' })
 
   -- Which-key
-  vim.api.nvim_set_hl(0, 'WhichKeyFloat', { bg = 'none' })
   vim.api.nvim_set_hl(0, 'WhichKeyBorder', { fg = '#BD93F9', bg = 'none' })
 
   -- Neo-tree
@@ -37,12 +36,6 @@ local function enable_transparency()
 
   -- Apply jonkero9-inspired syntax highlights for Dracula
   require('custom.dracula-syntax').apply()
-  -- Fidget (LSP progress notifications bottom right)
-  vim.api.nvim_set_hl(0, 'FidgetTitle',   { fg = '#BD93F9', bg = 'none' })
-  vim.api.nvim_set_hl(0, 'FidgetTask',    { fg = '#6272A4', bg = 'none' })
-
-  -- LSP info border
-  vim.api.nvim_set_hl(0, 'LspInfoBorder', { fg = '#BD93F9', bg = 'none' })
 
   -- Messages
   vim.api.nvim_set_hl(0, 'MsgArea',       { bg = 'none' })
