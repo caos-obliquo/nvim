@@ -38,7 +38,6 @@ return {
       { '<leader>ds', desc = '󰆧 Document Symbols' },
       { '<leader>ws', desc = '󰅩 Workspace Symbols' },
       { '<leader>k', desc = '󰊕 Signature Help' },
-      { '<leader>E', desc = '󰒡 Diagnostic Float' },
       { '<leader>zig', desc = '󰑓 Restart LSP' },
       { 'gd', desc = '󰈮 Goto Definition' },
       { 'gr', desc = '󰈇 Goto References' },
@@ -76,7 +75,7 @@ return {
       { '<leader>cr', desc = '󰑓 Crates: Reload' },
       { '<leader>cu', desc = '󰚰 Crates: Update' },
       { '<leader>cU', desc = '󰫢 Crates: Upgrade' },
-      { '<leader>ca', desc = '󰚰 Crates: Update All' },
+      { '<leader>cA', desc = '󰚰 Crates: Update All' },
 
       -- ── Format ─────────────────────────────────────────────────────────
       { '<leader>f', group = '󰉶 [F]ormat / Find' },
@@ -129,7 +128,7 @@ return {
       -- ── Utilities ──────────────────────────────────────────────────────
       { '<leader>u', desc = '󰕍 Undotree' },
       { '<leader>z', desc = ' Zen Mode' },
-      { '<leader>x', desc = ' Make executable' },
+      { '<leader>xm', desc = ' Make executable' },
       { '<leader>y', desc = '󰅍 Yank to clipboard', mode = { 'n', 'v' } },
       { '<leader>Y', desc = '󰅍 Yank line to clipboard' },
       { '<leader>p', desc = '󰅌 Paste without losing register', mode = 'x' },

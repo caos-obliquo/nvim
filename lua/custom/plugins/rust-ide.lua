@@ -73,7 +73,7 @@ return {
       vim.keymap.set('n', '<leader>cr', require('crates').reload, { desc = 'Crates: Reload' })
       vim.keymap.set('n', '<leader>cu', require('crates').update_crate, { desc = 'Crates: Update' })
       vim.keymap.set('n', '<leader>cU', require('crates').upgrade_crate, { desc = 'Crates: Upgrade' })
-      vim.keymap.set('n', '<leader>ca', require('crates').update_all_crates, { desc = 'Crates: Update All' })
+      vim.keymap.set('n', '<leader>cA', require('crates').update_all_crates, { desc = 'Crates: Update All' })
     end,
   },
 }

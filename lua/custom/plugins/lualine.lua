@@ -110,35 +110,9 @@ return {
       local function lsp_clients()
         local clients = vim.lsp.get_clients { bufnr = 0 }
         if #clients == 0 then return '' end
-        local skip = {
-          stylua = true,
-          ruff = true,
-          ruff_lsp = true,
-          lua_ls = true,
-          rust_analyzer = true, ["rust-analyzer"] = true,
-          ts_ls = true,
-          pyright = true,
-          gopls = true,
-          clangd = true,
-          zls = true,
-          yamlls = true,
-          bashls = true,
-          ['bash-language-server'] = true,
-          jsonls = true,
-          terraformls = true,
-          dockerls = true,
-          html = true,
-          eslint = true,
-          cssls = true,
-          angularls = true,
-          jdtls = true,
-          ['null-ls'] = true,
-          ['none-ls'] = true,
-        }
         local client_names = {}
         for _, client in ipairs(clients) do
           local name = client.name
-          if skip[name] then goto continue end
           if name == 'rust_analyzer' then
             name = 'rust-analyzer'
           elseif name == 'typescript-tools' or name == 'tsserver' then
@@ -164,9 +138,8 @@ return {
             end
           end
           if not vim.tbl_contains(client_names, name) then table.insert(client_names, name) end
-          ::continue::
         end
-        return '  ' .. table.concat(client_names, ' ')
+        return ' ' .. table.concat(client_names, ', ')
       end
       local function filetype_with_icon()
         local filetype = vim.bo.filetype

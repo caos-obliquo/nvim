@@ -159,7 +159,7 @@ return {
           map('<leader>k', vim.lsp.buf.signature_help, 'Signature Help')
 
           -- Diagnostics
-          map('<leader>E', vim.diagnostic.open_float, 'Diagnostic Float')
+          map('<leader>cd', vim.diagnostic.open_float, 'Diagnostic Float')
           map('[d', vim.diagnostic.goto_prev, 'Prev Diagnostic')
           map(']d', vim.diagnostic.goto_next, 'Next Diagnostic')
 

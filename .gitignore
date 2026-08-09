@@ -10,3 +10,13 @@ spell/
 lazy-lock.json
 
 .DS_Store
+
+# Editor artifacts
+*.swp
+*.swo
+*~
+.#*
+.netrwhist
+
+# Prometheus work files
+.omo/

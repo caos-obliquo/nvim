@@ -32,7 +32,6 @@ return {
         python = { 'ruff' },
 
         -- Systems
-        rust = { 'clippy' }, -- uses cargo clippy, no Mason needed
         zig = { 'zlint' },
 
         -- C / C++ (GNU style)

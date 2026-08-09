@@ -33,7 +33,7 @@ return {
         zig = { 'zigfmt' },
 
         -- JVM
-        java = { 'google_java_format' }, -- proper Java formatter
+        java = { 'google-java-format' }, -- proper Java formatter
 
         -- Go
         go = { 'gofmt', 'goimports' },

@@ -3,7 +3,7 @@
 Personal Neovim configuration for Arch Linux + DWL + foot terminal.
 Built on [Kickstart.nvim](https://github.com/nvim-lua/kickstart.nvim) with a Dracula layer inspired by [jonkero9](https://github.com/jonkero9/dotfiles).
 
-![Neovim](https://img.shields.io/badge/Neovim-0.11-57A143?style=flat-square&logo=neovim&logoColor=white)
+![Neovim](https://img.shields.io/badge/Neovim-0.12.4-57A143?style=flat-square&logo=neovim&logoColor=white)
 ![Lua](https://img.shields.io/badge/Lua-2C2D72?style=flat-square&logo=lua&logoColor=white)
 ![Arch](https://img.shields.io/badge/Arch_Linux-1793D1?style=flat-square&logo=arch-linux&logoColor=white)
 
@@ -16,7 +16,7 @@ Built on [Kickstart.nvim](https://github.com/nvim-lua/kickstart.nvim) with a Dra
 ├── init.lua                        settings, remaps, lazy bootstrap
 └── lua/
     ├── kickstart/plugins/
-    │   ├── lsp.lua                 language servers (nvim 0.11 API)
+    │   ├── lsp.lua                 language servers (nvim 0.12 API)
     │   ├── cmp.lua                 autocompletion
     │   ├── treesitter.lua          syntax + text objects
     │   ├── debug.lua               DAP (Rust, Go, C/C++)
@@ -25,25 +25,31 @@ Built on [Kickstart.nvim](https://github.com/nvim-lua/kickstart.nvim) with a Dra
     │   ├── gitsigns.lua
     │   ├── indent_line.lua
     │   └── lint.lua
-    └── custom/plugins/
-        ├── dracula.lua             theme + transparency
-        ├── dracula-syntax.lua      LSP-aware syntax colors
-        ├── lualine.lua             statusline
-        ├── telescope.lua           fuzzy finder
-        ├── harpoon.lua             quick file navigation
-        ├── which-key.lua           keybinding hints
-        ├── noice.lua               floating cmdline + notifications
-        ├── rust-ide.lua            rustaceanvim + crates.nvim
-        ├── conform.lua             formatting (stylua, prettier, gofmt, clang-format...)
-        ├── trouble.lua             diagnostics list
-        ├── neotest.lua             test runner
-        ├── undotree.lua            visual undo history
-        ├── refactoring.lua         extract variable/function/block
-        ├── cloak.lua               hide secrets in .env files
-        ├── context.lua             show current function at top (disabled for yaml/json/toml)
-        ├── devops.lua              YAML/Docker/K8s/Terraform schemas
-        ├── spectre.lua             project-wide search and replace
-        └── extras.lua              LazyGit, hardtime, zen-mode, surround, illuminate
+    ├── custom/
+    │   ├── dracula-syntax.lua      LSP-aware syntax colors
+    │   ├── dracula-highlights.lua  highlight group definitions
+    │   └── plugins/
+    │       ├── init.lua            your own plugins (kickstart placeholder)
+    │       ├── dracula.lua         theme + transparency
+    │       ├── lualine.lua         statusline
+    │       ├── telescope.lua       fuzzy finder
+    │       ├── harpoon.lua         quick file navigation
+    │       ├── which-key.lua       keybinding hints
+    │       ├── noice.lua           floating cmdline + notifications
+    │       ├── rust-ide.lua        rustaceanvim + crates.nvim
+    │       ├── java-ide.lua        nvim-jdtls (Java LSP + DAP)
+    │       ├── conform.lua         formatting (stylua, prettier, gofmt, clang-format...)
+    │       ├── trouble.lua         diagnostics list
+    │       ├── neotest.lua         test runner
+    │       ├── undotree.lua        visual undo history
+    │       ├── refactoring.lua     extract variable/function/block
+    │       ├── cloak.lua           hide secrets in .env files
+    │       ├── context.lua         show current function at top (disabled for yaml/json/toml)
+    │       ├── dadboa.lua          database client (vim-dadbod + dadbod-ui)
+    │       ├── devops.lua          YAML/Docker/K8s/Terraform schemas
+    │       ├── spectre.lua         project-wide search and replace
+    │       ├── todo-comments.lua   highlight and search TODO/FIXME
+    │       └── extras.lua          LazyGit, hardtime, zen-mode, surround, illuminate
 ```
 
 ---
