@@ -1,5 +1,5 @@
 -- nvim-cmp: Autocompletion Engine
--- Enhanced version inspired by jonkero9 but styled for Dracula!
+-- nvim-cmp with Dracula styling
 -- Adds cmdline completion (autocomplete for : commands and / search!)
 
 return {
@@ -30,7 +30,7 @@ return {
     'hrsh7th/cmp-nvim-lsp',
     'hrsh7th/cmp-path',
     'hrsh7th/cmp-buffer',
-    'hrsh7th/cmp-cmdline',  -- jonkero9: cmdline completion!
+    'hrsh7th/cmp-cmdline',  -- cmdline completion
   },
 
   config = function()
@@ -75,7 +75,7 @@ return {
         end,
       },
 
-      -- Bordered window (like jonkero9)
+      -- Bordered window
       window = {
         completion = cmp.config.window.bordered({
           winhighlight = 'Normal:CmpNormal,FloatBorder:CmpBorder,CursorLine:CmpSel,Search:None',
@@ -151,7 +151,7 @@ return {
       },
     }
 
-    -- jonkero9: Search completion (/ and ?)
+    -- Search completion (/ and ?)
     cmp.setup.cmdline({ '/', '?' }, {
       mapping = cmp.mapping.preset.cmdline(),
       sources = {
@@ -159,7 +159,7 @@ return {
       },
     })
 
-    -- jonkero9: Command completion (:)
+    -- Command completion (:)
     cmp.setup.cmdline(':', {
       mapping = cmp.mapping.preset.cmdline(),
       sources = cmp.config.sources({

@@ -16,7 +16,7 @@ return {
     local harpoon = require('harpoon')
     harpoon:setup()
     
-    -- Telescope integration (your custom version - prettier!)
+    -- Telescope integration (Telescope list)
     local function toggle_telescope(harpoon_files)
       local file_paths = {}
       for _, item in ipairs(harpoon_files.items) do
@@ -52,7 +52,7 @@ return {
       toggle_telescope(harpoon:list())
     end, { desc = 'Harpoon Telescope' })
     
-    -- Navigation (from kickstart - Alt+number is NICE!)
+    -- Navigation (Alt+number)
     vim.keymap.set('n', '<M-1>', function()
       harpoon:list():select(1)
     end, { desc = 'Harpoon File 1' })
@@ -69,7 +69,7 @@ return {
       harpoon:list():select(4)
     end, { desc = 'Harpoon File 4' })
     
-    -- Previous/Next (your original keybindings)
+    -- Previous/Next
     vim.keymap.set('n', '<C-p>', function()
       harpoon:list():prev()
     end, { desc = 'Harpoon Prev' })

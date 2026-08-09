@@ -52,7 +52,7 @@ return {
         },
       }
 
-      -- FULL mode names (you have space!)
+      -- Full mode names
       local function mode_fullname()
         local mode_map = {
           ['n'] = 'NORMAL',

@@ -1,6 +1,6 @@
 -- Custom syntax highlighting groups adapted for Dracula
--- Inspired by jonkero9's syntax_hl.lua but using Dracula colors!
--- This makes your code look BEAUTIFUL with precise LSP-aware coloring
+-- Dracula colors for LSP-aware syntax highlighting
+-- Dracula LSP-aware syntax colors
 
 local M = {}
 
@@ -19,7 +19,7 @@ local colors = {
   selection = '#44475a',
 }
 
--- Dracula syntax roles (adapted from jonkero9's approach)
+-- Dracula syntax roles
 local dracula_syntax = {
   identifier  = colors.fg,
   para        = colors.orange,    -- Parameters: orange
@@ -60,7 +60,7 @@ function M.apply()
   vim.api.nvim_set_hl(0, 'DiagnosticInfo',  { fg = colors.cyan })
   vim.api.nvim_set_hl(0, 'DiagnosticHint',  { fg = colors.comment })
 
-  -- LSP semantic tokens (jonkero9's best feature!)
+  -- LSP semantic tokens
   vim.api.nvim_set_hl(0, '@lsp.type.struct',         { fg = dracula_syntax.type })
   vim.api.nvim_set_hl(0, '@lsp.type.enum',           { fg = dracula_syntax.type })
   vim.api.nvim_set_hl(0, '@lsp.type.class',          { fg = dracula_syntax.type })

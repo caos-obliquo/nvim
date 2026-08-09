@@ -1,5 +1,4 @@
--- debug.lua
--- DAP (Debug Adapter Protocol) configuration
+-- DAP (Debug Adapter Protocol)
 -- Supports: Rust (codelldb), Go (delve), Python (debugpy), C/C++ (codelldb)
 
 return {

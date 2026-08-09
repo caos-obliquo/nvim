@@ -1,10 +1,9 @@
--- telescope fuzzy finder
--- inspired by Teej and the need for throwing conventional IDEs away
+-- Telescope: fuzzy finder
 --
 -- KEYBINDINGS:
 -- <leader>sf = find files
 -- <leader>sg = live grep (search text in files)
--- <leader>sh = search help tags (TJ style!)
+-- <leader>sh = search help tags
 -- <leader>sk = search keymaps
 -- <leader>sr = recent files (oldfiles)
 -- <leader>sb = search buffers
@@ -40,7 +39,7 @@ return {
     { '<leader>sb', '<cmd>Telescope buffers<cr>', desc = '[S]earch [B]uffers' },
     { '<leader>s.', '<cmd>Telescope oldfiles cwd_only=true<cr>', desc = '[S]earch Recent (cwd)' },
     
-    -- Help/Documentation (TJ DeVries style!)
+    -- Help/Documentation
     { '<leader>sh', '<cmd>Telescope help_tags<cr>', desc = '[S]earch [H]elp' },
     { '<leader>sk', '<cmd>Telescope keymaps<cr>', desc = '[S]earch [K]eymaps' },
     { '<leader>sc', '<cmd>Telescope commands<cr>', desc = '[S]earch [C]ommands' },

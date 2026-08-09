@@ -1,5 +1,5 @@
 -- Modern Rust IDE setup using rustaceanvim
--- Replaces deprecated rust-tools.nvim for nvim 0.11+
+-- Replaces deprecated rust-tools.nvim (nvim 0.12+)
 --
 -- Features:
 -- - Full rust-analyzer integration

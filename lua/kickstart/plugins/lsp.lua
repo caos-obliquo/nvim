@@ -1,5 +1,4 @@
--- LSP Configuration - Using NEW nvim 0.11 API (vim.lsp.enable)
--- This is why gd, K, gr now WORK!
+-- LSP Configuration (vim.lsp.enable)
 
 return {
   {
@@ -56,7 +55,7 @@ return {
       -- Configure LSP capabilities with cmp
       local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
-      -- Apply capabilities to ALL servers (new nvim 0.11 way!)
+      -- Apply capabilities to ALL servers (vim.lsp.enable)
       vim.lsp.config('*', {
         capabilities = capabilities,
       })
@@ -99,7 +98,7 @@ return {
         },
       })
 
-      -- Enable servers (new nvim 0.11 API - this is why it works!)
+      -- Enable servers via vim.lsp.enable
       vim.lsp.config("lua_ls", {
         settings = {
           Lua = {

@@ -34,7 +34,7 @@ local function enable_transparency()
   vim.api.nvim_set_hl(0, 'DiagnosticFloatingInfo', { fg = '#8BE9FD', bg = 'none' })
   vim.api.nvim_set_hl(0, 'DiagnosticFloatingHint', { fg = '#6272A4', bg = 'none' })
 
-  -- Apply jonkero9-inspired syntax highlights for Dracula
+  -- Apply Dracula syntax highlights
   require('custom.dracula-syntax').apply()
 
   -- Messages

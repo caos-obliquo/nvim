@@ -9,7 +9,7 @@ return {
     config = function()
       local ts = require('nvim-treesitter')
 
-      -- Languages to install (jonkero9 + your languages)
+      -- Languages to install
       local languages = {
         'bash',
         'c',

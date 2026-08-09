@@ -1,4 +1,4 @@
--- lua/custom/plugins/java-ide.lua
+-- Java IDE (nvim-jdtls)
 -- Fixed Java IDE setup with proper Mason 2.0 API
 
 return {

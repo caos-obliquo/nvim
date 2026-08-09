@@ -1,8 +1,8 @@
--- Extra plugins inspired by jonkero9
+-- Extra plugins
 -- LazyGit, hardtime, render-markdown, zen-mode, surround
 
 return {
-  -- LazyGit integration (beautiful Git TUI inside nvim!)
+  -- LazyGit integration
   {
     'kdheepak/lazygit.nvim',
     cmd = {
@@ -19,7 +19,7 @@ return {
   },
 
   -- Hardtime: Teaches you better vim habits
-  -- (stops you from spamming hjkl!)
+  -- (blocks hjkl spam)
   {
     'm4xshen/hardtime.nvim',
     lazy = false,
