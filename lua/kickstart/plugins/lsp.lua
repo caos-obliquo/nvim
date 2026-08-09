@@ -36,7 +36,6 @@ return {
       require('mason-lspconfig').setup {
         ensure_installed = {
           'lua_ls',
-          'rust_analyzer',
           'ts_ls',
           'pyright',
           'gopls',
@@ -52,7 +51,6 @@ return {
           'cssls',
           'angularls',
         },
-        automatic_installation = true,
       }
 
       -- Configure LSP capabilities with cmp
@@ -113,7 +111,6 @@ return {
         },
       })
       vim.lsp.enable "lua_ls"
-      vim.lsp.enable 'rust_analyzer'
       vim.lsp.enable 'ts_ls'
       vim.lsp.enable 'pyright'
       vim.lsp.enable 'gopls'
@@ -160,8 +157,8 @@ return {
 
           -- Diagnostics
           map('<leader>cd', vim.diagnostic.open_float, 'Diagnostic Float')
-          map('[d', vim.diagnostic.goto_prev, 'Prev Diagnostic')
-          map(']d', vim.diagnostic.goto_next, 'Next Diagnostic')
+          map('[d', function() vim.diagnostic.jump({ count = -1, float = true }) end, 'Prev Diagnostic')
+          map(']d', function() vim.diagnostic.jump({ count = 1, float = true }) end, 'Next Diagnostic')
 
           -- Visual mode code actions
           vim.keymap.set('v', '<leader>ca', vim.lsp.buf.code_action, {

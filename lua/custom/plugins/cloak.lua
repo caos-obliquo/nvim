@@ -1,5 +1,6 @@
 return {
     "laytan/cloak.nvim",
+    event = 'BufReadPost',
     config = function()
         require("cloak").setup({
             enabled = true,

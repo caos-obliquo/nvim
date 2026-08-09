@@ -4,6 +4,11 @@ return {
         "nvim-lua/plenary.nvim",
         "nvim-treesitter/nvim-treesitter",
     },
+    cmd = "Refactor",
+    keys = {
+        { "<leader>re", desc = "Extract Function", mode = "x" },
+        { "<leader>rv", desc = "Extract Variable", mode = "x" },
+    },
     config = function()
         require("refactoring").setup({})
 

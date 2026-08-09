@@ -268,7 +268,6 @@ return {
           jdtls.start_or_attach(config)
         end,
         group = vim.api.nvim_create_augroup('JdtlsSetup', { clear = true }),
-        once = true,  -- Only run once per FileType trigger
       })
     end,
   },
