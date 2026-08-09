@@ -1,4 +1,4 @@
--- Treesitter: Advanced syntax highlighting and code understanding
+-- Treesitter: Advanced syntax highlighting, text objects, and code understanding
 
 return {
   {
@@ -6,103 +6,106 @@ return {
     build = ':TSUpdate',
     lazy = false,
     priority = 100,
+    config = function()
+      local ts = require('nvim-treesitter')
+
+      -- Languages to install (jonkero9 + your languages)
+      local languages = {
+        'bash',
+        'c',
+        'cpp',
+        'c_sharp',
+        'diff',
+        'go',
+        'html',
+        'javascript',
+        'typescript',
+        'json',
+        'jsonc',
+        'lua',
+        'luadoc',
+        'markdown',
+        'markdown_inline',
+        'python',
+        'query',
+        'rust',
+        'toml',
+        'vim',
+        'vimdoc',
+        'yaml',
+        'zig',
+      }
+
+      local installed = ts.get_installed()
+      local to_install = vim.tbl_filter(function(lang)
+        return not vim.tbl_contains(installed, lang)
+      end, languages)
+
+      if #to_install > 0 then
+        ts.install(to_install)
+      end
+    end,
+  },
+  {
+    'nvim-treesitter/nvim-treesitter-textobjects',
+    lazy = false,
     dependencies = {
-      'nvim-treesitter/nvim-treesitter-textobjects',
+      'nvim-treesitter/nvim-treesitter',
     },
     config = function()
-      local ok, configs = pcall(require, 'nvim-treesitter.configs')
-      if not ok then return end
-
-      configs.setup({
-        -- Languages to install (jonkero9 + your languages)
-        ensure_installed = {
-          'bash',
-          'c',
-          'cpp',
-          'c_sharp',
-          'diff',
-          'go',
-          'html',
-          'javascript',
-          'typescript',
-          'json',
-          'jsonc',
-          'lua',
-          'luadoc',
-          'markdown',
-          'markdown_inline',
-          'python',
-          'query',
-          'rust',
-          'toml',
-          'vim',
-          'vimdoc',
-          'yaml',
-          'zig',
+      require('nvim-treesitter-textobjects').setup({
+        select = {
+          lookahead = true,
         },
-
-        -- Auto-install missing parsers
-        auto_install = true,
-
-        -- Syntax highlighting
-        highlight = {
-          enable = true,
-          additional_vim_regex_highlighting = false,
-        },
-
-        -- Smart indentation
-        indent = {
-          enable = true,
-        },
-
-        -- Incremental selection (jonkero9's keymaps)
-        incremental_selection = {
-          enable = true,
-          keymaps = {
-            init_selection   = 'gnn',
-            node_incremental = 'grn',
-            scope_incremental = 'grc',
-            node_decremental = 'grm',
-          },
-        },
-
-        -- Text objects (IDE feature - select functions, classes etc)
-        textobjects = {
-          select = {
-            enable = true,
-            lookahead = true,
-            keymaps = {
-              ['af'] = '@function.outer',
-              ['if'] = '@function.inner',
-              ['ac'] = '@class.outer',
-              ['ic'] = '@class.inner',
-              ['aa'] = '@parameter.outer',
-              ['ia'] = '@parameter.inner',
-            },
-          },
-          move = {
-            enable = true,
-            set_jumps = true,
-            goto_next_start = {
-              [']f'] = '@function.outer',
-              [']m'] = '@class.outer',
-            },
-            goto_previous_start = {
-              ['[f'] = '@function.outer',
-              ['[m'] = '@class.outer',
-            },
-          },
-          swap = {
-            enable = true,
-            swap_next = {
-              ['<leader>sp'] = '@parameter.inner',
-            },
-            swap_previous = {
-              ['<leader>sP'] = '@parameter.inner',
-            },
-          },
+        move = {
+          set_jumps = true,
         },
       })
+
+      -- Text objects (IDE feature - select functions, classes etc)
+      local sel = require('nvim-treesitter-textobjects.select')
+      vim.keymap.set({ 'x', 'o' }, 'af', function()
+        sel.select_textobject('@function.outer', 'textobjects')
+      end)
+      vim.keymap.set({ 'x', 'o' }, 'if', function()
+        sel.select_textobject('@function.inner', 'textobjects')
+      end)
+      vim.keymap.set({ 'x', 'o' }, 'ac', function()
+        sel.select_textobject('@class.outer', 'textobjects')
+      end)
+      vim.keymap.set({ 'x', 'o' }, 'ic', function()
+        sel.select_textobject('@class.inner', 'textobjects')
+      end)
+      vim.keymap.set({ 'x', 'o' }, 'aa', function()
+        sel.select_textobject('@parameter.outer', 'textobjects')
+      end)
+      vim.keymap.set({ 'x', 'o' }, 'ia', function()
+        sel.select_textobject('@parameter.inner', 'textobjects')
+      end)
+
+      -- Move between text objects
+      local mov = require('nvim-treesitter-textobjects.move')
+      vim.keymap.set({ 'n', 'x', 'o' }, ']f', function()
+        mov.goto_next_start('@function.outer', 'textobjects')
+      end)
+      vim.keymap.set({ 'n', 'x', 'o' }, ']m', function()
+        mov.goto_next_start('@class.outer', 'textobjects')
+      end)
+      vim.keymap.set({ 'n', 'x', 'o' }, '[f', function()
+        mov.goto_previous_start('@function.outer', 'textobjects')
+      end)
+      vim.keymap.set({ 'n', 'x', 'o' }, '[m', function()
+        mov.goto_previous_start('@class.outer', 'textobjects')
+      end)
+
+      -- Swap text objects
+      local sw = require('nvim-treesitter-textobjects.swap')
+      vim.keymap.set({ 'n', 'x', 'o' }, '<leader>sp', function()
+        sw.swap_next({ '@parameter.inner' }, 'textobjects')
+      end)
+      vim.keymap.set({ 'n', 'x', 'o' }, '<leader>sP', function()
+        sw.swap_previous({ '@parameter.inner' }, 'textobjects')
+      end)
     end,
   },
 }
