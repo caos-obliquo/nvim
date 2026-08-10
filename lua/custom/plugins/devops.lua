@@ -1,10 +1,5 @@
 -- devops plugins: yaml, json, docker, k8s
 return {
-  -- yaml/json support
-  {
-    'b0o/schemastore.nvim', -- json schemas for kubernetes, etc
-  },
-
   -- helm support
   {
     'towolf/vim-helm',
