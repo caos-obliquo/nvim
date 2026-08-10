@@ -1,3 +1,4 @@
+-- nvim-lint: async linters per filetype (ruff, shellcheck, eslint_d, cpplint, clippy, hadolint)
 return {
   {
     'mfussenegger/nvim-lint',

@@ -1,3 +1,4 @@
+-- treesitter-context: keep enclosing function/class context visible while scrolling
 return {
   'nvim-treesitter/nvim-treesitter-context',
   event = 'BufReadPost',

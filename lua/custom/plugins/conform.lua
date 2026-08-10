@@ -1,3 +1,4 @@
+-- conform: format on save per filetype (stylua, ruff, prettier, gofmt, clang-format)
 return {
   'stevearc/conform.nvim',
   event = 'BufWritePre',

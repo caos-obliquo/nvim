@@ -1,3 +1,4 @@
+-- refactoring: treesitter code actions (extract function/variable/block, inline variable)
 return {
   'theprimeagen/refactoring.nvim',
   dependencies = {

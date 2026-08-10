@@ -1,3 +1,4 @@
+-- trouble: diagnostics, quickfix, and loclist viewer (<leader>xq/xd/xl)
 return {
   'folke/trouble.nvim',
   cmd = 'Trouble',

@@ -1,3 +1,4 @@
+-- noice: fancy UI for messages, cmdline, and LSP hover docs (nvim-notify)
 return {
   'folke/noice.nvim',
   event = 'VeryLazy',

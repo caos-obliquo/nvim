@@ -1,3 +1,4 @@
+-- lualine: statusline with dracula theme, mode, git/diff, LSP clients, dap status, nerd icons
 return {
   {
     'nvim-lualine/lualine.nvim',

@@ -1,3 +1,4 @@
+-- cloak: hide secrets in .env* files (wrangler.toml, .dev.vars)
 return {
   'laytan/cloak.nvim',
   event = 'BufReadPost',

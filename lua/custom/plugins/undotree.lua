@@ -1,3 +1,4 @@
+-- undotree: visual undo history tree (<leader>u)
 return {
   'mbbill/undotree',
   cmd = 'UndotreeToggle',

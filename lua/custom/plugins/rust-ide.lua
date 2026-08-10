@@ -1,12 +1,4 @@
--- Modern Rust IDE setup using rustaceanvim
--- Replaces deprecated rust-tools.nvim (nvim 0.12+)
---
--- Features:
--- - Full rust-analyzer integration
--- - DAP debugging support
--- - Crates.io integration
--- - Inlay hints
--- - Run/debug runnables
+-- rustaceanvim: rust-analyzer, DAP, crates.io, inlay hints, runnables (replaces rust-tools)
 
 return {
   -- Modern Rust tooling (replaces rust-tools)

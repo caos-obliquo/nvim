@@ -1,9 +1,4 @@
--- Keybindings:
--- <leader>a = Add file to harpoon
--- <C-e> = Toggle harpoon menu
--- <leader>fl = Harpoon list in Telescope
--- <M-1> through <M-4> = Jump to harpoon file 1-4
--- <C-p> / <C-n> = Previous/Next harpoon file
+-- harpoon: quick file switching (<leader>a add, <C-e> menu, <M-1..4> jump, <leader>fl list)
 
 return {
   'ThePrimeagen/harpoon',

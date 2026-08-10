@@ -1,17 +1,4 @@
--- Telescope: fuzzy finder
---
--- KEYBINDINGS:
--- <leader>sf = find files
--- <leader>sg = live grep (search text in files)
--- <leader>sh = search help tags
--- <leader>sk = search keymaps
--- <leader>sr = recent files (oldfiles)
--- <leader>sb = search buffers
--- <leader>sw = search current word
--- <leader>sd = search diagnostics
--- <leader>sc = search commands
--- <leader>s. = search recent files (in current directory)
--- <leader>/ = search in current buffer
+-- Telescope: fuzzy finder (files, live grep, help, keymaps, buffers, diagnostics, commands)
 
 return {
   'nvim-telescope/telescope.nvim',

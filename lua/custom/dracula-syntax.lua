@@ -1,6 +1,4 @@
--- Custom syntax highlighting groups adapted for Dracula
--- Dracula colors for LSP-aware syntax highlighting
--- Dracula LSP-aware syntax colors
+-- dracula-syntax: LSP-aware syntax highlight groups in Dracula colors
 
 local M = {}
 
