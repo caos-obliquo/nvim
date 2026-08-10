@@ -79,7 +79,6 @@ return {
 
       -- format
       { '<leader>f', group = '󰉶 [F]ormat / Find' },
-      { '<leader>ff', desc = '󰉶 Format buffer' },
       { '<leader>fl', desc = '󱡀 Harpoon List' },
 
       -- debug (dap)
