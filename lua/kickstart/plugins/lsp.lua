@@ -7,6 +7,7 @@ return {
       { 'williamboman/mason.nvim', config = true },
       'williamboman/mason-lspconfig.nvim',
       'b0o/schemastore.nvim',
+      'nvim-telescope/telescope.nvim',
       {
         'j-hui/fidget.nvim',
         opts = {
