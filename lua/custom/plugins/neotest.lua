@@ -15,6 +15,19 @@ return {
     'nvim-neotest/neotest-jest',
     'marilari88/neotest-vitest',
   },
+  keys = {
+    { '<leader>tt', desc = 'Test: Run nearest' },
+    { '<leader>tf', desc = 'Test: Run file' },
+    { '<leader>ta', desc = 'Test: Run all' },
+    { '<leader>ts', desc = 'Test: Toggle summary' },
+    { '<leader>to', desc = 'Test: Show output' },
+    { '<leader>tO', desc = 'Test: Toggle output panel' },
+    { '<leader>tS', desc = 'Test: Stop' },
+    { '<leader>tw', desc = 'Test: Toggle watch mode' },
+    { '<leader>td', desc = 'Test: Debug nearest' },
+    { ']r', desc = 'Next failed test' },
+    { '[r', desc = 'Prev failed test' },
+  },
   config = function()
     local neotest = require 'neotest'
 
