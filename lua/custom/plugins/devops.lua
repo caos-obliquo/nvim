@@ -3,7 +3,8 @@ return {
   -- helm support
   {
     'towolf/vim-helm',
-    ft = 'helm',
+    -- nvim never sets ft='helm' itself; load on yaml so vim-helm's ftdetect can upgrade helmfile/templates files
+    ft = { 'helm', 'yaml' },
   },
 
   -- docker/podman
