@@ -93,8 +93,8 @@ return {
     vim.keymap.set('n', '<leader>td', function() neotest.run.run { strategy = 'dap' } end, { desc = 'Test: Debug nearest' })
 
     -- navigation
-    vim.keymap.set('n', ']t', function() neotest.jump.next { status = 'failed' } end, { desc = 'Next failed test' })
+    vim.keymap.set('n', ']r', function() neotest.jump.next { status = 'failed' } end, { desc = 'Next failed test' })
 
-    vim.keymap.set('n', '[t', function() neotest.jump.prev { status = 'failed' } end, { desc = 'Prev failed test' })
+    vim.keymap.set('n', '[r', function() neotest.jump.prev { status = 'failed' } end, { desc = 'Prev failed test' })
   end,
 }
