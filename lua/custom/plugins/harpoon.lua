@@ -12,6 +12,17 @@ return {
     'nvim-lua/plenary.nvim',
     'nvim-telescope/telescope.nvim',
   },
+  keys = {
+    { '<leader>a', desc = 'Harpoon Add' },
+    { '<C-e>', desc = 'Harpoon Menu' },
+    { '<leader>fl', desc = 'Harpoon Telescope' },
+    { '<M-1>', desc = 'Harpoon File 1' },
+    { '<M-2>', desc = 'Harpoon File 2' },
+    { '<M-3>', desc = 'Harpoon File 3' },
+    { '<M-4>', desc = 'Harpoon File 4' },
+    { '<C-p>', desc = 'Harpoon Prev' },
+    { '<C-n>', desc = 'Harpoon Next' },
+  },
   config = function()
     local harpoon = require 'harpoon'
     harpoon:setup()
