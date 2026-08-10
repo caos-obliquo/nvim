@@ -1,5 +1,10 @@
 return {
   'stevearc/conform.nvim',
+  event = 'BufWritePre',
+  cmd = 'ConformInfo',
+  keys = {
+    { '<leader>f', function() require('conform').format { bufnr = 0 } end, desc = 'Format buffer' },
+  },
   config = function()
     require('conform').setup {
       format_on_save = {
@@ -49,7 +54,5 @@ return {
         },
       },
     }
-
-    vim.keymap.set('n', '<leader>f', function() require('conform').format { bufnr = 0 } end, { desc = 'Format buffer' })
   end,
 }
