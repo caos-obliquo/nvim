@@ -191,12 +191,6 @@ return {
 
               -- DAP keymaps (these integrate with your existing debug.lua)
               vim.keymap.set('n', '<leader>dc', function() require('dap').continue() end, vim.tbl_extend('force', opts, { desc = 'Debug: Continue' }))
-              vim.keymap.set(
-                'n',
-                '<leader>db',
-                function() require('dap').toggle_breakpoint() end,
-                vim.tbl_extend('force', opts, { desc = 'Debug: Toggle Breakpoint' })
-              )
 
               vim.notify('JDTLS attached to buffer', vim.log.levels.INFO)
             end,
