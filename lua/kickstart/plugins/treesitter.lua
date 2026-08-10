@@ -21,7 +21,6 @@ return {
         'javascript',
         'typescript',
         'json',
-        'jsonc',
         'lua',
         'luadoc',
         'markdown',
