@@ -83,7 +83,7 @@ return {
   },
   {
     'kristijanhusak/vim-dadbod-completion',
-    dependencies = 'vim-dadbod',
+    dependencies = 'tpope/vim-dadbod',
     ft = { 'sql', 'mysql', 'plsql' },
     init = function()
       -- auto-complete for sql
