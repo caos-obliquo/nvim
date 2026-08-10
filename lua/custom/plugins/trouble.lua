@@ -1,5 +1,11 @@
 return {
   'folke/trouble.nvim',
+  cmd = 'Trouble',
+  keys = {
+    { '<leader>xq', desc = 'Quickfix list' },
+    { '<leader>xd', desc = 'Diagnostics' },
+    { '<leader>xl', desc = 'Location list' },
+  },
   config = function()
     require('trouble').setup {
       icons = {
