@@ -183,15 +183,11 @@ return {
           dockerfile = '', -- nf-dev-docker
           gitcommit = '', -- nf-dev-git
 
-          ini = ' ', -- nf-cod-settings-gear
-          config = ' ', -- nf-cod-settings-gear
+          dosini = ' ', -- nf-cod-settings-gear
           conf = ' ', -- nf-cod-settings-gear
-          h = ' ', -- nf-cod-symbol-misc
-          c_header = ' ', -- nf-cod-symbol-misc
           sql = ' ', -- nf-dev-database
           xml = '󰗀 ', -- nf-md-xml
           terraform = '', -- nf-seti-terraform
-          tf = '', -- nf-seti-terraform
         }
 
         local icon = nerd_icons[filetype]
