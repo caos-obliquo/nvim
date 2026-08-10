@@ -73,7 +73,7 @@ Leader = `Space`
     <tr><td><kbd>n</kbd></td><td><kbd>&lt;leader&gt;z</kbd></td><td>Toggle Zen Mode</td></tr>
     <tr><td><kbd>n</kbd></td><td><kbd>&lt;leader&gt;gg</kbd></td><td>Open LazyGit</td></tr>
     <tr><td><kbd>n</kbd></td><td><kbd>&lt;leader&gt;s</kbd></td><td>Search and replace word under cursor</td></tr>
-    <tr><td><kbd>n</kbd></td><td><kbd>&lt;leader&gt;x</kbd></td><td>Make file executable (chmod +x)</td></tr>
+    <tr><td><kbd>n</kbd></td><td><kbd>&lt;leader&gt;xm</kbd></td><td>Make file executable (chmod +x)</td></tr>
     <tr><td><kbd>n/v</kbd></td><td><kbd>&lt;leader&gt;y</kbd></td><td>Yank to system clipboard</td></tr>
     <tr><td><kbd>n</kbd></td><td><kbd>&lt;leader&gt;Y</kbd></td><td>Yank line to system clipboard</td></tr>
     <tr><td><kbd>n/v</kbd></td><td><kbd>&lt;leader&gt;d</kbd></td><td>Delete to void register</td></tr>
@@ -278,11 +278,11 @@ Leader = `Space`
     <tr><td><kbd>n</kbd></td><td><kbd>&lt;leader&gt;cr</kbd></td><td>Crates: Reload</td></tr>
     <tr><td><kbd>n</kbd></td><td><kbd>&lt;leader&gt;cu</kbd></td><td>Crates: Update crate</td></tr>
     <tr><td><kbd>n</kbd></td><td><kbd>&lt;leader&gt;cU</kbd></td><td>Crates: Upgrade crate</td></tr>
-    <tr><td><kbd>n</kbd></td><td><kbd>&lt;leader&gt;ca</kbd></td><td>Crates: Update all crates</td></tr>
+    <tr><td><kbd>n</kbd></td><td><kbd>&lt;leader&gt;cA</kbd></td><td>Crates: Update all crates</td></tr>
   </tbody>
 </table>
 
-### Java (jdtls — only active in .java files)
+### Java (jdtls - only active in .java files)
 
 <table>
   <thead>
@@ -313,7 +313,7 @@ Leader = `Space`
 | `gopls`         | Go                                                                       |
 | `clangd`        | C / C++                                                                  |
 | `zls`           | Zig                                                                      |
-| `yamlls`        | YAML (with SchemaStore — GitLab CI, K8s, Docker Compose, GitHub Actions) |
+| `yamlls`        | YAML (with SchemaStore - GitLab CI, K8s, Docker Compose, GitHub Actions) |
 | `bashls`        | Bash                                                                     |
 | `jsonls`        | JSON (with SchemaStore)                                                  |
 | `terraformls`   | Terraform                                                                |
@@ -394,14 +394,8 @@ sudo archlinux-java set java-21-openjdk
 :checkhealth
 ```
 
----
-
-Built on Arch Linux + DWL + foot terminal
-
----
-
 ## Special Thanks
 
-- [TJ DeVries](https://github.com/tjdevries) — Neovim core maintainer, creator of Kickstart.nvim, telescope.nvim and plenary.nvim. Without him none of this would be possible.
-- [ThePrimeagen](https://github.com/ThePrimeagen) — Creator of harpoon and refactoring.nvim. For teaching effective Vim usage through his video tutorials, remaps and workflow philosophy that shaped this config.
-- [jonkero9](https://github.com/jonkero9) — For pushing the extra mile on Neovim debugging and LSP configuration, directly inspiring the Dracula layer and syntax colors.
+- [TJ DeVries](https://github.com/tjdevries) - Neovim core maintainer, creator of Kickstart.nvim, telescope.nvim and plenary.nvim. Without him none of this would be possible.
+- [ThePrimeagen](https://github.com/ThePrimeagen) - Creator of harpoon and refactoring.nvim. For teaching effective Vim usage through his video tutorials, remaps and workflow philosophy that shaped this config.
+- [jonkero9](https://github.com/jonkero9) - For pushing the extra mile on Neovim debugging and LSP configuration, directly inspiring the Dracula layer and syntax colors.
