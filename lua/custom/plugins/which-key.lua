@@ -83,8 +83,8 @@ return {
 
       -- debug (dap)
       { '<leader>d', group = ' [D]ebug' },
-      { '<leader>db', desc = '󰃤 Toggle Breakpoint' },
-      { '<leader>dB', desc = '󰃤 Conditional Breakpoint' },
+      { '<leader>b', desc = '󰃤 Toggle Breakpoint' },
+      { '<leader>B', desc = '󰃤 Conditional Breakpoint' },
       { '<leader>dc', desc = '󰐊 Continue' },
       { '<leader>dC', desc = '󰙿 Run to Cursor' },
       { '<leader>dt', desc = '󰙨 Test Class (Java) / Terminate' },
@@ -92,7 +92,6 @@ return {
       { '<leader>di', desc = '󰆹 Step Into' },
       { '<leader>do', desc = '󰆸 Step Over' },
       { '<leader>dO', desc = '󰆺 Step Out' },
-      { '<leader>dr', desc = '󰆘 REPL' },
       { '<leader>du', desc = '󰃢 UI' },
       { '<leader>de', desc = '󰎔 Eval' },
 
