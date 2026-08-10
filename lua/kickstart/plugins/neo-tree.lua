@@ -1,7 +1,4 @@
--- Neo-tree file explorer
--- Opens on the RIGHT side
--- <leader>e = toggle explorer
--- <leader>E = toggle explorer at current working directory
+-- neo-tree file explorer (opens on the right)
 
 return {
   'nvim-neo-tree/neo-tree.nvim',
@@ -36,7 +33,7 @@ return {
     open_files_do_not_replace_types = { 'terminal', 'trouble', 'qf' },
     source_selector = { winbar = false },
     
-    -- CRITICAL: Opens on the RIGHT (your code doesn't shift!)
+    -- opens on the right so the code doesn't shift
     window = {
       position = 'right',
       width = 35,
