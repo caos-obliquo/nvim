@@ -29,42 +29,42 @@ return {
     -- Files
     { '<leader>sf', '<cmd>Telescope find_files<cr>', desc = '[S]earch [F]iles' },
     { '<leader><leader>', '<cmd>Telescope find_files<cr>', desc = 'Find Files' },
-    
+
     -- Grep/Search
     { '<leader>sg', '<cmd>Telescope live_grep<cr>', desc = '[S]earch by [G]rep' },
     { '<leader>sw', '<cmd>Telescope grep_string<cr>', desc = '[S]earch current [W]ord' },
-    
+
     -- Recent/Buffers
     { '<leader>sr', '<cmd>Telescope oldfiles<cr>', desc = '[S]earch [R]ecent files' },
     { '<leader>sb', '<cmd>Telescope buffers<cr>', desc = '[S]earch [B]uffers' },
     { '<leader>s.', '<cmd>Telescope oldfiles cwd_only=true<cr>', desc = '[S]earch Recent (cwd)' },
-    
+
     -- Help/Documentation
     { '<leader>sh', '<cmd>Telescope help_tags<cr>', desc = '[S]earch [H]elp' },
     { '<leader>sk', '<cmd>Telescope keymaps<cr>', desc = '[S]earch [K]eymaps' },
     { '<leader>sc', '<cmd>Telescope commands<cr>', desc = '[S]earch [C]ommands' },
-    
+
     -- Diagnostics/Git
     { '<leader>sd', '<cmd>Telescope diagnostics<cr>', desc = '[S]earch [D]iagnostics' },
     { '<leader>sG', '<cmd>Telescope git_files<cr>', desc = '[S]earch [G]it files' },
-    
+
     -- Search in current buffer
     { '<leader>/', '<cmd>Telescope current_buffer_fuzzy_find<cr>', desc = 'Search in buffer' },
-    
+
     -- Advanced
     { '<leader>sR', '<cmd>Telescope resume<cr>', desc = '[S]earch [R]esume' },
     { '<leader>s:', '<cmd>Telescope command_history<cr>', desc = 'Command History' },
   },
-  
+
   config = function()
-    local telescope = require('telescope')
-    local actions = require('telescope.actions')
-    
-    telescope.setup({
+    local telescope = require 'telescope'
+    local actions = require 'telescope.actions'
+
+    telescope.setup {
       defaults = {
         prompt_prefix = '  ',
         selection_caret = '  ',
-        
+
         -- IMPORTANT: Results layout - preview on RIGHT
         layout_strategy = 'horizontal',
         layout_config = {
@@ -80,9 +80,9 @@ return {
           height = 0.80,
           preview_cutoff = 120,
         },
-        
+
         sorting_strategy = 'ascending',
-        
+
         mappings = {
           i = {
             ['<C-n>'] = actions.cycle_history_next,
@@ -119,7 +119,7 @@ return {
           },
         },
       },
-      
+
       pickers = {
         find_files = {
           theme = 'dropdown',
@@ -135,7 +135,7 @@ return {
           previewer = false,
         },
       },
-      
+
       extensions = {
         fzf = {
           fuzzy = true,
@@ -144,8 +144,8 @@ return {
           case_mode = 'smart_case',
         },
       },
-    })
-    
+    }
+
     -- Load fzf extension if available
     pcall(telescope.load_extension, 'fzf')
   end,

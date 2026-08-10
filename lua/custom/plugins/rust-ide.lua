@@ -19,10 +19,8 @@ return {
         server = {
           on_attach = function(client, bufnr)
             -- Rust-specific keymaps
-            local map = function(keys, func, desc)
-              vim.keymap.set('n', keys, func, { buffer = bufnr, desc = 'Rust: ' .. desc })
-            end
-            
+            local map = function(keys, func, desc) vim.keymap.set('n', keys, func, { buffer = bufnr, desc = 'Rust: ' .. desc }) end
+
             map('<leader>rr', ':RustLsp runnables<CR>', 'Runnables')
             map('<leader>rd', ':RustLsp debuggables<CR>', 'Debuggables')
             map('<leader>re', ':RustLsp expandMacro<CR>', 'Expand Macro')
@@ -50,25 +48,25 @@ return {
         dap = {
           adapter = {
             type = 'executable',
-            command = vim.fn.stdpath('data') .. '/mason/bin/codelldb',
+            command = vim.fn.stdpath 'data' .. '/mason/bin/codelldb',
             name = 'rt_lldb',
           },
         },
       }
     end,
   },
-  
+
   -- Crates.io integration
   {
     'saecki/crates.nvim',
     event = { 'BufRead Cargo.toml' },
     config = function()
-      require('crates').setup({
+      require('crates').setup {
         popup = {
           border = 'rounded',
         },
-      })
-      
+      }
+
       vim.keymap.set('n', '<leader>ct', require('crates').toggle, { desc = 'Crates: Toggle' })
       vim.keymap.set('n', '<leader>cr', require('crates').reload, { desc = 'Crates: Reload' })
       vim.keymap.set('n', '<leader>cu', require('crates').update_crate, { desc = 'Crates: Update' })

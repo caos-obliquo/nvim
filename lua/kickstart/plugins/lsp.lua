@@ -99,17 +99,17 @@ return {
       })
 
       -- Enable servers via vim.lsp.enable
-      vim.lsp.config("lua_ls", {
+      vim.lsp.config('lua_ls', {
         settings = {
           Lua = {
-            globals = { "vim" },
-            diagnostics = { globals = { "vim" } },
+            globals = { 'vim' },
+            diagnostics = { globals = { 'vim' } },
             workspace = { checkThirdParty = false },
             telemetry = { enable = false },
           },
         },
       })
-      vim.lsp.enable "lua_ls"
+      vim.lsp.enable 'lua_ls'
       vim.lsp.enable 'ts_ls'
       vim.lsp.enable 'pyright'
       vim.lsp.enable 'gopls'
@@ -156,8 +156,8 @@ return {
 
           -- Diagnostics
           map('<leader>cd', vim.diagnostic.open_float, 'Diagnostic Float')
-          map('[d', function() vim.diagnostic.jump({ count = -1, float = true }) end, 'Prev Diagnostic')
-          map(']d', function() vim.diagnostic.jump({ count = 1, float = true }) end, 'Next Diagnostic')
+          map('[d', function() vim.diagnostic.jump { count = -1, float = true } end, 'Prev Diagnostic')
+          map(']d', function() vim.diagnostic.jump { count = 1, float = true } end, 'Next Diagnostic')
 
           -- Visual mode code actions
           vim.keymap.set('v', '<leader>ca', vim.lsp.buf.code_action, {

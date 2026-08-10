@@ -11,11 +11,11 @@ return {
     'leoluz/nvim-dap-go',
   },
   keys = {
-    { '<F5>',      function() require('dap').continue() end,          desc = 'Debug: Start/Continue' },
-    { '<F1>',      function() require('dap').step_into() end,         desc = 'Debug: Step Into' },
-    { '<F2>',      function() require('dap').step_over() end,         desc = 'Debug: Step Over' },
-    { '<F3>',      function() require('dap').step_out() end,          desc = 'Debug: Step Out' },
-    { '<F7>',      function() require('dapui').toggle() end,          desc = 'Debug: Toggle UI' },
+    { '<F5>', function() require('dap').continue() end, desc = 'Debug: Start/Continue' },
+    { '<F1>', function() require('dap').step_into() end, desc = 'Debug: Step Into' },
+    { '<F2>', function() require('dap').step_over() end, desc = 'Debug: Step Over' },
+    { '<F3>', function() require('dap').step_out() end, desc = 'Debug: Step Out' },
+    { '<F7>', function() require('dapui').toggle() end, desc = 'Debug: Toggle UI' },
     { '<leader>b', function() require('dap').toggle_breakpoint() end, desc = 'Debug: Toggle Breakpoint' },
     {
       '<leader>B',
@@ -39,9 +39,15 @@ return {
       icons = { expanded = '▾', collapsed = '▸', current_frame = '*' },
       controls = {
         icons = {
-          pause = '⏸', play = '▶', step_into = '⏎', step_over = '⏭',
-          step_out = '⏮', step_back = 'b', run_last = '▶▶',
-          terminate = '⏹', disconnect = '⏏',
+          pause = '⏸',
+          play = '▶',
+          step_into = '⏎',
+          step_over = '⏭',
+          step_out = '⏮',
+          step_back = 'b',
+          run_last = '▶▶',
+          terminate = '⏹',
+          disconnect = '⏏',
         },
       },
     }
@@ -54,7 +60,7 @@ return {
     -- =========================================================
     -- RUST - codelldb adapter
     -- =========================================================
-    local codelldb_path = vim.fn.stdpath('data') .. '/mason/bin/codelldb'
+    local codelldb_path = vim.fn.stdpath 'data' .. '/mason/bin/codelldb'
 
     dap.adapters.codelldb = {
       type = 'server',
@@ -72,12 +78,10 @@ return {
       if cargo_toml ~= '' then
         local lines = vim.fn.readfile(cargo_toml)
         for _, line in ipairs(lines) do
-          local name = line:match('^name%s*=%s*"(.+)"')
+          local name = line:match '^name%s*=%s*"(.+)"'
           if name then
             local binary = vim.fn.getcwd() .. '/target/debug/' .. name
-            if vim.fn.filereadable(binary) == 1 then
-              return binary
-            end
+            if vim.fn.filereadable(binary) == 1 then return binary end
           end
         end
       end
@@ -90,9 +94,7 @@ return {
         name = 'Launch Rust binary',
         type = 'codelldb',
         request = 'launch',
-        program = function()
-          return vim.fn.input('Path to executable: ', vim.fn.getcwd() .. '/target/debug/', 'file')
-        end,
+        program = function() return vim.fn.input('Path to executable: ', vim.fn.getcwd() .. '/target/debug/', 'file') end,
         cwd = '${workspaceFolder}',
         stopOnEntry = false,
       },
@@ -104,9 +106,7 @@ return {
         name = 'Launch C binary',
         type = 'codelldb',
         request = 'launch',
-        program = function()
-          return vim.fn.input('Path to executable: ', vim.fn.getcwd() .. '/', 'file')
-        end,
+        program = function() return vim.fn.input('Path to executable: ', vim.fn.getcwd() .. '/', 'file') end,
         cwd = '${workspaceFolder}',
         stopOnEntry = false,
       },
@@ -118,9 +118,9 @@ return {
     -- =========================================================
     require('dap-go').setup {
       delve = {
-        detached = vim.fn.has('win32') == 0,
+        detached = vim.fn.has 'win32' == 0,
         -- Auto-find the go binary
-        path = vim.fn.stdpath('data') .. '/mason/bin/dlv',
+        path = vim.fn.stdpath 'data' .. '/mason/bin/dlv',
       },
       -- These are the configurations dap-go adds automatically:
       -- 'Debug' - debug current package
@@ -133,7 +133,7 @@ return {
     -- =========================================================
     dap.adapters.python = {
       type = 'executable',
-      command = vim.fn.stdpath('data') .. '/mason/bin/debugpy-adapter',
+      command = vim.fn.stdpath 'data' .. '/mason/bin/debugpy-adapter',
     }
 
     dap.configurations.python = {
@@ -145,10 +145,8 @@ return {
         pythonPath = function()
           -- Use venv if available, otherwise system python
           local venv = vim.fn.getcwd() .. '/.venv/bin/python'
-          if vim.fn.filereadable(venv) == 1 then
-            return venv
-          end
-          return vim.fn.exepath('python3')
+          if vim.fn.filereadable(venv) == 1 then return venv end
+          return vim.fn.exepath 'python3'
         end,
       },
     }

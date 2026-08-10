@@ -38,12 +38,11 @@ local function enable_transparency()
   require('custom.dracula-syntax').apply()
 
   -- Messages
-  vim.api.nvim_set_hl(0, 'MsgArea',       { bg = 'none' })
-  vim.api.nvim_set_hl(0, 'MsgSeparator',  { bg = 'none' })
+  vim.api.nvim_set_hl(0, 'MsgArea', { bg = 'none' })
+  vim.api.nvim_set_hl(0, 'MsgSeparator', { bg = 'none' })
 
   -- Window separators
-  vim.api.nvim_set_hl(0, 'WinSeparator',  { fg = '#BD93F9', bg = 'none' })
-
+  vim.api.nvim_set_hl(0, 'WinSeparator', { fg = '#BD93F9', bg = 'none' })
 end
 
 return {
@@ -51,10 +50,10 @@ return {
   lazy = false,
   priority = 1000,
   config = function()
-    require('dracula').setup({
+    require('dracula').setup {
       transparent_bg = true,
-    })
-    vim.cmd.colorscheme('dracula')
+    }
+    vim.cmd.colorscheme 'dracula'
     enable_transparency()
 
     -- Re-apply after any colorscheme change
