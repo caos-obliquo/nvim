@@ -7,7 +7,7 @@ return {
         lsp_format = 'fallback',
       },
       formatters_by_ft = {
-        config = {}, -- .env files, never format
+        env = {}, -- .env files, never format
         -- Scripting
         lua = { 'stylua' },
         python = { 'ruff_format' },
