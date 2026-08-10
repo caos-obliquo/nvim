@@ -69,8 +69,6 @@ return {
             return bundles
           end
 
-          local bundles = get_bundles()
-
           -- Find project root
           local root_markers = { '.git', 'mvnw', 'gradlew', 'pom.xml', 'build.gradle' }
           local root_dir = require('jdtls.setup').find_root(root_markers)

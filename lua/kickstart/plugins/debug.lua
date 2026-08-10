@@ -71,24 +71,6 @@ return {
       },
     }
 
-    -- Auto-detect Rust binary from Cargo.toml
-    local function get_cargo_binary()
-      -- Try to find binary name from Cargo.toml
-      local cargo_toml = vim.fn.findfile('Cargo.toml', vim.fn.getcwd() .. ';')
-      if cargo_toml ~= '' then
-        local lines = vim.fn.readfile(cargo_toml)
-        for _, line in ipairs(lines) do
-          local name = line:match '^name%s*=%s*"(.+)"'
-          if name then
-            local binary = vim.fn.getcwd() .. '/target/debug/' .. name
-            if vim.fn.filereadable(binary) == 1 then return binary end
-          end
-        end
-      end
-      -- Fallback: ask user
-      return vim.fn.input('Path to executable: ', vim.fn.getcwd() .. '/target/debug/', 'file')
-    end
-
     dap.configurations.rust = {
       {
         name = 'Launch Rust binary',
