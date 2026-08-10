@@ -27,7 +27,6 @@ Built on [Kickstart.nvim](https://github.com/nvim-lua/kickstart.nvim) with a Dra
     │   └── lint.lua
     ├── custom/
     │   ├── dracula-syntax.lua      LSP-aware syntax colors
-    │   ├── dracula-highlights.lua  highlight group definitions
     │   └── plugins/
     │       ├── init.lua            your own plugins (kickstart placeholder)
     │       ├── dracula.lua         theme + transparency
